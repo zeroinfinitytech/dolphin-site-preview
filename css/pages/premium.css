@@ -1,0 +1,43 @@
+/* Dolphin home, premium copy. Luxurious, calm, smooth: every movement uses one slow expo-out curve, hover states are soft and deliberate. */
+:root{--lux:cubic-bezier(.16,1,.3,1);--lux-in:cubic-bezier(.65,0,.35,1)}
+/* text: balanced lines, crisp rendering */
+#main h1,#main h2,#main h3{text-wrap:balance;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+#main p,#main li,#main blockquote{text-wrap:pretty}
+
+/* buttons: the shared system in css/site.css (sweep v8.1) */
+
+/* cards: the country panels, steps, partner tiles and quotes rise a little, their photos slowly zoom */
+#main a.rung,#main .logos>*,#main .q{transition:transform .9s var(--lux),box-shadow .9s var(--lux)}
+#main a.rung .ph img,#main .rung .ph img{transition:transform 1.6s var(--lux)}
+#main a.rung:hover .ph img{transform:scale(1.06)}
+#main .logos>*:hover{transform:translateY(-4px);box-shadow:none;border-color:var(--edge-h)}
+@media (prefers-reduced-motion:reduce){#main a.rung,#main .rung .ph img{transition:none}}
+
+/* MENU: sweep v8.5 moved the full-screen menu (photo, theme wash, stagger) to css/site.css */
+
+/* NAVBAR. Same structure, finer finish: a calmer glass bar once you scroll, links with a thin line that draws in, softer icon buttons, a slow height change. */
+.hdr{transition:transform .7s var(--lux),background .6s var(--lux),box-shadow .6s var(--lux),color .6s var(--lux)}
+.hdr-in{transition:height .6s var(--lux)}
+.hdr.solid{background:rgba(255,255,255,.86);backdrop-filter:blur(12px) saturate(1.4);-webkit-backdrop-filter:blur(12px) saturate(1.4);box-shadow:none} /* sweep v8.5: a lighter blur (was 26 px at 72 % opacity): the fixed bar re-blurs every frame of a scroll */
+:root[data-theme=dark] .hdr.solid,.hdr.solid[data-band=navy]{background:rgba(var(--sc),.84);box-shadow:none;border-bottom-color:rgba(255,255,255,.1)}
+.hdr .logo img{transition:transform .8s var(--lux),opacity .5s var(--lux)}
+.hdr .logo:hover img{transform:scale(1.04)}
+.nav{gap:2px}
+.nav-b{position:relative;letter-spacing:.01em;transition:background .5s var(--lux),color .5s var(--lux)}
+.nav-b::after{content:"";position:absolute;left:18px;right:18px;bottom:9px;height:1px;background:currentColor;opacity:.7;transform:scaleX(0);transform-origin:left;transition:transform .7s var(--lux)}
+.nav-b:hover::after,.nav-b.is-cur::after,.nav-b[aria-expanded=true]::after{transform:scaleX(1)}
+.nav-b:hover,.nav-b[aria-expanded=true],.nav-b.is-cur{background:transparent}
+.ico,.burger{transition:background .5s var(--lux),border-color .5s var(--lux),transform .6s var(--lux)}
+.ico:hover,.burger:hover{transform:translateY(-1px)}
+.hdr .btn-p{letter-spacing:.01em}
+.mega{transition:opacity .6s var(--lux),transform .7s var(--lux),visibility .6s}
+@media(max-width:900px){.hdr-in{height:68px;gap:12px}.hdr.solid .hdr-in{height:60px}}
+@media(prefers-reduced-motion:reduce){.hdr,.hdr-in,.nav-b::after,.hdr .logo img{transition:none}}
+
+/* the drift wrapper (js/premium.js): a little wider than its photo frame on both sides (10%, 6% above 1800px, so 2400px sources are never drawn above 1:1); the frame (figure.ph) keeps clipping it */
+.se-drift{position:absolute;top:0;bottom:0;left:-24%;right:-24%;will-change:transform}
+.se-drift>img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* the Partners band is at least one screen; since sweep v8.3 it is a plain block that grows with the wall (five country rows do not fit one 900px screen),
+   so the stepper rests on its top and then on its bottom edge instead of centring an overflowing sticky band (the heading was cut at the top) */
+html.scn #main>.lw8{position:relative;min-height:100svh}

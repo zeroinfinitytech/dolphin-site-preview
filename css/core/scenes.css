@@ -1,0 +1,56 @@
+/* Dolphin scene engine, layout half (2026-10-28, R7). Pairs with js/scenes.js. Page skins only colour the insides.
+   Markup:  <main data-scenes> <section class="scn" data-scene="cover|zoom|ladder"> <div class="scn-in">…</div> <div class="scn-shade"></div> </section> … </main>
+   Without JS or under reduced motion (html.scn absent) every scene is a plain block of at least one viewport and a ladder is a native swipe row. */
+[data-scenes]{position:relative}
+.scn{position:relative;min-height:100svh;color:var(--ink);background:var(--bg)}
+.scn.on-dark{color:#fff;background:var(--deep)}
+.scn.tone-soft{background:var(--bg2)}
+.scn-in{position:relative;width:100%;min-height:100svh;display:flex;align-items:center;background:inherit}
+.scn-shade{position:absolute;inset:0;background:var(--deep);opacity:0;pointer-events:none;z-index:9}
+.scn-run{height:0;pointer-events:none}
+@supports(height:100dvh){.scn,.scn-in{min-height:100dvh}}
+/* engine on: every scene is a sticky viewport-high layer; later scenes slide up over earlier ones (z-index is set by scenes.js) */
+html.scn .scn{position:sticky;top:0;height:100svh;min-height:0;overflow:hidden}
+html.scn .scn-in{height:100%;min-height:0}
+html.scn .scn.scn-off{visibility:hidden}
+@supports(height:100dvh){html.scn .scn{height:100dvh}}
+/* ladder: a horizontal track of full-bleed rungs; the sticky scene stays while the track slides one viewport width per rung */
+[data-track]{display:flex;flex-direction:row;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;width:100%;min-height:inherit}
+[data-track]::-webkit-scrollbar{display:none}
+[data-track]>*{flex:none;width:100%;min-height:100svh;scroll-snap-align:start;position:relative;overflow:hidden;color:inherit;text-decoration:none}
+@supports(height:100dvh){[data-track]>*{min-height:100dvh}}
+.scn[data-scene=ladder] .scn-in,.scn[data-scene=l] .scn-in{display:block}
+html.scn [data-track]{overflow:visible;height:100%;width:max-content;min-height:0;scroll-snap-type:none;will-change:transform}
+html.scn [data-track]>*{width:var(--vw,100vw);height:100%;min-height:0}
+/* L scene: the first rung sits above the rest; the track first moves up (rung 0 out, rung 1 in from below), then pans left through rungs 1..n.
+   Fallback: a vertical stack of blocks. Engine on: rungs are placed absolutely by scenes.js (top/left in px), track is 2 viewports high. */
+.scn[data-scene=l] [data-track]{flex-direction:column;overflow:visible;scroll-snap-type:none}
+html.scn .scn[data-scene=l] [data-track]{position:relative;height:200%;width:var(--tw,100vw)}
+html.scn .scn[data-scene=l] [data-track]>*{position:absolute;height:50%}
+/* photo layers: one photo, one light scrim (the skin may override the gradient) */
+.scn .ph{position:absolute;inset:0;margin:0;overflow:hidden;z-index:0;background:var(--phc,#2c2c2c)}
+/* a background photo layer parallaxes down on arrival (scenes.js); it is oversized upward so the drift never uncovers the scene behind it */
+html.scn .scn .ph[data-layer=bg]{top:-16%}
+/* velocity depth (scenes.js): set on <main data-scenes> only while the page moves fast; individual scale/translate properties compose with GSAP's transforms */
+html.scn .scn .ph{scale:var(--vz,1);translate:0 var(--vy,0%)}
+.scn .ph img{width:100%;height:100%;object-fit:cover;display:block;will-change:transform;transform-origin:50% 50%}
+.scn .ph:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(var(--sc),.22) 0%,rgba(var(--sc),.04) 40%,rgba(var(--sc),.58) 100%)}
+.scn .wd{display:inline-block}
+/* text reveals. Lines (SplitText, .sl inside .sl-mask) or masked words (.swi inside .sw, the fallback) of an element with class rv rise as its --rv goes 0 -> 1:
+   line k of n starts .22 later than line k-1 and all lines land together at 1 (rules in site.css, shared with the inner pages). */
+.sw{display:inline-block;overflow:hidden;vertical-align:bottom;padding:.06em 0 .3em;margin:-.06em 0 -.3em}.swi{display:inline-block}
+html.scn .ri{translate:0 calc((1 - var(--ri,1)) * 26px)}
+html.scn .scn-cards [data-track]>* h3{--rv:var(--in,1)}
+/* card deck (l scene with data-cards, or any peeking L on a phone: .scn-cards is set by scenes.js): inset cards with depth; --dim and --in are set per frame by scenes.js from the track position */
+html.scn .scn-cards [data-track]>*:not(:first-child){border-radius:24px;overflow:hidden;transform-origin:50% 50%;will-change:transform;backface-visibility:hidden;
+ box-shadow:none}
+html.scn .scn-cards [data-track]>*:not(:first-child):after{content:"";position:absolute;inset:0;background:var(--deep);opacity:var(--dim,0);pointer-events:none;z-index:6}
+html.scn .scn-cards [data-track]>*:not(:first-child) p,html.scn .scn-cards [data-track]>*:not(:first-child) .btn,html.scn .scn-cards [data-track]>*:not(:first-child) .sn{opacity:var(--in,1);transform:translateY(calc((1 - var(--in,1)) * 18px))}
+/* peeking ladder: rungs narrower than the viewport with a thin gap; the next rung shows at the right edge */
+html.scn [data-peek] [data-track]{gap:var(--rg,0px)}
+html.scn [data-peek] [data-track]>*{width:var(--rw,var(--vw,100vw))}
+
+/* sweep v8.12: --in is now a continuous value written by scenes.js from the track position (arrival side only), with no transition: a pure function of the
+   scroll, so fast scrolling can never make panel text blink (the old 0 / 1 flip with a .9 s ease replayed in both directions) */
+@property --in{syntax:'<number>';inherits:true;initial-value:1}
+@property --rv{syntax:'<number>';inherits:true;initial-value:1}

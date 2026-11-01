@@ -1,0 +1,2 @@
+/* Asha picture manifest, written by the export script (see img/asha/README.md); face set at 2x by face2/sheet2x.py. */
+window.DXAshaAssets = {"base": "img/asha/", "looks": {"kurtha": ["namaste", "rest"], "sari": ["namaste", "rest"]}, "faces": ["neutral", "happy", "laugh", "sorry", "surprised", "thinking"], "box": [152, 120, 352, 360], "frame": [512, 640], "mouths": ["talk_a", "talk_e", "talk_o", "talk_u", "talk_m", "talk_f"], "mbox": [194, 280, 310, 358], "eyes": ["blink0", "blink1", "blink2", "blink3", "blink", "sleepy", "wink"], "ebox": [172, 198, 332, 248]};

@@ -1,0 +1,6 @@
+/* Footer globe (sweep v8.4): the canvas inside .ft-globe. The box itself (square, its width per breakpoint) is sized in site.css so the ledger
+   never shifts when this file and js/footer-globe.js arrive; this file only styles what the module draws. */
+.ft-globe canvas{display:block;width:100%;height:100%;opacity:0;transition:opacity .9s cubic-bezier(.16,1,.3,1)}
+.ft-globe.on canvas{opacity:1}
+.ft-globe.off{display:none}
+@media (prefers-reduced-motion:reduce){.ft-globe canvas{transition:none}}

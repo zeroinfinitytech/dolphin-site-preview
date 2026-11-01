@@ -1,0 +1,6 @@
+/* banner-zoom.css (2026-11-01): the scroll-linked banner zoom (js/banner-zoom.js writes --bz on each photo). It takes over the photo's own `scale`
+   from imgfx.css (the timed 1.04 settle + slow push-in on img.bm, the .imx entrance scale and hover); the selector is more specific and !important
+   because those rules are !important too. Opacity and clip transitions stay theirs; only scale stops transitioning (the script already eases it). */
+html.bz-on img.bz.bz.bz,html.bz-on video.bz.bz.bz,html.bz-on canvas.bz.bz.bz{
+ scale:var(--bz,1)!important;transform-origin:var(--bzo,50% 50%)!important;animation:none!important;transition-property:opacity,clip-path,filter!important;will-change:scale}
+@media(prefers-reduced-motion:reduce){html.bz-on img.bz.bz.bz,html.bz-on video.bz.bz.bz,html.bz-on canvas.bz.bz.bz{scale:none!important;will-change:auto}}

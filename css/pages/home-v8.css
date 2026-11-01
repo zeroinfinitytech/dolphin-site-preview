@@ -1,0 +1,680 @@
+/* Home v8 skin (2026-10-28, R7): colours, type and the insides of each scene. Layout and motion come from css/scenes.css + js/scenes.js.
+   Scenes: hero (zoom); the L journey (why, the corner panel, five countries); how it works (a second L); stories (cover); partner band; office (cover); closing (cover). */
+body[data-page=home]{background:var(--deep)}
+main.v8{isolation:isolate;background:var(--bg)}
+.v8 h1,.v8 h2{font-family:var(--serif);font-weight:400;letter-spacing:-.015em;line-height:1.02}
+.v8 .lead{font-size:clamp(17px,1.35vw,21px);line-height:1.5;max-width:46ch}
+.on-dark .lead{color:rgba(255,255,255,.9)}.on-dark .eyebrow{color:rgba(255,255,255,.8)}
+.ln{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}.ln>span{display:block}
+.smp{display:inline-block;font:600 12px/1.4 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--mut);opacity:.9;vertical-align:middle;margin-left:8px}
+.on-dark .smp{color:rgba(255,255,255,.62)}
+.v8 .wrap{position:relative;z-index:2;min-width:0}
+/* sweep v8.5: every scene is a scroll stop, so its content must sit between the header (--hdr, set from the real bar by site.js) and the viewport bottom */
+.v8 .scn-in>.wrap{padding:calc(var(--hdr,82px) + 24px) 0 48px}
+
+/* 1 hero */
+.hero8 .scn-in{align-items:flex-end}
+.hero8 .scn-in>.wrap{padding-bottom:max(9vh,72px)}
+.hero8 h1{font-size:clamp(44px,7.4vw,116px);max-width:12ch;margin:0 0 22px}
+.hero8 .lead{margin-bottom:32px}
+.hero8 .btn{min-width:230px;justify-content:center}
+.hero8 .ph:after{background:var(--scrim-hero)}
+/* hero video (sweep v8.15, index.html + js/home-v8.js): the hero frame holds only the video (no photo). figure.ph clips it, the scrim :after stays above it,
+   scenes.js zooms it ([data-zoom-img] 1 -> 1.3) and the velocity depth scales the frame. Its poster (the inline background in index.html and the poster
+   attribute, the same file) is the clip's own frame 0 at the same crop, so the start of playback changes nothing on screen; under reduced motion, Save-Data
+   or a slow network that frame is all there is. The Pause / Play control sits bottom-left on the gutter, above the phone dock; phones keep 48 px under the
+   button row for it (static, so no layout shift).
+   opacity .99 is deliberate: at 1 Chrome on Windows hands the video to a DirectComposition overlay, and while the scroll zoom changes its size every frame
+   the GPU process re-creates the overlay's video processor each frame (traced: p95 frame 42-48 ms while scrolling the hero). At .99 it is composited like
+   any layer: p95 18 ms, the same as with no video at all (site/SWEEP_v8.15_hero_video.md). The 1 % blend over the navy frame is not visible. */
+.hero8 .ph .hs{position:absolute;inset:0;will-change:transform;transform-origin:50% 50%;pointer-events:none}
+.hero8 .ph .hv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;display:block;opacity:0;pointer-events:none}
+.hero8 .ph .hv.on{opacity:.99;z-index:1}
+.hero8 .ph .hv.nx{z-index:2;transition:opacity 1s ease}
+/* sweep v8.16, ten city clips in turn (js/hero-clips.js, heroVideo() in js/home-v8.js). Two <video> elements in #heroStage: the visible one plays, the other is
+   loaded with the next clip and stays paused on its first frame. The incoming one (.nx, above) fades in over the outgoing one, which holds its last frame
+   and is hidden only after the fade: opacity only, never a dip to the background. */
+/* the clip overlay, bottom-right (phones: see the 700 px block): a small caps label, one Bodoni Moda line and a text link. Rows rise out of
+   their own mask (transform) and fade out before the next clip; no box, border, shadow or gradient (the existing hero scrim carries the contrast) */
+.hv-cap{position:absolute;z-index:4;right:max(var(--g),calc((100% - var(--w)) / 2));bottom:calc(var(--dock-h,0px) + 22px);width:min(400px,42vw);display:flex;flex-direction:column;align-items:flex-end;text-align:right;color:#fff}
+.hv-cap[hidden]{display:none}
+.hv-cap p{margin:0}.hv-cap p>span,.hv-cap a>span{display:block;overflow:hidden;padding:.1em 0 .14em;margin:-.1em 0 -.14em}
+.hv-cap p>span>span,.hv-cap a>span>span{display:block;transform:translate3d(0,115%,0);transition:transform .9s cubic-bezier(.2,.7,.1,1) var(--d,0s)}
+.hv-k{font:600 13px/1.3 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.86);margin-bottom:10px!important}
+.hv-t{font:italic 400 clamp(19px,1.9vw,27px)/1.25 var(--serif);letter-spacing:-.005em;color:#fff;margin-bottom:16px!important}
+.hv-x{display:inline-flex;min-height:44px;align-items:center;font:600 13px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.9);text-decoration:none;--d:.14s}
+.hv-x:hover{color:#fff}
+.hv-t>span>span{--d:.07s}
+.hv-cap.in p>span>span,.hv-cap.in a>span>span{transform:none}
+.hv-cap.out p>span>span,.hv-cap.out a>span>span{transform:none;opacity:0;transition:opacity .5s ease}
+.hv-cap.st p>span>span,.hv-cap.st a>span>span{transition:none}
+/* phones AND the laptop/tablet band where the headline is still wide enough to run into a right-aligned caption (2026-10-31 QA: "care."
+   collided with the clip caption from ~700px up to ~1250px - the side-by-side desktop layout only has room once h1 stops growing with
+   viewport width): the overlay moves bottom-left above the Pause button (the wrap gets room for it), the sentence stays within two lines */
+@media(max-width:1250px){
+ .hv-cap{left:var(--g);right:auto;width:calc(100% - 2 * var(--g));align-items:flex-start;text-align:left;bottom:calc(var(--dock-h,0px) + 14px + 44px)}
+ .hv-k{font-size:13px;letter-spacing:.1em;margin-bottom:8px!important}
+ .hv-t{font-size:20px;margin-bottom:6px!important;max-width:30ch}
+ .hv-t>span>span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+ .hv-x{min-height:44px} /* QA-A: 40 -> 44 px tap target */
+ .v8 #hero.hero8 .scn-in>.wrap{padding-bottom:calc(max(40px,calc(var(--dock-h,0px) + 16px)) + 48px + 126px)}
+}
+.hv-b{position:absolute;z-index:4;left:max(var(--g),calc((100% - var(--w)) / 2));bottom:calc(var(--dock-h,0px) + 14px);min-height:44px;min-width:44px;margin:0;padding:0 2px;display:inline-flex;align-items:center;border:0;border-radius:8px;background:none;box-shadow:none;color:rgba(255,255,255,.88);font:600 13px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+.hv-b:hover{color:#fff}.hv-b[hidden]{display:none}
+@media(max-width:900px) and (prefers-reduced-motion:no-preference){.v8 .hero8 .scn-in>.wrap{padding-bottom:calc(max(40px,calc(var(--dock-h,0px) + 16px)) + 48px)}}
+@media(prefers-reduced-motion:reduce){.hv-b{display:none}.hero8 .ph .hv.nx{transition:none}.hv-cap p>span>span,.hv-cap a>span>span{transition:none;transform:none}}
+/* phones: the first headline line sits on the brightest mist of the clip; a soft band under it keeps it >= 4.5:1 on every frame (measured, sweep v8.15) */
+@media(max-width:700px){.hero8 .ph:after{background:linear-gradient(180deg,rgba(var(--sc),0) 32%,rgba(var(--sc),.22) 47%,rgba(var(--sc),.14) 60%,rgba(var(--sc),0) 74%),var(--scrim-hero)}}
+
+/* 2 why */
+.why8:before{content:"";position:absolute;inset:0;background:none;z-index:1;pointer-events:none}
+:root[data-theme=dark] .why8:before{background:none}
+.why-g{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(40px,6vw,104px);align-items:stretch}
+.why-t,.why-p{min-width:0}
+/* one compact text block (heading, lead, then the promises a fixed gap below); the photographs stretch to exactly the block's height, so both columns share a top and a bottom line */
+.stmt{font-size:clamp(28px,3.5vw,54px);max-width:19ch;margin:0 0 36px}
+.why8 .stmt{font-size:clamp(28px,3.5vw,52px);max-width:20ch;margin:0 0 20px;text-wrap:balance}
+.why8 .why-ld{font-size:clamp(17px,1.4vw,20px);line-height:1.55;max-width:42ch;margin:0}
+/* the three promises: a quiet row, no rules, no icons, no numbers, no boxes: a small caps label over one Bodoni line */
+.wp{list-style:none;margin:clamp(44px,7vh,68px) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,2.4vw,36px)}
+.wp li{display:grid;gap:10px;align-content:start;min-width:0}
+.wp-k{display:block;font:600 13px/1.3 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+.wp-t{display:block;font:400 clamp(18px,1.45vw,22px)/1.32 var(--serif);letter-spacing:-.005em;color:var(--ink);text-wrap:balance}
+/* stats counter band (2026-10-31, user: use the dolphin.edu.np button colour here, proper counter design): the brand burgundy->pink gradient
+   (--cta-grad, same as every button), same in both themes; four big counters with hairline dividers, 2x2 below 900px. White on the pink end
+   of the gradient is 4.7:1, so labels pass AA at small sizes too. */
+.st-band{background:var(--cta-grad);color:#fff;padding:clamp(64px,8vw,112px) 0;--ink:#fff;--mut:rgba(255,255,255,.86)}
+.st-band .st-eb{color:rgba(255,255,255,.9);margin-bottom:clamp(28px,4vw,48px)}
+.st-band .st-eb:before{background:#fff}
+.st-g{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.st-g li{display:flex;flex-direction:column;gap:6px;padding:4px clamp(16px,2.4vw,40px);border-left:1px solid rgba(255,255,255,.28);min-width:0}
+.st-g li:first-child{border-left:0;padding-left:0}
+.st-n{font:400 clamp(52px,6.2vw,96px)/1 var(--serif);letter-spacing:-.02em;color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap}
+.st-t{font:400 clamp(20px,1.6vw,26px)/1.2 var(--serif);color:#fff;margin-top:10px}
+.st-k{font:600 13px/1.4 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.86)}
+@media(max-width:900px){
+ .st-g{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:40px}
+ .st-g li:nth-child(odd){border-left:0;padding-left:0}
+}
+@media(max-width:420px){.st-g li{padding-right:8px}.st-g li:nth-child(even){padding-left:16px}.st-n{font-size:44px}.st-t{font-size:20px}.st-k{letter-spacing:.1em}}
+/* photographs (editorial pair): a tall portrait frame (5:6) against the right edge, 56 px short of the bottom line; a landscape frame (3:2) on the bottom line at the left,
+   its right quarter over the portrait's lower-left corner; the caption in the free space at the top left on the headline's cap line. Same radius 24, no border, no shadow.
+   The three move at their own depths (data-z: portrait slow, landscape faster, caption with the text), the photographs settle from 1.08 with the scene arrival. */
+.why-p{position:relative;margin-top:8px}
+/* #offer "Four ways we help" (2026-10-31): its own text styles (sentence-case serif titles + readable body copy, not the small-caps label style),
+   2x2 services under a hairline with a short brand-gradient accent, then the two actions. The photo pair keeps the .why-p layout. */
+.of8 .lead.of-ld{margin:18px 0 0;max-width:46ch}
+.of-l{list-style:none;margin:clamp(36px,4.4vw,56px) 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(30px,3vw,44px) clamp(24px,3vw,48px)}
+.of-l li{position:relative;padding-top:20px;border-top:1px solid var(--line);min-width:0}
+.of-l li:before{content:"";position:absolute;left:0;top:-1px;width:44px;height:2px;background:var(--cta-grad)}
+.of-h{margin:0 0 10px;font:400 clamp(21px,1.75vw,27px)/1.2 var(--serif);letter-spacing:-.005em;color:var(--ink)}
+.of-p{margin:0;font:400 16px/1.6 var(--sans);color:var(--mut);max-width:38ch}
+.of-b{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(36px,4.4vw,52px)}
+@media(min-width:901px){.of8 .why-g{align-items:center}.of8 .why-p{height:clamp(440px,40vw,580px)}}
+@media(max-width:600px){.of-l{grid-template-columns:1fr;gap:26px}.of-b .btn{flex:1 1 100%}}
+.ph-c{margin:0;border-radius:24px;overflow:hidden;box-shadow:none;background:var(--phc,#2c2c2c)}
+.ph-c img{width:100%;height:100%;object-fit:cover;display:block;will-change:transform}
+.wp-a{position:absolute;right:0;top:0;height:calc(100% - 56px);aspect-ratio:5/6}
+.wp-s{position:absolute;left:0;bottom:0;width:min(57%,300px);aspect-ratio:3/2;z-index:2}
+.wp-c{position:absolute;left:0;top:0;margin:0;width:calc(100% - (100% - 56px) * 5 / 6 - 28px);display:grid;gap:8px;align-content:start}
+.wp-c .wp-t{font-size:clamp(16px,1.2vw,18px);line-height:1.4}
+@media(min-width:901px) and (max-width:1180px){.why-g{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.wp{grid-template-columns:1fr;gap:16px;margin-top:40px}.why-g{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}.wp li{gap:6px}.wp-t{font-size:18px}.why8 .stmt{font-size:clamp(28px,3.4vw,38px)}}
+@media(min-width:901px) and (max-height:700px){.why8 .why-ld{display:none}.wp{margin-top:32px}}
+/* Devanagari and Hangul labels read smaller than Latin caps at the same size: lift them so the floor stays 13 px optically */
+html[lang=ne] .wp-k{font-size:16px}html[lang=ne] .wp-t{font-size:clamp(19px,1.5vw,23px);line-height:1.55}html[lang=ne] .wp-c .wp-t{font-size:17px;line-height:1.5}
+html[lang=ko] .wp-k,html[lang=zh] .wp-k{font-size:14px}html[lang=ko] .wp-t,html[lang=zh] .wp-t{line-height:1.5}
+@media(max-width:900px){html[lang=ne] .wp-t{font-size:19px}}
+
+/* ladders: header overlay, rungs */
+.rung{display:grid;align-items:end}
+.ctry8 .rung .ph:after{background:linear-gradient(180deg,rgba(var(--sc),.52) 0%,rgba(var(--sc),.16) 26%,rgba(var(--sc),.04) 42%,rgba(var(--sc),.64) 100%)}
+/* headings set straight on photographs: a soft shadow and a lighter italic keep them readable over stone, sky and foliage */
+.lj-c h2,.rc h3,.ba8 h2,.cl8 h2,.st8 .qt{text-shadow:0 1px 2px rgba(var(--sc),.22),0 10px 36px rgba(var(--sc),.38)}
+.lj-c h2 em,.ba8 h2 em,.cl8 h2 em{color:#cfe4f5}
+.rc{padding-bottom:max(8vh,56px)!important;color:#fff}
+.ctry8 .rc{display:block} /* stacked caption: name, one line, Explore (overrides an older carousel .rc{display:flex} in site.css that set them in a row) */
+.rc h3{font:400 clamp(40px,6.4vw,104px)/1 var(--serif);letter-spacing:-.02em;margin:0 0 14px;overflow-wrap:normal;word-break:keep-all;text-wrap:balance}
+.rc p{margin:0;max-width:44ch;font-size:clamp(16px,1.2vw,18px);color:rgba(255,255,255,.9)}
+.rc .x{margin-top:22px}
+.rung:hover .x .ar{transform:translateX(3px)}
+.rung:focus-visible{outline:3px solid var(--tint);outline-offset:-6px}
+.how8{background:var(--bg2)}
+/* the stage behind the deck: soft light from below, so the cards read as objects in a space */
+.how8 .how-t{background:var(--bg)}
+:root[data-theme=dark] .how8 .how-t{background:var(--bg)}
+.how8 .how-t{align-items:center}
+/* 2026-10-30 user: no gradients or glows in backgrounds: this scene is a flat page colour */
+.how8 .how-t{position:relative}
+.how8 .how-t>.wrap{padding-inline:clamp(24px,5vw,72px);box-sizing:border-box}
+.how-t .wrap{max-width:var(--w);text-align:left;position:relative}
+.how-t h2{font-size:clamp(40px,6.2vw,100px);margin:0 0 22px;max-width:12ch}
+.how-t .lead{color:var(--mut)}
+/* the three step rungs: full-bleed photographs, one scrim, text at the foot (no numerals: the step is named in words) */
+.how8 .rung.on-dark{display:grid;align-items:end;color:#fff}
+.how8 .rung .ph:after{background:var(--scrim-foot)}
+.how8 .st{position:relative;z-index:2;display:block;width:auto;margin:0;padding:0 clamp(24px,4vw,64px) clamp(28px,5.5vh,64px)!important;max-width:none}
+.sn{display:block;font:600 13px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.8);margin-bottom:18px}
+.how8 h3{font:400 clamp(44px,6.2vw,104px)/1 var(--serif);letter-spacing:-.02em;margin:0 0 16px}
+.how8 .st p{font-size:clamp(16px,1.25vw,19px);line-height:1.5;max-width:42ch;color:rgba(255,255,255,.9);margin:0 0 26px}
+
+/* 5 voices (sweep v8.5): a full-screen scroll-driven slider (css/voices.css .vb fills the scene); deep navy stage in both themes, the eyebrow at the gutter under the header */
+.st8{background:var(--deep)}.st8 .scn-in{background:var(--deep);display:block}
+.st-eb{position:absolute;left:max(var(--g),calc(50vw - var(--w) / 2));top:calc(var(--hdr,82px) + 24px);z-index:4;margin:0;color:rgba(255,255,255,.82)}
+.st-eb .smp{color:rgba(255,255,255,.62)}
+
+/* 5b partner wall (plain band that slides over the voices scene); sweep v8.5: one screen when the rows fit (tiles and gaps follow the height), content centred under the header */
+.lw8{position:relative;background:var(--bg2);color:var(--ink);padding:calc(var(--hdr,82px) + 24px) 0 clamp(24px,4vh,96px);overflow:hidden;box-shadow:none;display:flex;flex-direction:column;justify-content:center}
+.lw8:before{content:"";position:absolute;inset:0;background:none}
+:root[data-theme=dark] .lw8:before{background:none}
+.lw-h{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:24px clamp(32px,5vw,88px);align-items:end;margin-bottom:clamp(16px,2.6vh,48px)}
+.lw-h h2{font-size:min(clamp(34px,4vw,60px),6.4vh);margin:0}
+.lw-n{margin:0 0 6px;font-size:16px;line-height:1.5;color:var(--mut);max-width:46ch;justify-self:end}
+.lw-r{display:flex;align-items:flex-end;justify-content:flex-end;gap:24px;flex-wrap:wrap}.lw-r .lw-n{margin:0;max-width:38ch}
+@media(min-width:1024px){.lw-r{display:contents}.lw-h{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto}.lw-h .lw-n{justify-self:end}}
+
+/* 5c students and parents (sweep v8.5, user request): not part of the DESKTOP home (the scene is not rendered and the engine skips it: the partner band
+   connects straight to the office scene; 'Read all stories' lives in the partner band instead, .lw-x). 2026-10-31 user: removed from every non-phone
+   width (was >= 1024, so small laptop windows still showed it); only phones (<= 700) keep the swipe row. js/home-v8.js SC_MQ matches. */
+/* 2026-10-31 user: the section is now deleted from index.html at every width; 'Read all stories' in the partner band shows everywhere */
+.lw-x{display:inline-flex;margin:0 0 2px;justify-self:end}
+/* three portrait cards on a soft ground. sweep v8.5: the wrap is the full scene height (header to bottom padding) and the cards take
+   the remaining row, their portraits flexing (no fixed aspect), so heading, button and whole cards are visible at every height (1366x768, 1280x720, 1920x940) */
+.sp8:before{content:"";position:absolute;inset:0;background:none;z-index:1;pointer-events:none}
+:root[data-theme=dark] .sp8:before{background:none}
+.sp8 .scn-in>.wrap{padding:calc(var(--hdr,82px) + 24px) 0 48px;display:grid;grid-template-columns:1fr auto;grid-template-rows:auto minmax(0,1fr);gap:clamp(16px,2.8vh,40px) 32px;align-items:end}
+html.scn .sp8 .scn-in>.wrap{height:100%}
+.sp-h h2{font-size:min(clamp(34px,4vw,60px),6.4vh);margin:0}
+.sp-b{margin-bottom:6px}
+.sp8 .tc-g{grid-column:1/-1;min-height:0;align-items:stretch}
+html.scn .sp8 .tc{min-height:0;max-height:100%}
+html.scn .sp8 .tc-p{flex:1 1 auto;min-height:120px;aspect-ratio:auto;max-height:none}
+html.scn .sp8 .tc-q,html.scn .sp8 .tc-c{flex:none}
+@media(min-width:1024px) and (max-height:800px){.sp8 .tc-q p{font-size:17px;line-height:1.38}.sp8 .tc-q{padding-top:18px}.sp8 .tc-c{padding-top:14px;padding-bottom:18px}}
+
+/* 6 office, 7 closing */
+.ba8 .ph:after{background:var(--scrim-cta)}
+.ba-in h2{font-size:clamp(36px,5vw,76px);max-width:14ch;margin:0 0 20px}
+.ba-in .lead{margin-bottom:14px}
+.ba-d{margin:0 0 30px;font-size:16px;color:rgba(255,255,255,.92)}.ba-d a{color:#fff;text-decoration:underline;text-underline-offset:4px}
+.ba-f{margin:26px 0 0;font-size:16px;color:rgba(255,255,255,.78)}
+.cl8 .ph:after{background:radial-gradient(ellipse 78% 50% at 50% 56%,rgba(14,32,62,.56) 0%,rgba(14,32,62,.4) 46%,rgba(14,32,62,.1) 82%,rgba(14,32,62,0) 100%),var(--scrim-cta)} /* sweep v8.9: the one light scrim plus a soft wash behind the centred copy, same as the inner closing scenes */
+.cl-in{text-align:center;display:grid;justify-items:center}
+.cl-in h2{font-size:clamp(44px,7vw,112px);margin:0 0 22px}
+.cl-in .lead{margin-bottom:34px;text-align:center}
+
+/* phones and tablets */
+@media(max-width:900px){
+ .v8 .scn-in>.wrap{padding:calc(var(--hdr,68px) + 24px) 0 40px}
+ .hero8 .scn-in>.wrap{padding-bottom:max(10vh,64px)}
+ .hero8 h1{font-size:clamp(40px,12vw,72px)}
+ .why-g{grid-template-columns:1fr;gap:24px;align-items:start}
+ .stmt{font-size:clamp(26px,7vw,40px);margin-bottom:20px;max-width:none}
+ .why-g{grid-template-rows:none}
+ .why-t{display:block}
+ .why8 .stmt{max-width:none;margin-bottom:14px}
+ .why8 .why-ld{font-size:16px;margin-bottom:22px;max-width:none}
+ .wp{grid-template-columns:1fr;gap:14px;margin-top:0}.wp li{gap:5px}.wp-t{font-size:19px}
+ .why-p{order:-1;display:block;height:clamp(150px,21vh,420px);margin-top:0}
+ .wp-a{position:relative;right:auto;width:100%;height:100%;aspect-ratio:auto}
+ .wp-s,.wp-c{display:none}
+ .lj .why8>.wrap{padding:calc(var(--hdr,68px) + 24px) 0 40px}
+ .lj-c h2{font-size:clamp(40px,11vw,60px)}.lj-c h2 em{white-space:nowrap}
+ .lmap{right:max(16px,env(safe-area-inset-right,0px));bottom:16px}
+ .lj .rc{padding-bottom:max(7vh,48px)!important}.lj.how8 .st{padding-bottom:max(6vh,40px)!important}
+ .rc{padding-bottom:max(7vh,48px)!important}
+ .rc h3{font-size:clamp(32px,9vw,52px)}
+ .how8 .st{padding:0 22px 26px!important}.how8 h3{font-size:clamp(38px,11vw,56px);margin-bottom:10px}.how8 .st p{font-size:15px;margin-bottom:14px}
+ .lw-h{grid-template-columns:1fr;gap:14px;margin-bottom:24px}.lw-n{justify-self:start}
+ .sp8 .scn-in>.wrap{padding:calc(var(--hdr,68px) + 24px) 0 28px;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto;gap:16px}.sp-b{order:3;margin:4px 0 0;width:100%;justify-content:center}
+ html.scn .sp8 .scn-in>.wrap{align-items:center}
+ html.scn .sp8 .tc-g.row .tc-p{flex:1 1 auto;min-height:120px;aspect-ratio:auto;max-height:min(34vh,320px)}
+ @media(min-width:600px){html.scn .sp8 .tc-g.row .tc-p{max-height:min(40vh,380px)}}
+ .sp-h h2{font-size:clamp(30px,8.6vw,40px)}
+ .ba8 .ph:after{background:linear-gradient(0deg,rgba(var(--sc),.8) 0%,rgba(var(--sc),.45) 55%,rgba(var(--sc),.2) 100%)}
+ .ba-in h2{font-size:clamp(32px,9.6vw,52px)}
+ .cl-in h2{font-size:clamp(38px,11.5vw,64px)}
+}
+@media(min-width:600px) and (max-width:900px){.why-p{height:clamp(260px,36vh,440px)}}
+@media(max-width:900px) and (max-height:760px){.why8 .why-ld{display:none}}  /* short phones: the three promises matter more than the lead, and nothing may run under the booking pill */
+@media(max-width:900px) and (max-height:700px){.why-p{height:clamp(150px,24vh,300px)}.st .ph-c{height:28vh}}
+
+/* the L journey (scenes.js data-scene=l with data-peek): since sweep v8.3 the horizontal panels are cards on a soft stage at every width (no seams); the first panel is a whole section */
+.lj .scn-in{background:var(--bg2)}
+.lj .scn-in:before{content:"";position:absolute;inset:0;background:none;pointer-events:none}
+:root[data-theme=dark] .lj .scn-in:before{background:none}
+.lj.scn-cards .rc,.lj.scn-cards .lj-cc,.lj.scn-cards .st{width:auto;padding:0 clamp(28px,3.5vw,56px) clamp(32px,5vh,56px)!important;max-width:none}
+.lj.scn-cards .lj-c h2{font-size:clamp(40px,5.6vw,88px)}
+.lj.scn-cards .rc h3{font-size:clamp(36px,5.2vw,80px)}
+.lj.scn-cards .how8 h3{font-size:clamp(40px,5.2vw,84px)}
+.lj .why8{align-items:center;background:var(--bg2)}
+.lj .why8>.wrap{padding:var(--hdr,82px) 0}  /* equal space above and below the block: it is centred in the screen */
+.lj-c{align-items:center!important}
+.lj-c .ph:after{background:linear-gradient(90deg,rgba(var(--sc),.8) 0%,rgba(var(--sc),.5) 55%,rgba(var(--sc),.3) 100%)!important}.lj-cc{position:relative;z-index:2;color:#fff}
+.lj-c h2{font-size:clamp(44px,6.4vw,104px);max-width:11ch;margin:0 0 20px;text-wrap:balance}
+/* sweep v8.5: the five countries are quiet outline pills (button system) to each country page; no dashes, no numerals, no scroll hint */
+.lj-ld{margin:0 0 28px;max-width:44ch;color:rgba(255,255,255,.9)}
+.lj-ix{display:flex;flex-wrap:wrap;gap:12px;margin:0}
+.lj-ix .btn{--btn-bg:rgba(var(--sc),.22);--btn-ink:#fff;--btn-bd:rgba(255,255,255,.72);--btn-bg-h:#fff;--btn-ink-h:var(--navy)}
+.rc p,.rc .x,.lj-ld{text-shadow:0 1px 10px rgba(var(--sc),.45)}
+/* depth layers: offsets come from scenes.js (--zx/--zy); the translate property composes with hover transforms; zero at rest */
+html.scn [data-z]{translate:var(--zx,0px) var(--zy,0px)}
+/* panel headings rise through their line masks as the panel arrives */
+html.scn .lj [data-track]>*:not(:first-child) :is(h2,h3){--rv:var(--in,1)}
+/* the route map: a small L that fills as you travel, with the current panel's name */
+.lmap{position:absolute;right:max(24px,calc((100% - var(--w)) / 2));bottom:24px;z-index:7;display:flex;align-items:center;gap:12px;padding:8px 16px 8px 10px;border-radius:99px;
+ background:rgba(var(--sc),.8);-webkit-backdrop-filter:blur(14px) saturate(1.3);backdrop-filter:blur(14px) saturate(1.3);color:#fff;box-shadow:none;pointer-events:none}
+.lmap svg{display:block;overflow:visible}
+.lm-b,.lm-p{fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lm-b{stroke:rgba(255,255,255,.28)}.lm-p{stroke:#fff;stroke-dasharray:1;stroke-dashoffset:1}.lm-d{fill:#eaa3cf}
+.lm-t{font:600 13px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.lm-n{font:500 13px/1 var(--sans);letter-spacing:.06em;color:rgba(255,255,255,.82);font-variant-numeric:tabular-nums}
+@media(max-width:700px){.lm-t,.lm-n{font-size:12px}.lmap{gap:10px;padding:7px 14px 7px 9px}}
+
+
+/* sweep v8.3: on phones the L journeys are rows of cards (scenes.js .scn-cards): soft-blue stage instead of navy, consistent card padding, a title,
+   one line and the quiet Explore pill; the corner panel keeps its photo but its heading is sized for a card */
+@media(max-width:699px){
+ .lj .scn-in{background:var(--bg2)}
+ .lj.scn-cards .rc,.lj.scn-cards .lj-cc,.lj.scn-cards .st{padding:0 24px 28px!important}
+ .lj.scn-cards .rc h3{font-size:clamp(30px,8.6vw,40px);margin-bottom:10px}
+ .lj.scn-cards .rc p{font-size:15px;line-height:1.5}
+ .lj.scn-cards .rc .x{margin-top:18px}
+ .lj.scn-cards .lj-c h2{font-size:clamp(32px,9.2vw,44px);margin-bottom:22px}.lj.scn-cards .lj-c h2 em{white-space:normal}
+ .lj.scn-cards .lj-ld{font-size:15px;margin-bottom:18px}.lj.scn-cards .lj-ix{gap:10px}
+ .lj.scn-cards .how8 h3{font-size:clamp(34px,9.6vw,48px)}
+}
+/* C: student and parent cards on the home stories scene: equal heights (the component itself is in css/voices.css) */
+.sp8 .tc-g{align-items:stretch}
+
+/* sticky booking pill on phones, shown after the hero */
+.bk-pill{position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translate(-50%,140%);z-index:60;display:none;box-shadow:none;transition:transform .5s cubic-bezier(.22,.8,.2,1)}
+.bk-pill.on{transform:translate(-50%,0)}
+@media(max-width:760px){.bk-pill{display:inline-flex}}
+@media(prefers-reduced-motion:reduce){.bk-pill{transition:none}}
+
+/* ===== sweep v8.12 (motion QA) ===== */
+/* Why Dolphin, stacked layout (<= 900 px: photo above the heading): the panel's depth layers (data-z) moved the text up faster than the photo and the photo's
+   arrival drift moved it down, so the two met ("the photo overlaps the first line"). In the stacked layout both stay in normal flow (28 px gap, no
+   translate), and the arrival drift moves only the image inside its overflow-hidden figure (scenes.js), never the figure box. */
+@media(max-width:900px){html.scn .why8 [data-z]{translate:none}}
+/* "In their own words" (phones and tablets, scroll-driven by home-v8.js): the row is centred on the active card, no snap (the scroll drives it), every card's
+   text is always drawn (the old .peek rule hid it), only the photos of the cards beside the active one shrink a little and dim (set inline per frame) */
+html.scn .sp8 .tc-g.row.drive{--cw:min(80vw,420px);scroll-snap-type:none;padding-inline:calc((100vw - var(--cw)) / 2);scroll-padding:0}
+html.scn .sp8 .tc-g.row.drive:after{display:none}
+html.scn .sp8 .tc-g.row.drive .tc{flex:0 0 var(--cw);scroll-snap-align:none}
+html.scn .sp8 .tc-g.row.drive .tc .tc-q,html.scn .sp8 .tc-g.row.drive .tc .tc-c{opacity:1}
+html.scn .sp8 .tc-g.row.drive .tc-p{overflow:hidden}html.scn .sp8 .tc-g.row.drive .tc-p img{transform-origin:50% 60%}
+/* the section's own button is a quiet outline pill and the content ends above the bottom dock (--dock-h, set by site.js) */
+@media(max-width:1023px){.sp8 .scn-in>.wrap{padding-bottom:calc(28px + var(--dock-h,0px))!important}}
+@media(max-width:900px){.lj .rc,.lj.how8 .st,.rc{padding-bottom:max(7vh,calc(var(--dock-h,0px) + 16px))!important}.v8 .scn-in>.wrap{padding-bottom:max(40px,calc(var(--dock-h,0px) + 16px))}}
+/* the row takes exactly its grid track (it was centred and as tall as its tallest card, so on a 844 px phone the cards rode up over the heading); the photo is
+   the part that gives way (min 120 px), the quote and the caption keep their size */
+@media(max-width:1023px){html.scn .sp8 .tc-g.row{align-self:stretch;min-height:0;height:100%}html.scn .sp8 .tc-g.row .tc{max-height:100%}}
+
+/* sweep v8.14 clean surfaces (2026-10-30, user: no backgrounds, no gradients, no glows): the 'Three steps' scene is the plain page colour (its swirl and glows go) */
+body[data-page=home]{background:var(--clean-bg)}
+.how8 .how-t,:root[data-theme=dark] .how8 .how-t{background:var(--bg)}
+.how8 .how-t:before,.how8 .how-t:after{content:none;animation:none}
+/* 'Three steps, one counsellor.' panel: the Dolphin logo and the four destination flags (moved here from the footer, user request) */
+.hf{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(24px,2.6vw,36px);margin-top:clamp(36px,4.4vw,64px)}
+.hf-l{display:block;width:clamp(150px,13vw,210px);height:auto}
+.hf-ld{display:none}:root[data-theme=dark] .hf-lc{display:none}:root[data-theme=dark] .hf-ld{display:block}
+.hf-fl{display:flex;flex-wrap:wrap;gap:clamp(18px,2.6vw,40px)}
+.hf-i{display:flex;flex-direction:column;align-items:center;gap:10px;text-decoration:none;color:var(--ink);transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.hf-f{display:block;width:clamp(52px,4.6vw,68px);height:clamp(52px,4.6vw,68px);border-radius:50%;background-size:cover;background-position:center}
+.hf-n{font:600 13px/1.2 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+.hf-i:hover,.hf-i:focus-visible{transform:translateY(-4px);outline:none}.hf-i:focus-visible .hf-f{outline:2px solid var(--ocean);outline-offset:3px}
+@media(max-width:700px){.hf-fl{gap:16px 20px}.hf-f{width:46px;height:46px}.hf-n{font-size:12.5px}.hf-l{width:140px}}
+@media(prefers-reduced-motion:reduce){.hf-i{transition:none}}
+/* premium logo + flags (user: the Dolphin mark linked to the four flags): an SVG constellation on desktop (logo, four curved links, four flag medallions with their names); the simple stacked version on phones */
+.hf-svg{display:block;width:min(100%,640px);height:auto;overflow:visible;margin-top:clamp(8px,1vw,16px)}
+.hf-m{display:none}
+.hf-p{fill:none;stroke:var(--ocean);stroke-width:1.4;stroke-linecap:round;stroke-dasharray:1 7;opacity:.85}
+.hf-dot{fill:var(--ocean)}
+.hf-ld{display:none}:root[data-theme=dark] .hf-lc{display:none}:root[data-theme=dark] .hf-ld{display:inline}
+:root[data-theme=dark] .hf-p{stroke:#eaa3cf}:root[data-theme=dark] .hf-dot{fill:#eaa3cf}
+.hf-a{cursor:pointer;outline:none}
+.hf-g{transform-box:fill-box;transform-origin:center;transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.hf-r{fill:none;stroke:#fff;stroke-width:3}
+.hf-r{filter:none}
+.hf-t{font:600 13.5px/1 var(--sans);letter-spacing:.14em;fill:var(--ink)}
+.hf-a:hover .hf-g,.hf-a:focus-visible .hf-g{transform:scale(1.1)}
+.hf-a:hover .hf-t,.hf-a:focus-visible .hf-t{fill:var(--ocean)}:root[data-theme=dark] .hf-a:hover .hf-t,:root[data-theme=dark] .hf-a:focus-visible .hf-t{fill:#eaa3cf}
+.hf-a:focus-visible .hf-r{stroke:var(--ocean)}
+@media(max-width:700px){.hf-svg{display:none}.hf-m{display:block}.hf-fl.hf-m{display:flex}}
+@media(prefers-reduced-motion:reduce){.hf-g{transition:none}}
+/* fix: the dark-theme logo swap must only touch its own variant (the phone block was showing on desktop in dark theme) */
+@media(min-width:701px){.hf-m,.hf-l.hf-m{display:none!important}}
+.hf-svg .hf-ld{display:none}:root[data-theme=dark] .hf-svg .hf-lc{display:none}:root[data-theme=dark] .hf-svg .hf-ld{display:inline}
+@media(max-width:700px){.hf-l.hf-ld.hf-m{display:none}:root[data-theme=dark] .hf-l.hf-lc.hf-m{display:none}:root[data-theme=dark] .hf-l.hf-ld.hf-m{display:block}}
+
+/* lighter, smoother hero scrim so the city clips read clean */
+.hero8 .ph:after{background:linear-gradient(180deg,rgba(var(--sc),.5) 0%,rgba(var(--sc),.16) 16%,rgba(var(--sc),.03) 38%,rgba(var(--sc),.22) 66%,rgba(var(--sc),.62) 100%),linear-gradient(90deg,rgba(var(--sc),.4) 0%,rgba(var(--sc),.18) 42%,rgba(var(--sc),0) 70%)}
+@media(max-width:700px){.hero8 .ph:after{background:linear-gradient(180deg,rgba(var(--sc),.45) 0%,rgba(var(--sc),.08) 26%,rgba(var(--sc),.2) 52%,rgba(var(--sc),.62) 100%)}}
+
+/* pause button removed by request (video still stops for reduced-motion, off-screen and hidden tabs) */
+#heroVidBtn,.hv-b{display:none!important}
+
+.hero8 h1 .hw{display:inline-block;will-change:transform,opacity,filter}
+
+/* stories cards (phone/tablet slider): a proper photo frame. The photo fills a softly rounded frame on all four corners, faces framed high (never cut by the card edge),
+   no wash-out while the cards slide (only a tiny scale), same frame on every card */
+.sp8 .tc-g.row .tc-p,html.scn .sp8 .tc-g.row .tc-p,html.scn .sp8 .tc-g.row.drive .tc-p{aspect-ratio:1/1;max-height:min(34vh,320px);width:100%;border-radius:24px;overflow:hidden;background:var(--bg2)}
+.sp8 .tc-g.row .tc-p img{width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 26%);border-radius:0}
+.sp8 .tc-g.row .tc{overflow:hidden;border-radius:24px}
+
+/* closing scene on phones: the graduate's head must stay in frame (portrait crop anchors to the top of the photo, zoom grows from the top) */
+@media(max-width:700px){.cl8 .ph img{object-position:50% 0%!important;transform-origin:50% 0}}
+.sp8 .tc-g.row .tc-p img{object-position:var(--pos,50% 10%)}
+
+/* QA 2026-10-31: hero clip caption stays readable on bright / busy clips (Boston, Sydney, Melbourne): same soft text-shadow the site already uses on photo text, no box */
+.hv-cap{text-shadow:0 1px 2px rgba(var(--sc),.4),0 4px 22px rgba(var(--sc),.6)}.hv-k{color:rgba(255,255,255,.95)}
+
+/* three steps, premium pass: the logo-and-flags map sits BESIDE the words on desktop and tablet (not beneath them); flags carry a soft ring, countries are named in the serif,
+   and the dotted routes drift slowly outward from the Dolphin mark (stroke-dashoffset only; static under reduced motion) */
+@media(min-width:901px){
+ .how8 .how-t>.wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);column-gap:clamp(32px,5vw,96px);align-items:center}
+ .how8 .how-t>.wrap>.eyebrow,.how8 .how-t>.wrap>h2,.how8 .how-t>.wrap>.lead{grid-column:1}
+ .how8 .how-t>.wrap>.hf{grid-column:2;grid-row:1/4;margin:0;align-self:center}
+ .how8 .how-t .lead{max-width:34ch}
+}
+.hf-svg{display:block;width:100%;height:auto;overflow:visible}
+.hf-p{stroke-dasharray:2 7;stroke-linecap:round;animation:hfFlow 14s linear infinite}
+@keyframes hfFlow{to{stroke-dashoffset:-90}}
+.hf-r{stroke-width:2.5}
+.hf-t{font:400 26px/1 var(--serif);letter-spacing:-.005em;text-transform:none}
+@media(prefers-reduced-motion:reduce){.hf-p{animation:none}}
+.hf-r{fill:none;stroke:rgba(22,22,22,.14);stroke-width:1.5}
+:root[data-theme=dark] .hf-r{stroke:rgba(255,255,255,.28)}
+.hf-t{text-transform:none!important;font-size:27px}
+/* flag boxes: routes touch the flag, flag fills a clean rounded box (no faint outline) */
+.hf-r{stroke:none}
+.hf-svg .hf-p{stroke-width:1.6}
+/* QA 2026-10-31: headline + lead keep contrast on the brightest clips (Melbourne campus roofs, Boston stadium, Sydney water) without darkening the scrim the user lightened on purpose */
+.hero8 h1,.hero8 .lead{text-shadow:0 1px 2px rgba(var(--sc),.28),0 6px 30px rgba(var(--sc),.5)}
+/* QA 2026-10-31: on true desktop (the side-by-side caption layout, see the 1250px block above) the caption sits above the chat launcher (the launcher used to hide itself on the first screen because it overlapped the Explore link) */
+@media(min-width:1251px){.hv-cap{bottom:calc(var(--dock-h,0px) + 96px)}}
+
+/* three steps: aeroplanes along the dotted routes (js/hf-planes.js). Flat fill, no shadow, no border; hidden until the script moves them; never shown under reduced motion */
+.hf-pl{fill:var(--navy);pointer-events:none}
+:root[data-theme=dark] .hf-pl{fill:#fff}
+.hf-mp{display:none;width:100%;max-width:340px;height:auto;overflow:visible;margin:-6px 0 -4px}
+.hf-mpp{fill:none;stroke:var(--ocean);stroke-width:1.6;stroke-linecap:round;stroke-dasharray:2 7}
+:root[data-theme=dark] .hf-mpp{stroke:#eaa3cf}
+@media(max-width:700px){.hf-mp.hf-m{display:block}}
+@media(prefers-reduced-motion:reduce){.hf-pl{display:none}}
+/* the premium-pass rule above re-showed the SVG on phones (stacked fallback then appeared as a duplicate): SVG stays desktop/tablet only */
+@media(max-width:700px){.hf-svg{display:none}}
+
+/* three steps, premium pass 2 (2026-10-31): bigger logo and flag plates, serif names with a small caps line, refined routes (fine dots that grow brighter toward the flag,
+   a ring at each end, a softly breathing origin), a slow breeze on the flags, hover = route lights, flag lifts 4 px, name turns ocean, the line swaps to 'Explore <country>' (no arrow).
+   Entrance (js/hf-planes.js sets data-st): routes draw in, flags and names rise in a soft stagger, THEN the planes start. No box, border, shadow or fill gradient; the only ramp is the opacity of the route dots. */
+@media(min-width:901px){
+ .how8 .how-t>.wrap{grid-template-columns:minmax(0,4fr) minmax(0,7fr);column-gap:clamp(24px,3vw,64px)}
+ .how8 .how-t h2{font-size:clamp(38px,4.7vw,72px)}
+}
+.hf-svg{max-width:820px}
+.hf-p{stroke-dasharray:.01 6;stroke-linecap:round;animation:hfFlow 16s linear infinite;stroke-width:1.7;opacity:1}
+@keyframes hfFlow{to{stroke-dashoffset:-90.15}}
+.hf-mk{stroke-dasharray:1 1;stroke-dashoffset:0}
+.hf-hit{fill:#000;fill-opacity:0;pointer-events:all}
+.hf-dot{fill:var(--ocean)}:root[data-theme=dark] .hf-dot{fill:#eaa3cf}
+.hf-ring{fill:none;stroke:var(--ocean);stroke-width:1.2;transform-box:fill-box;transform-origin:center;opacity:0;animation:hfRing 4.2s cubic-bezier(.2,.6,.3,1) infinite}
+:root[data-theme=dark] .hf-ring{stroke:#eaa3cf}
+@keyframes hfRing{0%{transform:scale(1);opacity:.55}70%,100%{transform:scale(3.4);opacity:0}}
+.hf-end{fill:var(--bg);stroke:var(--ocean);stroke-width:1.3;transition:fill .35s,r .35s}
+:root[data-theme=dark] .hf-end{stroke:#eaa3cf}
+.hf-a:hover .hf-end,.hf-a:focus-visible .hf-end{fill:var(--ocean)}:root[data-theme=dark] .hf-a:hover .hf-end,:root[data-theme=dark] .hf-a:focus-visible .hf-end{fill:#eaa3cf}
+/* hover: the route lights (JS writes opacity and width inline every frame, hence !important) */
+.hf-a:hover .hf-p,.hf-a:focus-visible .hf-p{stroke:var(--navy);stroke-width:2.6px!important;opacity:1!important}
+:root[data-theme=dark] .hf-a:hover .hf-p,:root[data-theme=dark] .hf-a:focus-visible .hf-p{stroke:#fff}
+/* flag plates: soft rounded cloth, natural colours, lifts 4 px on hover; a slow breeze (rotate + 1.5 px drift, staggered) */
+.hf-g{transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.hf-a:hover .hf-g,.hf-a:focus-visible .hf-g{transform:translateY(-4px)}
+.hf-w{transform-box:fill-box;transform-origin:0 50%;animation:hfBreeze 7s ease-in-out infinite;animation-delay:calc(var(--i,0)*-1.7s)}
+@keyframes hfBreeze{0%,100%{transform:rotate(-.45deg) translateY(.4px)}50%{transform:rotate(.45deg) translateY(-1.4px)}}
+:root[data-theme=dark] .hf-w image{filter:brightness(.94) saturate(.96)}
+/* names + small caps line */
+.hf-t{font:400 36px/1 var(--serif);letter-spacing:-.012em;transition:fill .35s}
+.hf-k,.hf-x{font:500 11.5px/1 var(--sans);letter-spacing:.17em;text-transform:uppercase;fill:var(--mut);transition:opacity .4s,transform .5s cubic-bezier(.16,1,.3,1),fill .35s}
+.hf-x{opacity:0;transform:translateY(5px);fill:var(--ocean)}:root[data-theme=dark] .hf-x{fill:#eaa3cf}
+.hf-a:hover .hf-k,.hf-a:focus-visible .hf-k{opacity:0;transform:translateY(-5px)}
+.hf-a:hover .hf-x,.hf-a:focus-visible .hf-x{opacity:1;transform:none}
+.hf-a:focus-visible .hf-t{text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:6px}
+/* entrance: data-st=0 (hidden, set by the script) -> data-st=1 (revealed when the panel scrolls into view). Without the script, or under reduced motion, the final state shows. */
+.hf[data-st="0"] .hf-svg .hf-lc,.hf[data-st="0"] .hf-svg .hf-ld{opacity:0;transform:translateX(-12px)}
+.hf[data-st="0"] .hf-or,.hf[data-st="0"] .hf-end,.hf[data-st="0"] .hf-te,.hf[data-st="0"] .hf-fe{opacity:0}
+.hf[data-st="0"] .hf-fe{transform:translateY(18px)}.hf[data-st="0"] .hf-te{transform:translateY(12px)}
+.hf[data-st="0"] .hf-mk{stroke-dashoffset:1}
+.hf[data-st="1"] .hf-svg .hf-lc,.hf[data-st="1"] .hf-svg .hf-ld{transition:opacity .9s ease,transform 1.1s cubic-bezier(.16,1,.3,1)}
+.hf[data-st="1"] .hf-or{transition:opacity .6s ease .35s}
+.hf[data-st="1"] .hf-mk{transition:stroke-dashoffset 1.15s cubic-bezier(.45,.05,.25,1) calc(.4s + var(--i,0)*.12s)}
+.hf[data-st="1"] .hf-a .hf-end{transition:opacity .5s ease calc(1.2s + var(--i,0)*.1s),fill .35s,r .35s}
+.hf[data-st="1"] .hf-fe{transition:opacity .8s ease calc(.85s + var(--i,0)*.13s),transform 1.1s cubic-bezier(.16,1,.3,1) calc(.85s + var(--i,0)*.13s)}
+.hf[data-st="1"] .hf-te{transition:opacity .8s ease calc(1.05s + var(--i,0)*.13s),transform 1.1s cubic-bezier(.16,1,.3,1) calc(1.05s + var(--i,0)*.13s)}
+/* ambient motion only while the panel is on screen */
+.hf:not(.hf-live) .hf-p,.hf:not(.hf-live) .hf-ring,.hf:not(.hf-live) .hf-w{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.hf-p,.hf-ring,.hf-w{animation:none}.hf-ring{display:none}.hf-g,.hf-end,.hf-t,.hf-k,.hf-x{transition:none}}
+/* phone and small tablet fallback, same language: mark, short dotted line with one plane, 2 x 2 flag plates with serif names and the small caps line */
+@media(max-width:700px){
+ .hf{gap:20px;margin-top:34px}
+ .hf-l{width:168px}
+ .hf-mp{max-width:360px;margin:-2px 0 6px}
+ .hf-fl.hf-m{display:grid;grid-template-columns:1fr 1fr;gap:34px 22px;width:100%}
+ .hf-i{align-items:flex-start;gap:0;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+ .hf-f{width:100px;height:68px;border-radius:9px;margin-bottom:14px}
+ .hf-n{font:400 25px/1.1 var(--serif);letter-spacing:-.01em;text-transform:none;color:var(--ink)}
+ .hf-k{display:block;margin-top:8px;font:500 10.5px/1.4 var(--sans);letter-spacing:.15em;text-transform:uppercase;color:var(--mut)}
+ .hf-i:active .hf-n,.hf-i:focus-visible .hf-n{color:var(--ocean)}:root[data-theme=dark] .hf-i:active .hf-n,:root[data-theme=dark] .hf-i:focus-visible .hf-n{color:#eaa3cf}
+ .hf-i:focus-visible .hf-f{outline:none}.hf-i:focus-visible .hf-n{text-decoration:underline;text-underline-offset:5px}
+ .hf[data-st="0"] .hf-l{opacity:0;transform:translateY(10px)}
+ .hf[data-st="0"] .hf-mp{clip-path:inset(0 100% 0 0)}
+ .hf[data-st="0"] .hf-i{opacity:0;transform:translateY(14px)}
+ .hf[data-st="1"] .hf-l{transition:opacity .8s ease,transform 1s cubic-bezier(.16,1,.3,1)}
+ .hf[data-st="1"] .hf-mp{transition:clip-path 1.1s cubic-bezier(.45,.05,.25,1) .35s}
+ .hf[data-st="1"] .hf-i{transition:opacity .8s ease calc(1s + var(--i,0)*.12s),transform 1s cubic-bezier(.16,1,.3,1) calc(1s + var(--i,0)*.12s)}
+}
+@media(min-width:701px){.hf-k.hf-m{display:none}}
+@media(max-width:700px){.hf-fl .hf-k{display:block}}
+@media(prefers-reduced-motion:reduce){.hf-i{transition:none}}
+:root[data-theme=dark] .hf-r{stroke:none}
+.hf-k,.hf-x{font-size:12.5px}
+@media(min-width:701px) and (max-width:1199px){.hf-k,.hf-x{font-size:14px}}
+@media(max-width:700px){
+ .hf-fl.hf-m{gap:30px 22px}
+ .hf-n{font-size:22px;letter-spacing:-.015em;white-space:nowrap}
+ .hf-k{font-size:9.5px;letter-spacing:.1em;margin-top:7px}
+}
+@media(max-width:700px){.hf-fl.hf-m{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.hf-n{font-size:20px}.hf-k{font-size:9px;letter-spacing:.09em}}
+@media(max-width:360px){.hf-n{font-size:19px;white-space:normal}}
+/* non-Latin scripts: no tracking on the names and the small line (conjuncts and Hangul/Han must not be spaced out); Devanagari names a touch larger to match the serif x-height */
+html[lang=ne] .hf-t,html[lang=ko] .hf-t,html[lang=zh] .hf-t,html[lang=ne] .hf-k,html[lang=ko] .hf-k,html[lang=zh] .hf-k,html[lang=ne] .hf-x,html[lang=ko] .hf-x,html[lang=zh] .hf-x{letter-spacing:0}
+html[lang=ne] .hf-k,html[lang=ne] .hf-x,html[lang=ko] .hf-k,html[lang=ko] .hf-x,html[lang=zh] .hf-k,html[lang=zh] .hf-x{font-size:14px;font-weight:400}
+html[lang=ne] .hf-n,html[lang=ko] .hf-n,html[lang=zh] .hf-n,html[lang=ne] .hf-k,html[lang=ko] .hf-k,html[lang=zh] .hf-k{letter-spacing:0}
+.hf-a:focus-visible .hf-r{stroke:none}
+
+/* stories cards (tablet/phone): narrower portrait cards so each face sits whole inside its rounded frame; all four corners round; quote never overlaps the photo */
+html.scn .sp8 .tc-g.row.drive{--cw:min(78vw,340px)}
+.sp8 .tc-g.row .tc{flex:0 0 min(78vw,340px)}
+.sp8 .tc-g.row .tc-p,html.scn .sp8 .tc-g.row .tc-p,html.scn .sp8 .tc-g.row.drive .tc-p{aspect-ratio:4/5;width:100%;max-height:min(44vh,400px);height:auto;border-radius:24px}
+.sp8 .tc-g.row .tc-p img{object-position:var(--pos,50% 18%)}
+
+/* Baneshwor scene: a soft transparent wash behind the TEXT only (the photograph stays clear), plus a faint text shadow for the small lines */
+.ba8 .ba-in{position:relative;isolation:isolate}
+.ba8 .ba-in:before{content:"";position:absolute;z-index:-1;pointer-events:none;inset:-14% -10% -14% -14%;background:radial-gradient(ellipse 62% 58% at 34% 50%,rgba(14,28,52,.58) 0%,rgba(14,28,52,.4) 48%,rgba(14,28,52,.14) 74%,rgba(14,28,52,0) 100%)}
+.ba8 .ba-in .lead,.ba8 .ba-in .ba-d,.ba8 .ba-in .ba-f,.ba8 .ba-in .eyebrow{color:#fff;text-shadow:0 1px 12px rgba(14,28,52,.55)}
+.ba8 .ba-in .ba-d,.ba8 .ba-in .ba-f{opacity:.95}
+
+/* phones: the story photo keeps a fixed, taller frame (never squeezed by the scene height) and shows the head from the top */
+@media(max-width:700px){html.scn .sp8 .tc-g.row .tc-p,html.scn .sp8 .tc-g.row.drive .tc-p,.sp8 .tc-g.row .tc-p{flex:none;aspect-ratio:auto;height:clamp(130px,20vh,170px);max-height:none}.sp8 .tc-g.row .tc-p img{object-position:50% 30%}}
+
+/* QA-A 2026-10-31: partner wall country names are links; on touch screens give them a 44 px tap height without moving the row */
+@media(max-width:767px){#pwHome .pw-h a{display:inline-flex;align-items:center;min-height:44px;margin:-6px 0}}
+@media(max-width:767px){#pwHome .pw-h a{min-width:44px}}
+/* QA-A: short phones (320x568, iPhone SE 1st gen class): the headline was pushed up under the header (h1 top 44 px, header ends at 68 px).
+   Below 620 px of height the clip overlay drops its sentence (place label + link stay), the space kept for it shrinks and the headline is a step smaller */
+@media(max-width:700px) and (max-height:620px){.hv-cap .hv-t{display:none}.v8 #hero.hero8 .scn-in>.wrap{padding-bottom:calc(max(40px,calc(var(--dock-h,0px) + 16px)) + 48px + 64px)}.hero8 h1{font-size:36px;margin-bottom:14px}.hero8 .lead{font-size:16px}}
+/* QA-A: country pills and Explore buttons on the destination photos were white text on 18 % white: ~1.5:1 on bright sky (Australia, New Zealand pills at 1024/1366).
+   On photos they take the site's navy (#161616) at a translucent strength instead: still flat, no border or shadow, white text >= 7:1 */
+:root .lj .lj-ix .btn,:root .lj .rc .x.btn{--btn-bg:rgba(22,22,22,.66);--btn-ink:#fff;--btn-bd:transparent;--btn-bg-h:#161616;--btn-ink-h:#fff;text-shadow:none}
+/* phone: keep the desktop diagram (mark, dotted routes, planes, flags, names), just scaled to the screen width; the 2 x 2 fallback stays hidden */
+@media(max-width:700px){
+ .hf-svg{display:block!important;width:100%;max-width:none;margin-top:0}
+ .hf-m,.hf-l.hf-m,.hf-fl.hf-m,.hf-mp.hf-m,:root[data-theme=dark] .hf-l.hf-ld.hf-m{display:none!important}
+ .hf-svg .hf-k,.hf-svg .hf-x{font-size:15px;letter-spacing:.1em}
+}
+/* brand colour (2026-10-31, user): routes, origin dot + ring, end dots and planes in burgundy/pink instead of ocean blue; light pink in the dark theme */
+.hf-p,.hf-mpp{stroke:var(--burg)}
+.hf-dot{fill:var(--burg)}
+.hf-ring{stroke:var(--burg)}
+.hf-end{stroke:var(--burg)}
+.hf-a:hover .hf-end,.hf-a:focus-visible .hf-end{fill:var(--pink)}
+.hf-a:hover .hf-p,.hf-a:focus-visible .hf-p{stroke:var(--pink)}
+.hf-pl{fill:var(--pink)}
+:root[data-theme=dark] .hf-p,:root[data-theme=dark] .hf-mpp,:root[data-theme=dark] .hf-ring,:root[data-theme=dark] .hf-end{stroke:#eaa3cf}
+:root[data-theme=dark] .hf-dot,:root[data-theme=dark] .hf-pl,:root[data-theme=dark] .hf-a:hover .hf-end,:root[data-theme=dark] .hf-a:focus-visible .hf-end{fill:#eaa3cf}
+:root[data-theme=dark] .hf-a:hover .hf-p,:root[data-theme=dark] .hf-a:focus-visible .hf-p{stroke:#fff}
+/* What we offer (2026-10-31, user "no icons, proper text, premium"): text-led items. A small burgundy kicker word (Plan / Prepare / Apply / Interview,
+   the test names as a quiet italic note), the serif title, the body copy. Hover: the accent hairline sweeps the full width and the title warms to burgundy.
+   Scroll-in: each item rises softly in turn (CSS view timeline where supported; otherwise it simply shows). */
+.of-l{gap:clamp(40px,3.6vw,56px) clamp(32px,3.6vw,56px)}
+.of-l li{padding-top:28px}
+.of-l li:before{width:44px;transition:width .7s cubic-bezier(.16,1,.3,1)}
+.of-l li:hover:before{width:100%}
+.of-k{display:flex;align-items:baseline;gap:12px;margin:0 0 14px;font:600 12.5px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--burg)}
+.of-k i{font:italic 400 15px/1 var(--serif);letter-spacing:.02em;text-transform:none;color:var(--mut)}
+:root[data-theme=dark] .of-k{color:#eaa3cf}
+.of-h{font-size:clamp(22px,1.7vw,27px);margin-bottom:12px;transition:color .4s ease}
+.of-l li:hover .of-h{color:var(--burg)}
+:root[data-theme=dark] .of-l li:hover .of-h{color:#eaa3cf}
+.of-p{line-height:1.65}
+@supports (animation-timeline:view()){
+ @keyframes ofIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+ .of-l li{animation:ofIn linear both;animation-timeline:view();animation-range:entry 5% cover 28%}
+ .of-l li:nth-child(2){animation-range:entry 12% cover 32%}
+ .of-l li:nth-child(4){animation-range:entry 12% cover 32%}
+}
+@media(prefers-reduced-motion:reduce){.of-l li{animation:none!important}.of-l li:before,.of-h{transition:none}}
+.of-k{height:16px;align-items:center;overflow:visible}
+/* What we offer, layout v3 (2026-10-31, user "make this section ui proper"): one editorial list instead of a 2 x 2 grid, so no title wraps
+   out of line with its neighbour. Each service is a full-width row under a hairline: keyword | title | description, top-aligned, when the text
+   column is wide enough (container query); a narrower column stacks keyword, title, description. Hover sweep + scroll-in rise as before. */
+.of8 .why-t{container-type:inline-size}
+.of-l{grid-template-columns:1fr;gap:0;margin-top:clamp(32px,3.6vw,48px)}
+.of-l li{padding:26px 0 30px}
+.of-l li:last-child{border-bottom:1px solid var(--line)}
+.of-k{height:auto;margin:0 0 10px;flex-wrap:wrap;gap:6px 12px}
+.of-h{margin:0 0 10px;font-size:clamp(22px,1.6vw,26px);line-height:1.2}
+.of-p{max-width:46ch}
+@container (min-width:600px){
+ .of-l li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);grid-template-areas:"k p" "h p";column-gap:clamp(24px,3vw,48px);align-items:start;padding:30px 0 32px}
+ .of-k{grid-area:k;margin:0 0 12px}
+ .of-h{grid-area:h;margin:0}
+ .of-p{grid-area:p;max-width:none;margin-top:1px}
+ .of-l li:nth-child(n){animation-range:entry 5% cover 26%}
+}
+
+/* What we offer, layout v4 (2026-10-31, user "simple and wow"): type only. Each service is one large serif title with its description in a
+   quieter tone beside it, under a hairline; no keyword labels. Hover: the hairline accent sweeps the row, the title fills with the burgundy ->
+   pink gradient and glides right. Scroll-in: each title rises out of a mask, the description follows (view timeline; static where unsupported). */
+.of-k{display:none!important}
+.of-l li{padding:clamp(26px,2.4vw,34px) 0;cursor:default}
+.of-h{font-size:clamp(28px,2.5vw,40px);line-height:1.08;letter-spacing:-.018em;text-wrap:balance;transition:transform .6s cubic-bezier(.16,1,.3,1),color .4s ease}
+.of-p{font-size:16px;line-height:1.6;color:var(--mut);transition:color .4s ease}
+.of-l li:hover .of-h{transform:translateX(10px);background:var(--cta-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--burg)}
+:root[data-theme=dark] .of-l li:hover .of-h{background:linear-gradient(135deg,#e46db5 0%,#f7aad7 100%);-webkit-background-clip:text;background-clip:text}
+.of-l li:hover .of-p{color:var(--ink)}
+@container (min-width:600px){
+ .of-l li{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);grid-template-areas:"h p";align-items:center}
+ .of-p{margin:0}
+}
+@supports (animation-timeline:view()){
+ @keyframes ofRise{from{clip-path:inset(0 0 100% 0);translate:0 .6em}to{clip-path:inset(-20% -10% -20% 0);translate:0 0}}
+ @keyframes ofFade{from{opacity:0}to{opacity:1}}
+ .of-l li{animation:none}
+ .of-h{animation:ofRise linear both;animation-timeline:view();animation-range:entry 10% cover 30%}
+ .of-p{animation:ofFade linear both;animation-timeline:view();animation-range:entry 20% cover 36%}
+}
+@media(prefers-reduced-motion:reduce){.of-h,.of-p{animation:none!important;transition:none}.of-l li:hover .of-h{transform:none}}
+.of-h{font-size:clamp(26px,2vw,34px)}
+@container (min-width:600px){.of-l li{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)}}
+@container (min-width:600px){.of-h{font-size:clamp(24px,4.15cqi,34px)}}
+
+/* ===== What we offer, sticky photo swap (2026-10-31; owned by the #offer section only: markup site/index.html #offer, motion site/js/offer-scroll.js).
+   Desktop (>= 901 px): two columns. Left, the four service rows (v4 type: large serif title + description). Right, ONE sticky frame (4:5, radius 24,
+   centred in the screen under the header) holding the four photos stacked; the row crossing the middle of the screen picks the photo: the new one
+   fades in on top while its clip opens from a soft inset and the photo settles 1.06 -> 1; the old one fades a beat later and eases back to 1.06.
+   The active row's title takes the brand gradient and its hairline accent sweeps the full width; the other rows dim. A small caption under the
+   frame names the active service (no counters). Phones / tablets (<= 900 px): no sticky, each row shows its own photo above its text, fading in once.
+   No borders, shadows or tinted cards; reduced motion = instant swaps, no scale. This block overrides the older #offer rules above
+   (.why-p fixed height, the .wp-a / .wp-s photo pair, the .of-p fade timeline). ===== */
+.of8 .why-p{height:auto;margin-top:0;order:0}
+.of8 .of-stk{display:none}
+.of-f{margin:0}
+.of-f img{width:100%;height:100%;object-fit:cover;display:block}
+/* photo in its row (phones, tablets, and desktop without JS) */
+.of-l li>.of-f{position:relative;aspect-ratio:3/2;margin:0 0 22px;border-radius:24px}
+@container (min-width:600px){.of-l li{grid-template-areas:"m m" "h p"}.of-l li>.of-f{grid-area:m;aspect-ratio:16/9;margin-bottom:26px}}
+@media(max-width:900px){
+ .of8 .why-p{display:none}
+ .of8.of-js .of-l li>.of-f{opacity:0;transition:opacity .8s cubic-bezier(.33,1,.68,1)}
+ .of8.of-js .of-l li>.of-f img{transform:scale(1.06);transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
+ .of8.of-js .of-l li>.of-f.of-in{opacity:1}
+ .of8.of-js .of-l li>.of-f.of-in img{transform:none}
+}
+@media(min-width:901px){
+ html:not(.js) .of8 .why-p{display:none}
+ html:not(.js) .of8 .why-g{grid-template-columns:minmax(0,760px)}
+ html.js .of8 .of-l li>.of-f{display:none}            /* before the script moves them: the photos wait for the frame (no layout jump) */
+ html.js .of8 .why-g{grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);align-items:stretch}
+ html.js .of8 .of-stk{--ofw:min(100%,calc(min(70vh,680px) * .8));position:sticky;top:calc(var(--hdr,68px) + 5vh);
+  display:flex;flex-direction:column;align-items:flex-end;gap:16px}   /* top: js/offer-scroll.js centres frame + caption in the screen under the header */
+ .of-fr{position:relative;width:var(--ofw);aspect-ratio:4/5;border-radius:24px;isolation:isolate}
+ .of-fr>.of-f{position:absolute;inset:0;border-radius:24px;opacity:0;z-index:1;clip-path:inset(7% 6% 7% 6% round 24px);
+  transition:opacity .5s ease .32s,clip-path 0s linear .85s}
+ .of-fr>.of-f img{transform:scale(1.06);transform-origin:50% 55%;transition:transform 1.1s cubic-bezier(.16,1,.3,1)}
+ .of-fr>.of-f.is-on{opacity:1;z-index:2;clip-path:inset(0% 0% 0% 0% round 24px);transition:opacity .75s cubic-bezier(.33,1,.68,1),clip-path .9s cubic-bezier(.16,1,.3,1)}
+ .of-fr>.of-f.is-on img{transform:none}
+ .of-cap{display:grid;width:var(--ofw);margin:0;min-height:1.5em;font:600 12.5px/1.5 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--burg)}
+ :root[data-theme=dark] .of-cap{color:#eaa3cf}
+ .of-cap span{grid-area:1/1;opacity:0;transform:translateY(6px);transition:opacity .35s ease,transform .6s cubic-bezier(.16,1,.3,1)}
+ .of-cap span.is-on{opacity:1;transform:none;transition-delay:.2s}
+ /* rows: more air, so each service holds the frame for a calm stretch of scroll */
+ .of8.of-pin .of-l li{padding:clamp(34px,6.5vh,64px) 0}
+ .of8.of-pin .of-h{transition:transform .6s cubic-bezier(.16,1,.3,1),color .4s ease,opacity .5s ease}
+ .of8.of-pin .of-p{animation:none;transition:color .4s ease,opacity .5s ease}
+ .of8.of-pin .of-l li:not(.is-act) .of-h{opacity:.4}
+ .of8.of-pin .of-l li:not(.is-act) .of-p{opacity:.55}
+ .of8.of-pin .of-l li:not(.is-act):hover .of-h,.of8.of-pin .of-l li:not(.is-act):hover .of-p{opacity:.85}
+ .of8.of-pin .of-l li.is-act .of-h{background:var(--cta-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--burg)}
+ :root[data-theme=dark] .of8.of-pin .of-l li.is-act .of-h{background:linear-gradient(135deg,#e46db5 0%,#f7aad7 100%);-webkit-background-clip:text;background-clip:text}
+ .of8.of-pin .of-l li.is-act .of-p{color:var(--ink)}
+ .of8.of-pin .of-l li.is-act:before{width:100%}
+}
+@media(prefers-reduced-motion:reduce){
+ .of-fr>.of-f,.of-fr>.of-f.is-on,.of-fr>.of-f img,.of-cap span,.of-l li>.of-f,.of-l li>.of-f img{transition:none!important}
+ .of-fr>.of-f img,.of-l li>.of-f img,.of-cap span{transform:none!important}
+ .of-fr>.of-f{clip-path:none!important}
+ .of8.of-js .of-l li>.of-f{opacity:1}
+}
+
+/* ==== 2026-10-31 UI pass: the glass buttons on the destination/how-it-works photo cards were navy-tinted (rgba(22,22,22,.66), hover #161616);
+   house rule: no navy accents. Soft black glass, brand gradient on hover. ==== */
+:root .lj .lj-ix .btn,:root .lj .rc .x.btn{--btn-bg:rgba(22,22,22,.58);--btn-bg-h:var(--cta-grad)}
+
+/* ==== 2026-10-31 phones (user: "maintain scroll and design effect in phone also"): "What we offer" stays stacked under 900px, but each row's
+   photo now opens the way the desktop frame does (soft clip inset -> full, fade, 1.06 -> 1 settle) instead of a plain fade; same curves, once
+   per photo, class-driven by js/offer-scroll.js (.of-in). Transform / opacity / clip-path only. ==== */
+@media(max-width:900px){
+ .of8.of-js .of-l li>.of-f{overflow:hidden;clip-path:inset(7% 6% 7% 6% round 24px);transition:opacity .75s cubic-bezier(.33,1,.68,1),clip-path .9s cubic-bezier(.16,1,.3,1)}
+ .of8.of-js .of-l li>.of-f.of-in{clip-path:inset(0% 0% 0% 0% round 24px)}
+ .of8.of-js .of-l li>.of-f img{transform-origin:50% 55%;transition:transform 1.1s cubic-bezier(.16,1,.3,1)}
+}
+@media(max-width:900px) and (prefers-reduced-motion:reduce){.of8.of-js .of-l li>.of-f{clip-path:none!important}}
+/* destinations headline (2026-10-31): "with Dolphin Education." is one unbreakable italic line inside the scene's line masks, so the heading
+   uses the panel's full width (it was capped at ~7.7em and clipped to "with Dolphin Ed"); on phones the size follows the screen so it fits */
+#ctryH{max-width:none!important}
+@media(max-width:700px){#ctryH{font-size:min(7.2vw,40px)!important}}
+/* homepage hero accent ("care.") must be the lifted pink gradient, never the old light blue (2026-11-01 recheck: the line-split headline
+   wraps the em in spans, so the site-wide em rules missed it and it fell back to --tint #eaa3cf) */
+html:root .hero-c h1 em,html:root .hero-c h1 em *{background:linear-gradient(135deg,#e46db5 0%,#f7aad7 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#eaa3cf;padding-right:.12em;margin-right:-.12em}

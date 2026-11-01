@@ -1,0 +1,1 @@
+﻿motion 12.43.0 (npm package 'motion', dist/motion.js UMD build, global window.Motion). Copied 2026-10-31 from npm; MIT licence in LICENSE.md.

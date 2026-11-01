@@ -1,0 +1,257 @@
+/* Destinations v7: destinations.html and country.html. Layout of the scenes only; type, buttons, section headers, spacing and tokens come from css/site.css.
+   Motion is transform, opacity and clip-path only (js/dest-v7.js). Static under prefers-reduced-motion. */
+main.v7{display:block;overflow-x:clip}
+/* page furniture removed on these pages (user feedback 2026-10-28): no progress line, dots, cursor ring, floating pills, sticky bottom bar */
+body[data-page=destinations] .sprog,body[data-page=destinations] .sdots,body[data-page=destinations] #cd,body[data-page=destinations] .mbar,body[data-page=destinations] .ask,
+body[data-page=country] .sprog,body[data-page=country] .sdots,body[data-page=country] #cd,body[data-page=country] .mbar,body[data-page=country] .ask,
+body[data-page=destinations] .fcta,body[data-page=country] .fcta{display:none!important}
+/* buttons: the shared system in css/site.css (sweep v8.1) */
+/* shared bits */
+.v7 .ln{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}.v7 .ln>span{display:block}
+.v7 .smp{display:block;font:600 12px/1.4 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin-top:10px}
+.v7 .on-dark .smp,.v7 .band-n .smp{color:rgba(255,255,255,.6)}
+.v7 .cf{color:var(--mut)}
+.v7 .crumb{display:flex;gap:10px;font:500 14px/1 var(--sans);letter-spacing:.02em;color:#fff;margin:0 0 24px}.v7 .crumb a{color:#fff;text-decoration:none;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.4)}.v7 .crumb a:hover{border-color:#fff}.v7 .crumb span{opacity:.6}
+.v7 .sh>div{max-width:100%}
+.v7 .sh h2 em{font-style:normal;color:var(--ocean)}.v7 .on-dark .sh h2 em,.v7 .band-n .sh h2 em,:root[data-theme=dark] .v7 .sh h2 em{color:var(--tint,#eaa3cf)}
+/* zoom-through: scenes carry .z with an inner .zi that scales in */
+.v7 .z{overflow:clip}
+.v7 .zi{} /* v8.12: no permanent will-change (the reveal clears its props) */
+.v7 .wd{display:inline-block}
+html.nomo .v7 .wd,html.nomo .v7 [data-rise]{opacity:1!important;transform:none!important}
+html.nomo .v7 .zi,html.nomo .v7 figure,html.nomo .v7 .v7l-tr{opacity:1!important;transform:none!important;clip-path:none!important}
+
+/* ---------- hero (both pages): full-height photo scene, name in Bodoni, one line, one button ---------- */
+/* the hero is pinned without pin spacing: every later scene sits above it and slides over as it zooms (ScrollTrigger wraps pinned scenes in .pin-spacer) */
+main.v7>*:not(:first-child){position:relative;z-index:2}
+.v7h{position:relative;z-index:1;height:100svh;min-height:560px;display:flex;align-items:flex-end;background:var(--deep,#111111);color:#fff;overflow:hidden;isolation:isolate}
+.v7h-bg,.v7h-pan{position:absolute;inset:0;z-index:0;will-change:transform,opacity;transform-origin:50% 50%}
+.v7h-bg img{width:100%;height:100%;object-fit:cover;display:block;will-change:transform;transform-origin:50% 50%}
+.v7h-pan{display:grid;grid-template-columns:repeat(5,1fr);gap:0} /* 2026-10-31: Canada is back, one column per live country (five) */
+.v7h-pan figure{margin:0;overflow:hidden;position:relative;will-change:transform}
+.v7h-pan img{width:100%;height:100%;object-fit:cover;display:block;will-change:transform}
+.v7h:after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:var(--scrim-hero)}
+.v7h-c{position:relative;z-index:2;padding:0 0 clamp(56px,9vh,112px);max-width:1000px}
+.v7h-c h1{font-size:var(--t-display);line-height:var(--lh-display);letter-spacing:-.02em;color:#fff;margin:0 0 20px}
+.v7h-c h1 em{font-style:normal;color:var(--tint,#eaa3cf)}
+.v7h-c .v7-n{font-size:clamp(64px,11vw,168px);line-height:.98;letter-spacing:-.025em}
+.v7h-c .lead{color:rgba(255,255,255,.86);margin:0 0 32px;max-width:48ch}
+.v7h-cap{position:absolute;right:24px;bottom:24px;z-index:2;margin:0;font:500 13px/1.4 var(--sans);color:rgba(255,255,255,.8);text-shadow:0 1px 10px rgba(var(--sc),.5);max-width:36ch;text-align:right}
+@media(max-width:900px){.v7h{min-height:0}.v7h-pan{grid-template-columns:repeat(5,1fr)}.v7h-c{padding-bottom:64px}.v7h-c h1{font-size:clamp(40px,11vw,60px)}.v7h-c .v7-n{font-size:clamp(56px,17vw,96px)}.v7h-cap{display:none}}
+
+/* ---------- destinations: the five countries as a journey of rounded cards (sweep v8.9, same design as the home destinations journey) ----------
+   >= 700 px: the section is one pinned screen on a soft stage; the cards (radius 24, soft layered shadow) sit between the header (--hdr) and the bottom edge,
+   card k rests centred with the next card's edge peeking; js/dest-v7.js slides the track 1:1 with the scroll (no snap, no hijack).
+   < 700 px and reduced motion: a native swipe row with scroll-snap proximity and the same peek. */
+.v7l{--cw:min(78vw,1320px);--cg:clamp(16px,2vw,32px);position:relative;height:100svh;min-height:560px;overflow:hidden;background:var(--bg2);color:var(--ink);isolation:isolate}
+.v7l:before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:none}
+:root[data-theme=dark] .v7l:before{background:none}
+.v7l-tr{position:absolute;z-index:1;top:calc(var(--hdr,82px) + 24px);bottom:clamp(24px,4vh,48px);left:50%;margin-left:calc(var(--cw) / -2);display:flex;gap:var(--cg);will-change:transform}
+.v7l-p{position:relative;flex:0 0 var(--cw);width:var(--cw);height:100%;border-radius:24px;overflow:hidden;isolation:isolate;color:#fff;display:flex;align-items:flex-end;background:var(--phc,#1a2a44);
+ box-shadow:none}
+:root[data-theme=dark] .v7l-p{box-shadow:none}
+.v7l-p figure{position:absolute;inset:0;margin:0;overflow:hidden;z-index:0;border-radius:inherit}
+.v7l-p img{width:112%;max-width:none;height:100%;margin-left:-6%;object-fit:cover;display:block;will-change:transform} /* max-width:none: the global img{max-width:100%} capped the 112 % parallax photo at 100 %, which left the ~110 px navy strip at the right edge at 1900 px */
+.v7l-p:after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:var(--scrim-foot)}
+.v7l-c{position:relative;z-index:2;padding:0 clamp(28px,3.5vw,56px) clamp(32px,5vh,56px);max-width:none}
+.v7l-c .eyebrow{color:rgba(255,255,255,.86)}
+.v7l-c h2{font-size:clamp(44px,5.4vw,88px);line-height:1;letter-spacing:-.02em;color:#fff;margin:0 0 14px;text-shadow:0 1px 2px rgba(var(--sc),.3),0 10px 36px rgba(var(--sc),.45)}
+.v7l-c p{font-size:var(--t-lead);line-height:var(--lh-lead);color:#fff;max-width:40ch;margin:0 0 24px;text-shadow:0 1px 10px rgba(var(--sc),.55)}
+.v7l-c .btn{pointer-events:auto}
+@media(max-height:620px) and (min-width:700px){.v7l-c h2{font-size:clamp(36px,4.4vw,64px)}.v7l-c p{margin-bottom:16px}}
+@media(max-width:699px),(prefers-reduced-motion:reduce){
+ .v7l{--cw:86vw;--cg:12px;height:auto;min-height:0;padding:calc(var(--hdr,68px) + 24px) 0 40px}
+ .v7l-tr{position:static;margin:0;left:auto;top:auto;bottom:auto;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scrollbar-width:none;padding:0 7vw;scroll-padding:0 7vw;will-change:auto}
+ .v7l-tr::-webkit-scrollbar{display:none}
+ .v7l-p{height:min(calc(100svh - var(--hdr,68px) - 64px),680px);min-height:440px;scroll-snap-align:center}
+ .v7l-c{padding:0 24px 28px}
+ .v7l-c h2{font-size:clamp(34px,10vw,48px)}
+ .v7l-c p{font-size:16px;line-height:1.5;margin-bottom:20px}
+ .v7l-c .btn{width:100%;justify-content:center}
+}
+@media(prefers-reduced-motion:reduce) and (min-width:700px){.v7l-p{height:min(calc(100svh - var(--hdr,82px) - 72px),760px)}}
+
+/* ---------- compare (sweep v8.9): five equal country cards; rows share one subgrid so the labels line up across the five; swipe row below 1100 px ---------- */
+.v7cm{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:auto repeat(8,auto);gap:0 16px}
+.v7cm-c{grid-row:span 9;display:grid;grid-template-rows:subgrid;row-gap:0;background:var(--bg);border-radius:24px;padding:28px 24px 12px;position:relative;
+ box-shadow:none;border:1px solid var(--edge);transition:transform .22s ease-out,border-color .22s ease-out}
+.v7cm-c dl,.v7cm-c dl>div{display:contents}
+.v7cm-c h3{margin:0 0 8px;font:400 clamp(24px,1.9vw,30px)/1.1 var(--serif);letter-spacing:-.01em;text-wrap:balance}
+.v7cm-c h3 a{color:var(--ink);text-decoration:none;display:inline-flex;align-items:baseline;gap:10px;min-height:44px}
+.v7cm-c h3 a:after{content:"";position:absolute;inset:0;border-radius:24px} /* the whole card is the link's target */
+.v7cm-c h3 .ar{font:400 16px/1 var(--sans);color:var(--ocean);opacity:0;transform:translateX(-4px);transition:opacity .2s,transform .2s}
+.v7cm-c dt{font:600 13px/1.4 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);padding-top:18px;border-top:1px solid var(--line);margin-top:4px}
+.v7cm-c dd{margin:6px 0 16px;font:500 17px/1.45 var(--sans);color:var(--ink);font-variant-numeric:tabular-nums;text-wrap:balance}
+.v7cm-c dd.cf{font:400 16px/1.45 var(--sans);font-style:italic;color:var(--mut)}
+.v7cm-c:hover,.v7cm-c:focus-within{transform:translateY(-4px);box-shadow:none;border-color:var(--ocean)}
+.v7cm-c:hover h3 .ar,.v7cm-c:focus-within h3 .ar{opacity:1;transform:none}
+.v7cm-c h3 a:focus-visible{outline:none}
+:root[data-theme=dark] .v7cm-c{background:var(--d-surf);box-shadow:none}
+:root[data-theme=dark] .v7cm-c:hover,:root[data-theme=dark] .v7cm-c:focus-within{box-shadow:none;border-color:#eaa3cf}
+:root[data-theme=dark] .v7cm-c h3 .ar{color:#eaa3cf}
+:root[data-theme=dark] .v7cm-c dd.cf{color:rgba(255,255,255,.78)}
+.v7-note{font-size:16px;color:var(--mut);max-width:64ch;margin:28px 0 0}
+@media(max-width:1099px){
+ .v7cm{display:flex;gap:16px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scrollbar-width:none;margin:0 calc(-1 * var(--g));padding:8px var(--g) 24px;scroll-padding:0 var(--g)}
+ .v7cm::-webkit-scrollbar{display:none}
+ .v7cm-c{flex:0 0 min(78vw,340px);display:flex;flex-direction:column;scroll-snap-align:start}
+ .v7cm-c dl{display:block}.v7cm-c dl>div{display:block}
+ .v7cm-c:hover,.v7cm-c:focus-within{transform:none}
+}
+@media(prefers-reduced-motion:reduce){.v7cm-c,.v7cm-c h3 .ar{transition:none}}
+
+/* ---------- closing CTA (both pages): photo scene, one headline, one button ---------- */
+/* sweep v8.9 (queue 1c): one full screen like the footer ocean scene; the photo fills the stage, the copy sits between the header and the bottom edge */
+.v7cta{position:relative;min-height:100svh;min-height:max(100svh,560px);display:flex;align-items:center;padding:calc(var(--hdr,82px) + 24px) 0 clamp(48px,8vh,96px);background:var(--deep,#111111);color:#fff;overflow:hidden;isolation:isolate}
+.v7cta>img,.v7s>img{position:absolute;inset:-6% 0;height:112%;width:100%;object-fit:cover;z-index:0;will-change:transform}
+.v7cta:after,.v7s:after{content:"";position:absolute;inset:0;z-index:1;background:var(--scrim-cta)}
+/* one light scrim layer: --scrim-cta plus a soft wash on the copy side only (no visible edge; bright skies and stone stay visible on the right) */
+.v7cta:after{background:linear-gradient(90deg,rgba(14,32,62,.62) 0%,rgba(14,32,62,.54) 36%,rgba(14,32,62,.26) 60%,rgba(14,32,62,0) 82%),var(--scrim-cta)}
+@media(max-width:899px){.v7cta:after{background:linear-gradient(180deg,rgba(14,32,62,.1) 0%,rgba(14,32,62,.52) 28%,rgba(14,32,62,.6) 58%,rgba(14,32,62,.3) 86%,rgba(14,32,62,.12) 100%),var(--scrim-cta)}}
+.v7cta h2,.v7cta p,.v7s h2,.v7s p{text-shadow:0 1px 2px rgba(var(--sc),.35),0 8px 28px rgba(var(--sc),.45)}
+.v7cta .wrap,.v7s .wrap{position:relative;z-index:2}
+.v7cta .eyebrow,.v7s .eyebrow{color:rgba(255,255,255,.8)}
+.v7cta h2{font-size:var(--t-h1);line-height:var(--lh-head);color:#fff;margin:0 0 18px;max-width:14ch}
+.v7cta h2 em{font-style:normal;color:#d9eaf8}
+.v7cta p{color:rgba(255,255,255,.84);max-width:46ch;margin:0 0 32px;font-size:var(--t-lead);line-height:var(--lh-lead)}
+.v7cta .v7-next{display:inline-block;margin-left:22px;font:500 16px/1 var(--sans);color:rgba(255,255,255,.8);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.35);padding-bottom:4px}
+.v7cta .v7-next:hover{color:#fff;border-color:#fff}
+@media(max-width:900px){.v7cta .v7-next{display:block;margin:20px 0 0;width:max-content}}
+
+/* ---------- country: four facts on hairlines ---------- */
+.v7f.sec{padding:clamp(48px,6vw,88px) 0}
+.v7f-l{margin:0;display:grid;grid-template-columns:repeat(4,1fr)}
+.v7f-l>div{padding:24px 24px 24px 0;border-left:1px solid var(--line);padding-left:24px;min-width:0}
+.v7f-l>div:first-child{border-left:0;padding-left:0}
+.v7f-l dt{font:600 13px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--mut);margin-bottom:12px}
+.v7f-l dd{margin:0;font:400 clamp(17px,1.3vw,21px)/1.35 var(--serif);color:var(--ink);overflow-wrap:anywhere}
+.v7f-l dd.cf{font-family:var(--sans);font-size:16px;color:var(--mut)}
+@media(max-width:900px){.v7f-l{grid-template-columns:1fr 1fr;row-gap:0}.v7f-l>div{padding:18px 0 18px 16px;border-top:1px solid var(--line)}.v7f-l>div:nth-child(odd){border-left:0;padding-left:0}.v7f-l>div:nth-child(-n+2){border-top:0;padding-top:0}}
+
+/* ---------- country: why study here, text + two photos ---------- */
+.v7w.sec{background:var(--bg)}
+.v7w-g{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(40px,6vw,96px);align-items:center}
+.v7w-t .sh{display:block;margin-bottom:20px}
+.v7w-t h2{font-size:var(--t-h2);line-height:var(--lh-head);margin:0;max-width:16ch}
+.v7w-t .lead{color:var(--mut);margin:0 0 28px;max-width:44ch}
+.v7w-l{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.v7w-l li{display:block;padding:16px 0;border-bottom:1px solid var(--line);font:400 clamp(17px,1.3vw,20px)/1.35 var(--serif);color:var(--ink)} /* hairline list, no numerals (sweep v8.1) */
+.v7w-p{position:relative;display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:min-content;padding-bottom:12%}
+.v7w-p figure{margin:0;overflow:hidden;border-radius:var(--radius-2,16px);background:var(--deep,#111111);will-change:transform}
+.v7w-p img{width:100%;height:100%;object-fit:cover;display:block}
+.v7w-p .a{grid-column:1/11;grid-row:1;aspect-ratio:4/3}
+.v7w-p .b{grid-column:7/13;grid-row:1;align-self:end;margin-bottom:-18%;aspect-ratio:1;box-shadow:none}
+.v7w-p figcaption{position:absolute;left:14px;bottom:12px;font:500 13px/1.3 var(--sans);color:#fff;background:rgba(var(--sc),.6);padding:6px 11px;border-radius:99px}
+.v7w-p .b{position:relative}
+@media(max-width:900px){.v7w-g{grid-template-columns:1fr;gap:40px}.v7w-p{padding-bottom:16%}.v7w-p .a{grid-column:1/12}.v7w-p .b{grid-column:6/13;margin-bottom:-14%}}
+
+/* ---------- country: visa steps as a vertical ladder of stacked cover cards ---------- */
+.v7v{position:relative;background:var(--bgn,#161616);color:#fff;padding:clamp(72px,9vw,140px) 0 clamp(96px,12vw,180px)}
+.v7v-g{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(40px,7vw,120px);align-items:start}
+.v7v-s{position:sticky;top:14vh}
+.v7v-s .eyebrow{color:rgba(255,255,255,.8)}
+.v7v-s h2{font-size:var(--t-h2);line-height:var(--lh-head);margin:0 0 18px;color:#fff}
+.v7v-s h2 em{font-style:normal;color:var(--tint,#eaa3cf)}
+.v7v-s p{color:rgba(255,255,255,.72);max-width:38ch;margin:0}
+.v7v-l{list-style:none;margin:0;padding:0}
+.v7v-c{position:sticky;top:calc(14vh + var(--i,0)*12px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:60vh;margin-bottom:18vh;border-radius:var(--radius-2,16px);overflow:hidden;background:#112547;box-shadow:none;will-change:transform}
+.v7v-c:last-child{margin-bottom:0}
+.v7v-c:after{content:"";position:absolute;inset:0;z-index:3;background:var(--bgn,#161616);opacity:var(--dim,0);pointer-events:none}
+.v7v-c figure{margin:0;overflow:hidden;min-height:100%}
+.v7v-c img{width:100%;height:100%;object-fit:cover;display:block}
+.v7v-c>div{padding:clamp(28px,3.5vw,48px);display:flex;flex-direction:column;justify-content:flex-end;gap:12px}
+.v7v-n{font:600 13px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--tint,#eaa3cf)} /* the step in words, not a numeral */
+.v7v-c h3{font:400 clamp(26px,2.6vw,40px)/1.1 var(--serif);margin:0;color:#fff;letter-spacing:-.01em}
+.v7v-c p{margin:0;color:rgba(255,255,255,.84);font-size:16px;line-height:1.55;max-width:34ch}
+@media(max-width:900px){.v7v-g{grid-template-columns:1fr;gap:28px}.v7v-s{position:static}.v7v-c{grid-template-columns:1fr;grid-template-rows:42vw auto;min-height:0;top:calc(10vh + var(--i,0)*10px);margin-bottom:10vh}.v7v-c figure{min-height:0;height:42vw}.v7v-c>div{padding:22px 20px 26px}}
+
+/* ---------- country: costs block ---------- */
+.v7c-g{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(40px,6vw,96px);align-items:start}
+.v7c-g .sh{display:block;margin:0}
+.v7c-g .sh p{color:var(--mut);margin:14px 0 0;max-width:40ch}
+.v7k{margin:0;border-top:1px solid var(--line)}
+.v7k>div{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:24px;padding:22px 0;border-bottom:1px solid var(--line)}
+.v7k dt{font:600 13px/1.5 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.v7k dd{margin:0;font:400 clamp(17px,1.3vw,21px)/1.4 var(--serif);color:var(--ink);font-variant-numeric:tabular-nums}
+.v7k dd.cf{font-family:var(--sans);font-size:16px;color:var(--mut)}
+@media(max-width:900px){.v7c-g{grid-template-columns:1fr;gap:32px}.v7k>div{grid-template-columns:1fr;gap:6px;padding:16px 0}}
+
+/* ---------- country: one sample story on a photo ---------- */
+.v7s{position:relative;min-height:80svh;display:flex;align-items:center;padding:clamp(96px,12vw,168px) 0;background:var(--deep,#111111);color:#fff;overflow:hidden;isolation:isolate}
+.v7s blockquote{font:400 clamp(28px,3.4vw,54px)/1.14 var(--serif);max-width:24ch;margin:0 0 28px;letter-spacing:-.01em;color:#fff}
+.v7s .who{margin:0;font:500 16px/1.4 var(--sans);color:rgba(255,255,255,.92)}
+
+/* the closing call to action plays a plane flying above the clouds (2026-10-28) */
+.v7cta .v7cta-v{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;z-index:0;opacity:0;transition:opacity 1.2s}
+.v7cta .v7cta-v.on{opacity:1}
+@media(prefers-reduced-motion:reduce){.v7cta .v7cta-v{display:none}}
+/* sweep v8.2: partner-university voice on a country page */
+.v7u-g{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,5vw,80px);align-items:center}
+.v7u-t h2{font-size:clamp(32px,3.6vw,56px);margin:0 0 14px}.v7u-t p{max-width:40ch;margin:0 0 24px}
+@media(max-width:900px){.v7u-g{grid-template-columns:1fr;gap:24px}}
+.v7cm-s .sh h2{max-width:20ch;text-wrap:balance}
+
+/* sweep v8.14 clean surfaces: no lines, no card colours (spacing and type separate); the compare card shows keyboard focus with an outline */
+.v7cm-c dt,.v7f-l>div,.v7k,.v7k>div,.v7w-l,.v7w-l li{border-color:transparent}
+.v7cm-c,.v7cm-c:hover,.v7cm-c:focus-within,:root[data-theme=dark] .v7cm-c,:root[data-theme=dark] .v7cm-c:hover,:root[data-theme=dark] .v7cm-c:focus-within{background:var(--bg);border-color:transparent}
+.v7cm-c:focus-within{outline:2px solid var(--ocean);outline-offset:3px}:root[data-theme=dark] .v7cm-c:focus-within{outline-color:#eaa3cf}
+.v7v-c{background:var(--bg)}.v7v-c:after{background:var(--bg)}
+:root[data-theme=light] .v7v{color:var(--ink)}
+:root[data-theme=light] .v7v-s .eyebrow{color:var(--mut)}
+:root[data-theme=light] .v7v-s h2,:root[data-theme=light] .v7v-c h3{color:var(--ink)}
+:root[data-theme=light] .v7v-s h2 em,:root[data-theme=light] .v7v-n{color:var(--ocean)}
+:root[data-theme=light] .v7v-s p,:root[data-theme=light] .v7v-c p{color:var(--mut)}
+
+/* sweep v8.13 (subject-safe framing): on phones the destinations hero montage stacks the countries as wide bands (one per row) instead of 80-190 px
+   slivers (phones and portrait tablets), so each landmark is seen whole; the bands do not drift (phone parity: no heavy motion) */
+@media(max-width:900px) and (orientation:portrait){.v7h-pan{grid-template-columns:1fr;grid-auto-rows:1fr;grid-template-rows:none}.v7h-pan figure{transform:none!important}}
+/* the scene photos drift 4 % now (was 7 %), so they need 6 % of spare height each side, not 12 % (more of each photo stays in view) */
+/* compare v3 (user: proper UI): a real comparison table on desktop: a label column and four country columns, rows aligned across countries, a shared left gutter, no boxes/lines/shadows;
+   the country-card list stays for phones and tablets */
+.v7ct{display:grid;grid-template-columns:minmax(150px,.8fr) repeat(5,minmax(0,1.2fr));column-gap:clamp(20px,2.4vw,40px);row-gap:0;margin-top:clamp(32px,4vw,56px)}
+.v7ct-r{display:contents}
+.v7ct-h a{font:400 clamp(24px,2.1vw,34px)/1.1 var(--serif);letter-spacing:-.01em;color:var(--ink);text-decoration:none;padding-bottom:clamp(20px,2.4vw,36px);text-wrap:balance}
+.v7ct-h a:hover,.v7ct-h a:focus-visible{color:var(--ocean);outline:none}
+:root[data-theme=dark] .v7ct-h a:hover,:root[data-theme=dark] .v7ct-h a:focus-visible{color:#eaa3cf}
+.v7ct-l{font:600 13px/1.5 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);padding:clamp(18px,1.8vw,26px) 0;align-self:start}
+.v7ct-r:not(.v7ct-h)>span[role=cell]{font:500 clamp(16px,1.2vw,18px)/1.5 var(--sans);color:var(--ink);padding:clamp(18px,1.8vw,26px) 0;font-variant-numeric:tabular-nums;text-wrap:balance;align-self:start}
+.v7ct-r>span.cf{font-weight:400;font-style:italic;color:var(--mut)}
+.v7cm{display:none}
+@media(max-width:900px){.v7ct{display:none}.v7cm{display:flex}}
+/* compare v4 (user: flags in the background, modern): each country header is a rounded flag tile (the real flag, cover-fit, with a navy veil so the white serif name stays readable); rows below stay clean */
+.v7ct{row-gap:0}
+.v7ct-h{align-items:stretch}
+.v7ct-h a.v7ct-f{position:relative;display:flex;align-items:flex-end;min-height:clamp(120px,11vw,160px);padding:18px 20px;margin-bottom:clamp(14px,1.6vw,24px);border-radius:24px;overflow:hidden;isolation:isolate;background-size:cover;background-position:center;background-repeat:no-repeat;color:#fff;text-decoration:none;transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.v7ct-h a.v7ct-f:before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(22,22,22,.52);transition:background-color .35s}
+.v7ct-h a.v7ct-f span{font:400 clamp(24px,2.1vw,34px)/1.1 var(--serif);letter-spacing:-.01em;color:#fff;text-shadow:0 1px 2px rgba(17,17,17,.4)}
+.v7ct-h a.v7ct-f:hover,.v7ct-h a.v7ct-f:focus-visible{transform:translateY(-3px);color:#fff;outline:none}
+.v7ct-h a.v7ct-f:hover:before,.v7ct-h a.v7ct-f:focus-visible:before{background:rgba(22,22,22,.32)}
+.v7ct-h a.v7ct-f:focus-visible{outline:2px solid var(--ocean);outline-offset:3px}
+.f-usa{background-image:url(../../img/flags/us.svg)}.f-united-kingdom{background-image:url(../../img/flags/gb.svg)}.f-australia{background-image:url(../../img/flags/au.svg)}.f-new-zealand{background-image:url(../../img/flags/nz.svg)}.f-canada{background-image:url(../../img/flags/ca.svg)}
+.v7ct-l{padding-top:clamp(20px,2vw,30px)}
+@media(prefers-reduced-motion:reduce){.v7ct-h a.v7ct-f{transition:none}}
+.v7ct-h a.v7ct-f:before{background:rgba(22,22,22,.64)}
+.v7ct-h a.v7ct-f:hover:before,.v7ct-h a.v7ct-f:focus-visible:before{background:rgba(22,22,22,.44)}
+.v7ct-h a.v7ct-f span{text-shadow:0 1px 3px rgba(17,17,17,.6),0 0 18px rgba(17,17,17,.45)}
+
+/* hero photo caption sits left of the chat launcher and the watermark, never under them */
+.v7h-cap{right:128px;bottom:34px}
+
+/* QA-A 2026-10-31: phones: the hero button (Talk to a counsellor / See the four) sat under the bottom booking dock at rest; keep the hero copy above it */
+@media(max-width:900px){.v7h-c{padding-bottom:max(64px,calc(var(--dock-h,0px) + 28px))}}
+/* QA-A: 'Next: <country>' text link was a 21 px tap target; an invisible hit area brings it to 44 px without changing the look */
+.v7cta .v7-next{position:relative}.v7cta .v7-next:after{content:"";position:absolute;inset:-12px -10px -10px}
+/* QA-A: phones: the country story quote and the closing 'Thinking about <country>?' copy sit mid-screen, but the phone scrim only darkened the foot,
+   so white serif lines landed on bright sky/stone. A soft text-zone gradient around the centred copy (max .45, fading to clear at the edges), per STANDARD PHOTO SCRIMS */
+@media(max-width:900px){:root .v7s:after,:root .v7cta:after{background:radial-gradient(ellipse 95% 48% at 40% 50%,rgba(var(--scrim-ink),.45) 0%,rgba(var(--scrim-ink),.3) 55%,rgba(var(--scrim-ink),0) 100%),linear-gradient(180deg,rgba(var(--scrim-ink),.3) 0,rgba(var(--scrim-ink),0) 120px)!important;opacity:1!important}}
+/* QA-A: the tinted word in the hero headline (#eaa3cf, e.g. 'honest') dropped to ~1.6:1 on bright stone and sky; a paler tint plus the soft heading shadow keeps the accent and reads */
+.v7h-c h1,.v7h-c h1 em{text-shadow:0 1px 2px rgba(8,18,38,.3),0 8px 32px rgba(8,18,38,.5)}.v7h-c h1 em{color:#dcecf8}
+.v7h-c .lead{text-shadow:0 1px 2px rgba(8,18,38,.35),0 4px 18px rgba(8,18,38,.5)}
+/* QA-A: the country story quote is a blockquote, which the closing-scene shadow rule (h2, p) missed: on bright stone (UK, USA) its right half fell to ~2:1 */
+.v7s blockquote,.v7s blockquote *{text-shadow:0 1px 2px rgba(8,18,38,.35),0 8px 30px rgba(8,18,38,.55)}
+/* 2026-10-31: the country's institutions (logos from js/voices.js DX.logoImg, theme-aware; no tiles) */
+.v7u-l{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,3vw,40px) clamp(20px,3vw,40px);align-items:start}
+.v7u-l li{display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-width:0}
+.v7u-l .lg{object-position:left center}
+.v7u-l span{font:500 14.5px/1.35 var(--sans);color:var(--mut);text-wrap:balance}
+@media(max-width:420px){.v7u-l{grid-template-columns:1fr 1fr;gap:24px 16px}.v7u-l span{font-size:13.5px}}

@@ -1,0 +1,236 @@
+/* Ask Dolphin chat panel with Asha. Loaded on idle or on the first launcher click; the launcher and its pop-ups are styled inline by
+   js/site.js (they show before this file loads). Light + dark via the site tokens; transform/opacity motion only; reduced motion = static.
+   Order: tokens and panel, header, Asha's stage, body, messages, support view and forms, live chat, composer, phones, reduced motion. */
+
+/* ---------- tokens and panel ---------- */
+.dxc-p{--c-bg:#fff;--c-ink:var(--ink,#161616);--c-mut:var(--mut,#5c5c5c);--c-line:rgba(22,22,22,.1);--c-line2:rgba(22,22,22,.22);--c-field:var(--field-bg,#f6f4f5);
+ --c-link:#6D1428;--c-ring:#6D1428;--c-grad:var(--cta-grad,linear-gradient(135deg,#6D1428 0%,#BF4398 100%));
+ position:fixed;right:calc(24px + env(safe-area-inset-right));bottom:calc(96px + env(safe-area-inset-bottom));z-index:85;width:400px;height:min(680px,calc(100vh - 120px));height:min(680px,calc(100dvh - 120px));
+ display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--c-line);border-radius:24px;background:var(--c-bg);color:var(--c-ink);
+ font:400 var(--fs-chat,15.5px)/1.55 var(--sans,"Hanken Grotesk",system-ui,sans-serif);
+ opacity:0;visibility:hidden;transform:translateY(14px) scale(.985);transform-origin:100% 100%;
+ transition:opacity .18s ease-in,transform .18s ease-in,visibility 0s linear .18s}
+.dxc-p.is-open{opacity:1;visibility:visible;transform:none;transition:opacity .3s cubic-bezier(.16,1,.3,1),transform .42s cubic-bezier(.16,1,.3,1),visibility 0s}
+:root[data-theme=dark] .dxc-p{--c-bg:var(--d-surf,#1f1f1f);--c-ink:var(--d-ink,#fff);--c-mut:var(--d-mut,rgba(255,255,255,.72));--c-line:rgba(255,255,255,.12);--c-line2:rgba(255,255,255,.3);
+ --c-field:rgba(255,255,255,.06);--c-link:#eaa3cf;--c-ring:#eaa3cf}
+.dxc-p *{box-sizing:border-box}
+.dxc-p:focus{outline:none}
+.dxc-p :focus-visible{outline:2px solid var(--c-ring);outline-offset:3px}
+.dxc-p [hidden]{display:none!important}
+.dxc-p svg{flex:none}
+.dxc-p button,.dxc-p input,.dxc-p textarea{font-family:var(--sans,"Hanken Grotesk",system-ui,sans-serif)}
+.dxc-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.dxc-scrim{position:fixed;inset:0;z-index:84;background:rgba(22,22,22,.42);opacity:0;visibility:hidden;transition:opacity .25s,visibility 0s .25s}
+.dxc-p>.dxc-h,.dxc-p>.dxc-stage,.dxc-p>.dxc-c{flex:none}
+
+/* ---------- header: the brand band; the Dolphin mark on its white round, the title, one status line, two round controls ---------- */
+.dxc-h{display:flex;align-items:center;gap:12px;min-height:72px;padding:12px 6px 12px 14px;background:var(--c-grad);color:#fff;border-radius:24px 24px 0 0}
+.dxc-brand{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#fff}
+.dxc-brand img{display:block;width:32px;height:32px;object-fit:contain}
+.dxc-ht{flex:1;min-width:0}
+.dxc-ht h2{margin:0;font:400 20px/1.2 var(--serif,"Bodoni Moda",Georgia,serif);letter-spacing:.005em;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dxc-ht p{margin:3px 0 0;font-size:12.5px;line-height:1.35;color:rgba(255,255,255,.86);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dxc-hb{flex:none;display:flex;align-items:center;gap:2px}
+.dxc-tb{position:relative;display:inline-grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:transparent;color:#fff;cursor:pointer;transition:background .18s ease-out}
+.dxc-tb:hover{background:rgba(255,255,255,.14)}
+.dxc-p .dxc-tb:focus-visible{outline-color:#fff;outline-offset:1px}
+.dxc-tb svg{width:22px;height:22px}
+.dxc-tb .i-ast,.dxc-tb.is-sup .i-sup{display:none}.dxc-tb.is-sup .i-ast{display:block}
+.dxc-tb.has-new::after{content:"";position:absolute;top:9px;right:9px;width:9px;height:9px;border-radius:50%;background:#fff}
+
+/* ---------- Asha's stage: her cut-out (head to chest) on the left, her outfits on the right; stays in view while she talks ---------- */
+.dxc-stage{display:flex;align-items:flex-end;gap:10px;height:96px;padding:0 12px 0 10px;border-bottom:1px solid var(--c-line);background:var(--c-bg)}
+.dxc-hav{position:relative;flex:none;width:84px;height:96px;overflow:hidden}
+.dxc-hav-img{position:absolute;left:12px;bottom:14px;width:64px;height:64px;border-radius:50%;background:#f1e9ec;object-fit:cover}
+:root[data-theme=dark] .dxc-hav-img{background:#262626}
+.dxc-hav .dxa{border-radius:0;overflow:visible}
+.dxc-hav .dxa-fig{height:118px;top:-2px;bottom:auto}   /* head to chest, so her kurtha / sari shows */
+.dxc-looks{display:flex;align-items:center;gap:8px;margin-left:auto;align-self:center}
+.dxc-looks-l{font-size:12.5px;color:var(--c-mut)}
+.dxc-thumb{width:36px;height:36px;padding:0;border:0;border-radius:50%;cursor:pointer;background:#efe6ea 50% 0/58px auto no-repeat;background-position:-11px -20px;opacity:.72;transition:opacity .18s,box-shadow .18s}
+.dxc-thumb:hover{opacity:1}
+.dxc-thumb[aria-pressed=true]{opacity:1;box-shadow:0 0 0 2px var(--c-bg),0 0 0 4px var(--c-link)}
+:root[data-theme=dark] .dxc-thumb{background-color:rgba(255,255,255,.1)}
+
+/* the photo rig (js/asha-live.js): a body photo per gesture (cross-fade) with face, eye and mouth patches on top; breathing and a slight sway */
+.dxa{display:block;position:relative;width:100%;height:100%;overflow:hidden}
+.dxa-fig{position:absolute;display:block;aspect-ratio:4/5;transform-origin:50% 100%;animation:dxaBreath 5.2s ease-in-out infinite}
+.dxa-body{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .28s ease-out;user-select:none}
+.dxa-body.is-on{opacity:1}
+.dxa-face{position:absolute;visibility:hidden;user-select:none;pointer-events:none}
+.dxa-v-bust .dxa-fig{left:50%;bottom:0;height:100%;transform:translateX(-50%)}
+.dxa-v-face .dxa-fig{width:236%;left:-68%;top:-58%;animation:none}
+.dxa-v-bust.is-pop .dxa-fig{animation:dxaPop .45s cubic-bezier(.16,1,.3,1),dxaBreath 5.2s ease-in-out .45s infinite}
+@keyframes dxaBreath{0%,100%{transform:translateX(-50%) scale(1) rotate(0)}35%{transform:translateX(-50%) scale(1.008) rotate(.35deg)}70%{transform:translateX(-50%) scale(1.003) rotate(-.3deg)}}
+@keyframes dxaPop{from{transform:translateX(-50%) scale(.985) translateY(3px)}to{transform:translateX(-50%)}}
+
+/* ---------- body ---------- */
+.dxc-p>.dxc-b{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:18px 18px 10px;scroll-behavior:smooth}
+.dxc-start{padding:0 4px 8px}
+.dxc-start h3,.dxc-sv h3{margin:0 0 10px;font:400 25px/1.15 var(--serif,"Bodoni Moda",Georgia,serif);color:var(--c-ink)}
+.dxc-start p,.dxc-sv p{margin:0 0 20px;color:var(--c-mut);font-size:15px}
+.dxc-p.has-msgs .dxc-start{display:none}
+.dxc-row{display:flex;flex-wrap:wrap;gap:8px}
+.dxc-pill{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border:0;border-radius:999px;background:rgba(22,22,22,.07);color:var(--c-ink);
+ font:500 14px/1.25 var(--sans,system-ui,sans-serif);letter-spacing:.005em;text-align:left;text-decoration:none;cursor:pointer;transition:background .18s ease-out,transform .18s ease-out}
+.dxc-p a.dxc-pill{display:inline-flex;margin:0;padding:0 18px}   /* beats the site's touch-target padding on tel: links */
+.dxc-pill:hover{background:rgba(109,20,40,.1);transform:translateY(-1px)}
+:root[data-theme=dark] .dxc-pill{background:rgba(255,255,255,.12)}:root[data-theme=dark] .dxc-pill:hover{background:rgba(255,255,255,.2)}
+.dxc-pill[aria-pressed=true]{color:var(--c-link)}
+.dxc-pill.has-i,.dxc-p a.dxc-pill.has-i{gap:9px;padding-left:15px}
+.dxc-pill.has-i svg{width:19px;height:19px}
+.dxc-p .dxc-pill-p,.dxc-p .dxc-pill-p:hover{background:var(--c-grad);color:#fff}
+
+/* ---------- messages: the visitor's own in the brand fill; Asha's as flat text with her small picture at the first line ---------- */
+.dxc-msgs{display:flex;flex-direction:column;gap:14px}
+.dxc-m{max-width:100%;animation:dxcIn .42s cubic-bezier(.16,1,.3,1) both;overflow-wrap:anywhere}
+.dxc-m.u{align-self:flex-end;max-width:82%;padding:10px 16px;border-radius:18px 18px 6px 18px;color:#fff;background:var(--c-grad);white-space:pre-wrap}
+.dxc-m.b{align-self:flex-start;color:var(--c-ink)}
+.dxc-m.b p{margin:0}
+.dxc-m.b p+p,.dxc-m.b ul+p{margin-top:8px}
+.dxc-m.b ul.dxc-ls{list-style:none;margin:10px 0 0;padding:0}
+.dxc-m.b .dxc-ls li{position:relative;margin:0;padding:7px 0 7px 18px;border-top:1px solid var(--c-line)}
+.dxc-ls li:first-child{border-top:0;padding-top:2px}
+.dxc-ls li::before{content:"\2013";position:absolute;left:0;color:var(--c-link)}
+.dxc-ls strong{font-weight:600}
+.dxc-r{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.dxc-r.is-old>*,.dxc-r.is-old .dxc-card{animation:none}
+.dxc-p.is-asha .dxc-r{padding-left:44px}
+.dxc-p.is-asha .dxc-r::before{content:"";position:absolute;left:0;top:0;width:34px;height:40px;border-radius:12px;background:#f1e9ec var(--asha-ava) -24px -18px/82px auto no-repeat;transition:box-shadow .2s ease-out}
+:root[data-theme=dark] .dxc-p.is-asha .dxc-r::before{background-color:rgba(255,255,255,.1)}
+.dxc-p.is-asha .dxc-r.is-reading::before{box-shadow:0 0 0 2px var(--c-bg),0 0 0 3.5px var(--c-link)}
+.dxc-cards{display:grid;gap:2px;width:100%}
+.dxc-card{padding:2px 0 4px;animation:dxcIn .46s cubic-bezier(.16,1,.3,1) both}
+.dxc-ch{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:40px}
+.dxc-card h4{margin:0;font:400 19px/1.2 var(--serif,"Bodoni Moda",Georgia,serif);color:var(--c-ink)}
+.dxc-card dl{margin:2px 0 0}
+.dxc-kv{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:6px 0;border-top:1px solid var(--c-line);font-size:14px;line-height:1.4}
+.dxc-kv:first-child{border-top:0}
+.dxc-kv dt{flex:1 1 auto;min-width:0;color:var(--c-mut)}
+.dxc-kv dd{flex:0 1 auto;margin:0;text-align:right;font-weight:500;color:var(--c-ink);font-variant-numeric:tabular-nums}
+.dxc-kv.is-short dd{flex:none;white-space:nowrap}
+.dxc-kv.is-muted dd{font-weight:400;color:var(--c-mut)}
+.dxc-cb{margin:4px 0 0;font-size:14px;line-height:1.5;color:var(--c-ink)}
+.dxc-p a.dxc-pill-s{flex:none;min-height:40px;padding:0 14px;font-size:13px}
+.dxc-m2 .dxc-cav{color:var(--c-mut);font-size:14px}
+.dxc-acts,.dxc-sug{display:flex;flex-wrap:wrap;gap:8px;align-self:flex-start;max-width:100%;animation:dxcIn .42s cubic-bezier(.16,1,.3,1) .06s both}
+.dxc-p .dxc-acts .dxc-pill{min-height:40px;padding:0 16px}
+.dxc-sug{gap:6px 8px;margin-top:-2px}
+.dxc-p.is-asha .dxc-sug{max-width:calc(100% - 44px);margin-left:44px}
+.dxc-p .dxc-sug .dxc-pill{min-height:40px;padding:8px 14px;white-space:normal;line-height:1.3;color:var(--c-mut)}
+.dxc-sug .dxc-pill:hover{color:var(--c-ink)}
+.dxc-note{align-self:center;margin:4px 0;font-size:13px;color:var(--c-mut);text-align:center}
+/* typing: three soft dots */
+.dxc-typing{display:inline-flex;gap:5px;align-items:center;padding:16px 18px}
+.dxc-p.is-asha .dxc-typing{margin-left:44px}
+.dxc-typing i{width:7px;height:7px;border-radius:50%;background:var(--c-link);opacity:.3;animation:dxcDot 1.2s ease-in-out infinite}
+.dxc-typing i:nth-child(2){animation-delay:.16s}.dxc-typing i:nth-child(3){animation-delay:.32s}
+/* Listen / Stop under each reply (shown once a voice is available) */
+.dxc-listen{display:none;align-items:center;gap:6px;min-height:34px;margin:-2px 0 0 -8px;padding:0 12px 0 8px;border:0;border-radius:999px;background:transparent;
+ color:var(--c-link);font:600 13px/1 var(--sans,"Hanken Grotesk",system-ui,sans-serif);letter-spacing:.01em;cursor:pointer;transition:background .18s ease-out}
+.dxc-p.can-read .dxc-listen{display:inline-flex}
+.dxc-listen:hover{background:rgba(109,20,40,.07)}
+:root[data-theme=dark] .dxc-listen:hover{background:rgba(255,255,255,.1)}
+.dxc-listen svg{width:18px;height:18px}
+.dxc-listen .i-s,.dxc-listen[aria-pressed=true] .i-l{display:none}
+.dxc-listen[aria-pressed=true] .i-s{display:block}
+@media (pointer:coarse){.dxc-listen{min-height:44px}}
+@keyframes dxcDot{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:.9;transform:translateY(-3px)}}
+@keyframes dxcIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ---------- support view and the leave-a-message form ---------- */
+.dxc-sv{padding:0 4px 16px}
+.dxc-sv .dxc-hrs{margin:-4px 0 16px;font-size:13px;color:var(--c-mut)}
+.dxc-f{margin-top:16px;display:grid;gap:12px;animation:dxcIn .42s cubic-bezier(.16,1,.3,1) both}
+.dxc-f label{display:grid;gap:6px;font-size:13px;font-weight:500;color:var(--c-mut)}
+.dxc-f input,.dxc-f textarea{width:100%;min-height:48px;padding:12px 16px;border:1px solid transparent;border-radius:14px;background:var(--c-field);color:var(--c-ink);font:400 var(--fs-input,16.5px)/1.4 var(--sans,system-ui,sans-serif)}
+.dxc-f textarea{min-height:88px;resize:vertical}
+.dxc-f input:focus,.dxc-f textarea:focus{outline:2px solid var(--c-ring);outline-offset:3px;border-color:var(--c-link)}
+.dxc-f [aria-invalid=true]{border-color:#b3261e}
+:root[data-theme=dark] .dxc-f [aria-invalid=true]{border-color:#ffb4ab}
+.dxc-f .dxc-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.dxc-f .dxc-cons{margin:0;font-size:13px;line-height:1.45;color:var(--c-mut)}
+.dxc-f .dxc-err{margin:0;font-size:14px;color:#b3261e}
+:root[data-theme=dark] .dxc-f .dxc-err{color:#ffb4ab}
+.dxc-ok{margin-top:16px;padding:16px 0;animation:dxcIn .42s cubic-bezier(.16,1,.3,1) both}
+.dxc-ok strong{display:block;margin-bottom:4px;font:400 20px/1.2 var(--serif,Georgia,serif)}
+.dxc-f ::placeholder{color:var(--c-mut);opacity:.85}
+
+/* ---------- live chat with a counsellor (js/chat-live.js): fills the panel, messages from the top, the field at the bottom ---------- */
+.dxc-sv.is-live{min-height:100%;display:flex;flex-direction:column;padding-bottom:0}
+.dxc-sv.is-live>h3,.dxc-sv.is-live>p,.dxc-sv.is-live>[data-sacts],.dxc-sv.is-live>[data-lead]{display:none}
+.dxc-lv{margin:0 0 18px}
+.dxc-sv.is-live .dxc-lv{flex:1;display:flex;flex-direction:column;margin:0}
+.dxc-sv.is-live .dxc-lv-t{flex:1;display:flex;flex-direction:column}
+.dxc-lv-st{margin:0 0 10px!important;font-size:14px!important;color:var(--c-ink)!important}
+.dxc-lv-who{margin:0 0 6px!important;font:400 22px/1.2 var(--serif,"Bodoni Moda",Georgia,serif)!important;color:var(--c-ink)!important}
+.dxc-lv .dxc-f{margin-top:12px}
+.dxc-lv .dxc-msgs{padding-top:4px}
+.dxc-lv .dxc-m p{margin:0;color:inherit;font-size:inherit}
+.dxc-lv .dxc-note{margin:4px 0;font-size:13px;color:var(--c-mut)}
+.dxc-lv .dxc-err{margin:8px 0 0;font-size:14px;color:#b3261e}
+:root[data-theme=dark] .dxc-lv .dxc-err{color:#ffb4ab}
+.dxc-lv-n{display:block;margin:0 0 2px;font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--c-link)}
+.dxc-lv-typ{min-height:20px;margin:6px 0 0!important;font-size:13px!important;color:var(--c-mut)!important}
+.dxc-lv-typ:empty{min-height:0}
+.dxc-lv-tools{gap:4px 18px;margin:8px 0 0}
+.dxc-lv-c{position:sticky;bottom:-8px;z-index:1;margin:10px -4px 0;padding:10px 0 12px;background:var(--c-bg)}
+.dxc-sv.is-live .dxc-lv-c{margin-top:auto}
+.dxc-lnk{min-height:44px;padding:0;border:0;background:none;color:var(--c-link);font:500 14px/1.2 var(--sans,system-ui,sans-serif);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.dxc-lnk[disabled]{opacity:.5;cursor:default}
+
+/* ---------- composer: speaker, field, mic and the round send button on one centred line, every target 44 px or more ---------- */
+.dxc-c{display:flex;align-items:center;flex-wrap:nowrap;gap:6px;padding:12px 14px calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--c-line);background:var(--c-bg)}
+.dxc-c textarea{flex:1;min-width:0;height:48px;max-height:120px;padding:13px 16px;border:1px solid transparent;border-radius:24px;background:var(--c-field);color:var(--c-ink);
+ font:400 15px/22px var(--sans,system-ui,sans-serif);resize:none;overflow-y:hidden}
+.dxc-c textarea::placeholder{color:var(--c-mut);opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dxc-c textarea:focus{outline:2px solid var(--c-ring);outline-offset:3px;border-color:var(--c-link)}
+.dxc-vb{flex:none;display:inline-grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--c-mut);cursor:pointer;transition:background .18s ease-out}
+.dxc-vb:hover{background:rgba(109,20,40,.08);color:var(--c-ink)}
+:root[data-theme=dark] .dxc-vb:hover{background:rgba(255,255,255,.1)}
+.dxc-vb svg{width:22px;height:22px}
+.dxc-vb .dxc-v-on,.dxc-vb[aria-pressed=true] .dxc-v-off{display:none}
+.dxc-vb[aria-pressed=true] .dxc-v-on{display:inline}
+.dxc-vb[aria-pressed=true],.dxc-mic[aria-pressed=true]{background:var(--c-grad);color:#fff}
+.dxc-mic[aria-pressed=true]{animation:dxcRec 1.4s ease-in-out infinite}
+@keyframes dxcRec{50%{opacity:.75}}
+.dxc-send{flex:none;display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border:0;border-radius:999px;color:#fff;cursor:pointer;
+ font:500 15px/1 var(--sans,system-ui,sans-serif);letter-spacing:.01em;background:var(--c-grad);transition:transform .18s ease-out,opacity .18s}
+.dxc-send:hover{transform:translateY(-2px)}
+.dxc-send:active{transform:translateY(1px)}
+.dxc-send[disabled]{opacity:.45;cursor:default;transform:none}
+.dxc-p .dxc-send-i{width:48px;height:48px;min-height:48px;padding:0;border-radius:50%}
+.dxc-send-i svg{width:22px;height:22px;margin-left:-2px}
+
+/* the launcher lifts above the footer bar so Privacy / Terms are never under it (js/chat.js sets --dxc-lift) */
+.dx-dock .dxc-l{translate:0 0;transition:translate .3s cubic-bezier(.16,1,.3,1),opacity .25s ease,transform .25s ease}
+html.dxc-lift .dx-dock .dxc-l{translate:0 calc(-1 * var(--dxc-lift,0px))}
+
+/* ---------- phones: a full-height sheet from the bottom that follows the visible viewport (chat.js fitVV), the page dimmed behind ---------- */
+@media (max-width:640px){
+ .dxc-p{left:0;right:0;width:auto;border-radius:24px 24px 0 0;transform:translateY(100%);transform-origin:50% 100%;
+  top:calc(var(--dxc-vvt,0px) + max(12px,env(safe-area-inset-top)));bottom:auto;
+  height:calc(100vh - max(12px,env(safe-area-inset-top)));height:calc(var(--dxc-vvh,100dvh) - max(12px,env(safe-area-inset-top)));
+  transition:transform .26s cubic-bezier(.4,0,1,1),opacity .26s,visibility 0s linear .26s}
+ .dxc-p.is-open{transform:none;transition:transform .46s cubic-bezier(.16,1,.3,1),opacity .2s,visibility 0s}
+ .dxc-h{padding:12px 6px 12px 14px}
+ .dxc-p>.dxc-b{padding:16px 14px 8px}
+ .dxc-c{padding:10px 10px calc(10px + env(safe-area-inset-bottom))}
+ .dxc-c textarea,.dxc-f input,.dxc-f textarea{font-size:16px}   /* 16 px stops iOS zooming into the field */
+ .dxc-on .dxc-scrim{opacity:1;visibility:visible;transition:opacity .3s}
+ .dxc-on .dxc-l{opacity:0;visibility:hidden;pointer-events:none}
+ html.dxc-on,html.dxc-on body{overflow:hidden}
+}
+
+/* ---------- reduced motion and print ---------- */
+@media (prefers-reduced-motion:reduce){
+ .dxc-p,.dxc-p.is-open,.dxc-scrim{transition:opacity .01s,visibility 0s}
+ .dxc-p{transform:none}
+ .dxc-m,.dxc-acts,.dxc-sug,.dxc-f,.dxc-ok,.dxc-card{animation:none}
+ .dxc-typing i{animation:none;opacity:.6}
+ .dxc-p>.dxc-b{scroll-behavior:auto}
+ .dxc-pill:hover,.dxc-send:hover{transform:none}
+ .dxa-fig,.dxa-v-bust.is-pop .dxa-fig,.dxc-mic[aria-pressed=true]{animation:none}
+ .dxa-body,.dx-dock .dxc-l{transition:none}
+}
+@media print{.dxc-p,.dxc-scrim{display:none}}

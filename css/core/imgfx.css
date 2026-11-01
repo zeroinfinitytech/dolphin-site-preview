@@ -1,0 +1,39 @@
+/* imgfx.css (sweep v8.13): Dolphin watermark on content photographs and the shared image motion (js/imgfx.js). Tokens: css/site.css (sweep v8.13 block). */
+/* watermark (user rule 2026-10-30): small, the same place on every photo (bottom-right), barely there at rest, clear when the photo is zoomed.
+   White mark cut from img/logo-light.png; fixed to the photo's frame, never scaled with the photo; sized in photo-relative units (grows with zoom) */
+.wm{position:absolute;z-index:3;right:var(--wm-gap);bottom:var(--wm-gap);width:clamp(var(--wm-min),var(--wm-w),var(--wm-max));aspect-ratio:243/201;
+ background:url(../../img/wm/dolphin-mark-white.png) no-repeat center/contain;opacity:var(--wm-o);transition:opacity .4s var(--ease-out);
+ pointer-events:none;user-select:none;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html.wm-hi .wm{opacity:var(--wm-o-hi)}
+@media(hover:hover) and (pointer:fine){:hover>.wm{opacity:var(--wm-o-zoom)}}
+:focus-within>.wm,.zoomed>.wm,.zoomed .wm{opacity:var(--wm-o-zoom)}
+.wm.wm-near{opacity:var(--wm-o-touch)}
+/* GSAP writes scale:none inline on what it animates; the photo's own scale is a separate individual property, so these rules are !important */
+/* entrance: hidden state only while html.imx-on (never under reduced motion) and only for frames below the fold at load */
+html.imx-on .imx:not(.imx-in)>img{opacity:0;scale:1.04!important}
+html.imx-on .imx[data-reveal=clip]:not(.imx-in){clip-path:inset(4% round var(--imx-r,24px))}
+.imx.imx-run>img{transition:opacity var(--dur-in) var(--ease-calm) var(--imx-d,0ms),scale var(--dur-zoom) var(--ease-calm) var(--imx-d,0ms);will-change:opacity,scale}
+.imx.imx-run[data-reveal=clip]{clip-path:inset(0 round var(--imx-r,24px));transition:clip-path var(--dur-zoom) var(--ease-calm) var(--imx-d,0ms);will-change:clip-path}
+@media(max-width:700px){html.imx-on .imx:not(.imx-in)>img{scale:1.03!important}}
+/* hover (fine pointers): a slow 1.05 zoom inside the frame; the frame and the watermark stay put */
+@media(hover:hover) and (pointer:fine){.imx-h.imx-in:not(.imx-run)>img{transition:scale 1.1s var(--ease-calm)}.imx-h.imx-in:not(.imx-run):hover>img{scale:1.03!important}}
+/* lazy photos: fade in on decode over the dominant colour (no pop) */
+img.imx-lz{opacity:0;transition:opacity .9s var(--ease-calm)}
+img.imx-lz.imx-lzin{opacity:1}
+@media(prefers-reduced-motion:reduce){html.imx-on .imx:not(.imx-in)>img,img.imx-lz{opacity:1;scale:none}.imx[data-reveal]{clip-path:none!important}}
+
+/* banner motion (js/imgfx.js DX.bannerMotion), soft: settle 1.04 -> 1 once on first view (2.4 s), then a barely-there push-in 1 -> 1.03 (18 s) while on screen. The individual
+   `scale` property only (the scroll parallax uses `transform`); !important because GSAP writes scale:none inline and the first-visit intro settle
+   (site.css html.intro) would otherwise replace it. Never below 1, so the photo always covers its clipped frame. */
+@keyframes bm-out{from{scale:1.04}to{scale:1}}
+img.bm:not(.bm-go){scale:1.04!important}   /* waiting state = the first keyframe, so the start never jumps */
+@keyframes bm-in{from{scale:1}to{scale:1.03}}
+img.bm.bm-go{animation:bm-out 2.4s var(--ease-calm) both,bm-in 18s ease-in-out 2.4s infinite alternate!important;will-change:scale}
+img.bm.bm-pause{animation-play-state:paused!important;will-change:auto}
+@media(max-width:700px){img.bm:not(.bm-go){scale:1.03!important}@keyframes bm-out{from{scale:1.03}to{scale:1}}@keyframes bm-in{from{scale:1}to{scale:1.02}}}
+@media(prefers-reduced-motion:reduce){img.bm.bm-go{animation:none!important}img.bm:not(.bm-go){scale:none!important}}
+
+/* ==== 2026-10-31 motion alignment (js/reveal.js): card photos settle from the same 1.03 as every other photo, on the same ~0.9 s feel ==== */
+html.imx-on .imx:not(.imx-in)>img{scale:1.03!important}
+.imx.imx-run>img{transition-duration:.9s,.9s}
+.imx.imx-run[data-reveal=clip]{transition-duration:.9s}

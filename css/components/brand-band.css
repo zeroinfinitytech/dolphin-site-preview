@@ -1,0 +1,146 @@
+/* Brand bands (2026-11-01, js/brand-band.js): the Dolphin logo, one Dolphin line, the band's points, then one piece of real moving proof.
+   One family on every page, one type scale, layouts by data-bb-l: lockup, stack, duo, centre, cta. White type on --cta-grad in both themes.
+   No boxes, borders, dividers, shadows or overlays, with ONE exception (user, 2026-11-01): logos sit in their real colours on white rounded
+   pills (the Dolphin logo and every partner logo), all pills one height, every logo whole. */
+.bb-band{position:relative;background:var(--cta-grad);color:#fff;padding:clamp(64px,8vw,112px) 0;--ink:#fff;--mut:rgba(255,255,255,.88)}
+.bb-band :focus-visible{outline-color:#fff}
+
+/* ---- room for the site header: the logo pill never sits under the bar (var(--hdr)) when the band's top rests at the top of the screen ---- */
+section[data-bb]{padding-top:max(clamp(64px,8vw,112px),calc(var(--hdr,82px) + 44px))}
+
+/* ---- type scale (the same on every band) ---- */
+section[data-bb]{--bb-h1:clamp(32px,3.3vw,50px);--bb-t:clamp(20px,1.6vw,26px);--bb-q:clamp(19px,1.45vw,22px);--bb-rh:clamp(40px,4.6vw,64px)}
+.bb-k{margin:0 0 18px;font:600 12px/1.4 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.88)}
+.bb-a{font:400 var(--bb-t)/1.25 var(--serif);color:#fff}
+.bb-b{font:600 12px/1.5 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.88)}
+.bb-sr{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;list-style:none}
+
+/* ---- head: logo pill + the Dolphin line, the band's heading ---- */
+.bb-h{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(18px,2vw,26px);margin:0 0 var(--bb-rh)}
+.bb-lw{flex:none;display:inline-flex;align-items:center;justify-content:center;background:#fff;border-radius:999px;padding:clamp(12px,1.1vw,16px) clamp(22px,2vw,30px)}
+.bb-logo{display:block;width:clamp(150px,12vw,188px);height:auto}
+.bb-line{margin:0;font:400 var(--bb-h1)/1.1 var(--serif);letter-spacing:-.015em;color:#fff;max-width:20ch;text-wrap:balance;text-shadow:none}
+.bb-line em{font-style:italic;background:linear-gradient(135deg,#fff 0%,#ffd3eb 100%);-webkit-background-clip:text;background-clip:text;color:#fff;-webkit-text-fill-color:transparent;padding-right:.06em}
+
+/* ---- points: the band's own facts. No dividers; big figures only for real numbers (home); elsewhere a serif title + a one-line note ---- */
+section[data-bb] .st-g li,section[data-bb] :is(.ev-fg,.gl-fg,.tp-fg,.vd-fg) li{border:0!important;padding:0!important;min-width:0}
+section[data-bb] .st-g{column-gap:clamp(28px,3.4vw,56px)}
+section[data-bb] .st-t{font-size:var(--bb-t)}
+section[data-bb] :is(.ev-fg,.gl-fg,.tp-fg,.vd-fg){display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:36px clamp(28px,3.4vw,56px);margin:0}
+section[data-bb] .gl-fg{grid-template-columns:repeat(5,minmax(0,1fr))}
+section[data-bb] :is(.ev-fg,.gl-fg,.tp-fg,.vd-fg) li{display:block}
+section[data-bb] :is(.ev-fn,.tp-fn,.ev-ft,.tp-ft,.gl-ft,.vd-ft){display:inline-block;font:400 var(--bb-t)/1.25 var(--serif);letter-spacing:0;color:#fff;margin:0}
+/* "Free" + "To attend" read as one title, "Free to attend" (each part stays its own text node for the translations) */
+section[data-bb] :is(.ev-fn,.tp-fn){margin-right:.26em}   /* the space sits after the first word, so a wrapped second part starts flush left */
+section[data-bb] :is(.ev-ft,.tp-ft)::first-letter{text-transform:lowercase}
+section[data-bb=events] .ev-fg li:nth-child(3) .ev-ft::first-letter{text-transform:none}   /* "IELTS" keeps its capitals */
+section[data-bb] :is(.gl-fn,.vd-fn){display:none}   /* 01, 02 … are list positions, not figures */
+section[data-bb] :is(.ev-fk,.gl-fk,.tp-fk,.vd-fk){display:block;margin-top:10px;font:600 12px/1.5 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.88);max-width:30ch}
+
+/* ---- proof ---- */
+.bb-ps{display:grid;gap:var(--bb-rh);margin-top:var(--bb-rh);min-width:0}
+.bb-band .bb-ps{margin-top:0}
+.bb-p{min-width:0}
+
+/* logo pills (brand-band.js sizes each logo optically: --lw/--lh desktop, --mw/--mh phones): used where a logo sits on the pink (visa card,
+   destinations); the carousels below put their logos on one white strip instead */
+.bb-lp{--bb-pad:0px;--bb-gap:72px;--bb-ph:auto;min-width:0}
+.bb-pl{flex:none;display:inline-flex;align-items:center;justify-content:center;background:#fff;border-radius:999px;height:var(--bb-ph,76px);padding:0 var(--bb-pad,28px);box-sizing:border-box}
+.bb-pl img{display:block;width:var(--lw);height:var(--lh);max-width:none;object-fit:contain}
+/* the logo strip: one white band, edge to edge across the screen (white in both themes), logos in their real colours, evenly spaced */
+.bb-lp .bb-pl{background:none;border-radius:0;height:auto;padding:0}
+.bb-ps .bb-lp .bb-mq{background:#fff;padding:clamp(22px,2.4vw,32px) 0}
+.bb-lp-row{display:flex;flex-wrap:wrap;align-items:center;gap:18px var(--bb-gap)}
+.bb-ps .bb-lp-row{box-sizing:border-box;width:var(--bb-vw,100vw);margin-left:calc(50% - var(--bb-vw,100vw) / 2);background:#fff;padding:clamp(22px,2.4vw,32px) calc(var(--bb-vw,100vw) / 2 - 50%)}
+
+/* marquee: full width of the screen, edge to edge (no clip line inside the band, no fade, no overlay); the eyebrow above stays on the
+   content column. A doubled run moved by half = a seamless loop: pills enter at the right edge of the screen and leave at the left. */
+.bb-mq{overflow:hidden}
+.bb-ps .bb-mq{width:var(--bb-vw,100vw);margin-left:calc(50% - var(--bb-vw,100vw) / 2)}
+.bb-mq-t{display:flex;width:max-content;animation:bb-mq var(--bb-d,60s) linear infinite}
+.bb-mq-l{list-style:none;margin:0;padding:0 clamp(30px,3.6vw,56px) 0 0;display:flex;align-items:center;gap:clamp(30px,3.6vw,56px)}
+.bb-lp .bb-mq-l{gap:var(--bb-gap);padding-right:var(--bb-gap)}
+.bb-mq-l li{flex:none;display:flex;align-items:baseline;gap:12px}
+.bb-mq.bb-off .bb-mq-t,.bb-mq.bb-hold .bb-mq-t{animation-play-state:paused}
+@keyframes bb-mq{to{transform:translateX(-50%)}}
+.bb-mq.bb-still .bb-mq-t{animation:none;width:auto}
+.bb-mq.bb-still .bb-mq-l{flex-wrap:wrap;row-gap:14px;padding:0}
+.bb-mq.bb-still .bb-mq-l[aria-hidden]{display:none}
+
+/* rotators: every item in one grid cell, so the tallest sets the height and nothing jumps */
+.bb-rot{display:grid}
+.bb-ri{grid-area:1/1;display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0;opacity:0;visibility:hidden;transform:translateY(10px);
+ transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1),visibility 0s linear .9s}
+.bb-ri.on{opacity:1;visibility:visible;transform:none;transition-delay:.3s,.3s,0s}
+
+/* kinds */
+.bb-q{margin:0;font:400 var(--bb-q)/1.45 var(--serif);color:#fff;max-width:52ch;text-wrap:pretty}
+.bb-at{display:flex;flex-direction:column;gap:6px}
+.bb-review .bb-ri{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:clamp(28px,3.4vw,56px);align-items:start}   /* the points' grid: the quote starts on the second column */
+.bb-review .bb-q{grid-column:2/span 3;grid-row:1}
+.bb-review .bb-at{grid-column:1;grid-row:1}
+.bb-vline .bb-ri{flex-direction:row;align-items:baseline;flex-wrap:wrap;gap:6px 18px}
+.bb-vcard .bb-v{display:block;margin:0 0 12px}
+.bb-vcard .bb-a,.bb-team .bb-a{font-size:var(--bb-h1);line-height:1.08;letter-spacing:-.01em}
+.bb-of{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:20px clamp(40px,5vw,88px)}
+.bb-of li{display:flex;flex-direction:column;gap:8px;opacity:.55;transition:opacity 1s cubic-bezier(.16,1,.3,1)}
+.bb-of li.on{opacity:1}
+.bb-atlas .bb-ri{flex-direction:row;align-items:center;flex-wrap:wrap;gap:16px clamp(28px,3.4vw,56px)}
+.bb-atlas .bb-cn{font-size:var(--bb-h1);line-height:1.05;min-width:7ch}
+.bb-lg{display:flex;flex-wrap:wrap;align-items:center;gap:14px 16px}
+.bb-lg .bb-pl{--bb-ph:68px;--bb-pad:24px}
+
+/* ---- layouts ---- */
+/* lockup: logo pill and the line on one row */
+[data-bb-l=lockup] .bb-h{flex-direction:row;flex-wrap:wrap;align-items:center;gap:18px clamp(24px,2.6vw,40px)}
+[data-bb-l=lockup] .bb-line{max-width:none}
+/* duo: a new band with no points of its own: brand on the left, the proof on the right */
+[data-bb-l=duo] > .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);column-gap:clamp(40px,6vw,112px);align-items:center}
+[data-bb-l=duo] .bb-h{margin:0}
+[data-bb-l=duo] .bb-review .bb-ri{grid-template-columns:minmax(0,1fr);row-gap:18px}
+[data-bb-l=duo] .bb-review .bb-q,[data-bb-l=duo] .bb-review .bb-at{grid-column:1;grid-row:auto}
+/* centre */
+[data-bb-l=centre] .bb-h{align-items:center;text-align:center}
+[data-bb-l=centre] .bb-line{margin-inline:auto}
+[data-bb-l=centre] .bb-ps{justify-items:center;text-align:center}
+[data-bb-l=centre] .bb-of{justify-content:center}
+[data-bb-l=centre] .bb-of li{align-items:center}
+/* cta: the closing band keeps its heading; the logo sits above it, the proof above the buttons */
+[data-bb-l=cta] .bb-h{margin-bottom:clamp(24px,3vw,36px)}
+[data-bb-l=cta] .bb-ps{margin:clamp(28px,3vw,40px) 0 clamp(32px,3.4vw,44px)}
+
+@media(max-width:1100px){
+ section[data-bb] .gl-fg{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:900px){
+ section[data-bb] :is(.ev-fg,.tp-fg,.vd-fg,.gl-fg){grid-template-columns:repeat(2,minmax(0,1fr))}
+ [data-bb-l=duo] > .wrap{grid-template-columns:minmax(0,1fr)}
+ [data-bb-l=duo] .bb-h{margin-bottom:var(--bb-rh)}
+ .bb-review .bb-ri{grid-template-columns:minmax(0,1fr);row-gap:18px}
+ .bb-review .bb-q,.bb-review .bb-at{grid-column:1;grid-row:auto}
+}
+@media(max-width:700px){
+ .bb-logo{width:132px}.bb-lw{padding:11px 20px}
+ .bb-lp{--bb-gap:44px}.bb-pl img{width:var(--mw);height:var(--mh)}.bb-lg .bb-pl{--bb-ph:56px;--bb-pad:16px}.bb-vcard .bb-pl{--bb-ph:58px;--bb-pad:18px}
+ section[data-bb] :is(.ev-fg,.tp-fg,.vd-fg,.gl-fg){gap:28px 20px}
+ section[data-bb] .st-g{column-gap:20px}
+ .bb-q{font-size:18px}
+}
+@media(max-width:360px){
+ section[data-bb] :is(.ev-fg,.tp-fg,.vd-fg,.gl-fg){grid-template-columns:minmax(0,1fr)}
+}
+@media(prefers-reduced-motion:reduce){
+ .bb-ri{transition:none}.bb-of li{opacity:1;transition:none}
+ .bb-mq-t{animation:none;width:auto}.bb-mq-l{flex-wrap:wrap;row-gap:14px;padding:0}.bb-mq-l[aria-hidden]{display:none}
+}
+/* visa line with the institution's logo pill (2026-11-01): the logo sits on its own row above "name · institution", same pill as the card */
+.bb-vline .bb-ri{align-items:center}
+.bb-vline .bb-v{display:block;flex:0 0 100%;margin:0 0 10px}
+.bb-vline .bb-pl{--bb-ph:52px;--bb-pad:16px}
+:is(.bl-cta,.tp-cta,.ev-cta,.gl-cta,.vd-cta) .bb-vline .bb-ri{justify-content:center} /* centred closing bands: name and institution centred under the logo */
+/* logo pills with room (2026-11-01, user: logo spilling out / "small, congested"): the pill grows with its logo instead of a fixed height,
+   with even padding all round, so tall crests (NorthTec, Lincoln) sit fully inside the white shape; the strip marquee (.bb-lp) stays plain */
+.bb-pl{height:auto!important;min-height:var(--bb-ph,76px);padding:14px 30px!important}
+.bb-vline .bb-pl,.bb-vcard .bb-pl{padding:14px 32px!important}
+.bb-lp .bb-pl{min-height:0;padding:0!important}
+@media(max-width:700px){.bb-pl{padding:11px 22px!important}.bb-vline .bb-pl,.bb-vcard .bb-pl{padding:11px 24px!important}}

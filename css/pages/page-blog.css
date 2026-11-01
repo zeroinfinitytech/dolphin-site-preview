@@ -1,0 +1,302 @@
+/* Blog pages (2026-10-31, user: "proper UI"). Loaded only by blogs.html and blog-post.html, after site.css + pages-v7.css.
+   Same visual language as Test Preparation and Events (page-test-prep.css, page-events.css): photo-pair hero, full-width --cta-grad bands,
+   editorial rows on 1px hairlines with the short 44x2 brand-gradient accent, filter pills like Events. House rules: no boxes, no tinted cards,
+   no icons. Every colour is a theme token, except white type on the gradient bands. */
+
+/* shared: photo frame, small caps label, gradient accent bar */
+.bl .bl-ph{margin:0;border-radius:24px;overflow:hidden;background:var(--phc,var(--bg2))}
+.bl .bl-ph img{width:100%;height:100%;object-fit:cover;display:block}
+.bl-k,.bl-rt,.bl-wl,.bl-count,.bl-by{font:600 12px/1.4 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+@media(min-width:700px){.bl-k,.bl-rt,.bl-wl,.bl-count,.bl-by{font-size:13px}}
+.bl-row:before,.bl-pq:before,.bl-end:before{content:"";position:absolute;left:0;top:-1px;width:44px;height:2px;background:var(--cta-grad)}
+.bl-tl{display:inline-flex;align-items:center;min-height:44px;font:600 15px/1 var(--sans);color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:7px;text-decoration-color:var(--pink)}
+.bl-tl:hover{text-decoration-thickness:2px}
+
+/* 1 listing hero: copy left, a large photo with a smaller landscape over its lower-left corner (phones: copy, then one photo) */
+.bl-hero{position:relative;background:var(--bg);overflow:clip;padding:calc(var(--hdr,82px) + clamp(40px,6vw,96px)) 0 clamp(64px,8vw,120px)}
+.bl-hg{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,6vw,104px);align-items:center}
+.bl-ht{min-width:0}
+.bl-hero h1{font-size:clamp(42px,5.4vw,84px);line-height:1.02;letter-spacing:-.02em;max-width:12ch;margin:0 0 24px;text-wrap:balance}
+.bl-hero .lead{margin:0 0 34px;max-width:40ch}
+.bl-where{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 22px;margin:clamp(36px,4vw,52px) 0 0;padding-top:18px;border-top:1px solid var(--line);max-width:600px}
+.bl-where span:not(.bl-wl){font:400 clamp(19px,1.5vw,22px)/1.2 var(--serif);color:var(--ink)}
+.bl-wl{margin-right:2px}
+.bl-hp{position:relative;min-width:0;height:clamp(460px,44vw,640px)}
+.bl-ph-a{position:absolute;right:0;top:0;width:82%;height:calc(100% - 64px)}
+.bl-ph-b{position:absolute;left:0;bottom:0;width:44%;aspect-ratio:4/3;z-index:2}
+
+/* 2 the articles: filter pills, then the latest as a large feature and the rest as editorial rows.
+   The title link stretches over its row, so the whole row (photo included) is one tap target. */
+#articles,#more{scroll-margin-top:var(--hdr,82px)}
+.bl-filt{display:none;flex-wrap:wrap;gap:10px;margin:0 0 16px}
+.js .bl-filt{display:flex}
+.bl .bl-filt .btn{flex:none;width:auto;height:44px}
+.bl .bl-filt .btn[aria-pressed=true]{--btn-bg:var(--cta-grad);--btn-ink:#fff;--btn-bd:transparent;--btn-bg-h:var(--cta-grad-h);--btn-ink-h:#fff}
+.bl-count{margin:0 0 clamp(28px,3vw,40px)}
+.bl-list{list-style:none;margin:0;padding:0;border-bottom:1px solid var(--line)}
+.bl-row{position:relative;display:grid;grid-template-columns:260px minmax(0,1fr) 120px;grid-template-areas:"th m rt";gap:clamp(20px,3vw,48px);align-items:start;padding:32px 0 36px;border-top:1px solid var(--line)}
+.bl-row[hidden]{display:none}
+.bl .bl-th{grid-area:th;aspect-ratio:4/3;border-radius:18px}
+.bl .bl-row img{transition:transform .6s var(--m-ease,ease-out)}
+.bl-rm{grid-area:m;min-width:0}
+.bl-rm .bl-k{margin:0 0 10px}
+.bl .bl-rm h3{font:400 clamp(22px,2vw,30px)/1.18 var(--serif);letter-spacing:-.01em;color:var(--ink);margin:0 0 10px;text-wrap:balance}
+.bl-a{color:inherit;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px;text-decoration-color:transparent;transition:text-decoration-color var(--m-hover) ease-out}
+.bl-a:after{content:"";position:absolute;inset:0;z-index:1}
+.bl-row:hover .bl-a{text-decoration-color:var(--pink)}
+.bl-row:hover img{transform:scale(1.03)}
+.bl-a:focus-visible:after{outline:2px solid var(--pink);outline-offset:4px;border-radius:4px}
+.bl-a:focus-visible{outline:none}
+.bl-ex{margin:0;font-size:16px;line-height:1.6;color:var(--mut);max-width:56ch}
+.bl-rt{grid-area:rt;justify-self:end;margin:0;padding-top:2px;white-space:nowrap}
+
+/* the feature: the latest article, photo left and type right, on the same hairline */
+.bl .bl-feat{grid-template-columns:minmax(0,7fr) minmax(0,5fr);grid-template-areas:"th m";gap:clamp(32px,5vw,88px);align-items:center;padding:clamp(36px,4vw,52px) 0 clamp(44px,5vw,64px)}
+.bl .bl-feat .bl-th{aspect-ratio:3/2;border-radius:24px}
+.bl .bl-feat .bl-rm h3{font-size:clamp(32px,3.4vw,52px);line-height:1.06;letter-spacing:-.02em;margin:0 0 18px}
+.bl-feat .bl-ex{font-size:clamp(17px,1.35vw,20px);line-height:1.55;margin-bottom:24px;max-width:44ch}
+.bl-fm{display:flex;flex-wrap:wrap;align-items:center;gap:6px 24px;margin:0}
+.bl-fm .bl-rt{padding:0}
+
+/* 3 + closing brand gradient bands: white type on --cta-grad */
+.bl-band{position:relative;background:var(--cta-grad);color:#fff;padding:clamp(64px,8vw,112px) 0;--ink:#fff;--mut:rgba(255,255,255,.92);--line:rgba(255,255,255,.3)}
+.bl .bl-band h2,.bl .bl-band h2 em,.bl .bl-band em{color:#fff}
+.bl .bl-band :focus-visible,.bl .bl-band .btn:focus-visible{outline-color:#fff}
+.bl-cta>.wrap{display:grid;justify-items:center;text-align:center}
+.bl .bl-cta h2{font-size:clamp(38px,5.4vw,84px);max-width:16ch;margin:0 0 20px;text-wrap:balance}
+.bl .bl-cta .lead{color:rgba(255,255,255,.94);margin:0 0 36px;max-width:50ch;text-align:center}
+.bl-cta .btns{justify-content:center}
+.bl .bl-cta .btn-p{--btn-bg:#fff;--btn-ink:var(--burg);--btn-bg-h:#fff;--btn-ink-h:var(--navy)}
+.bl .bl-cta .btn-g{--btn-bg:rgba(255,255,255,.18);--btn-ink:#fff;--btn-bd:transparent;--btn-bg-h:rgba(255,255,255,.3);--btn-ink-h:#fff}
+
+/* article page: header column, a wide photo, then the reading column (about 68 characters at 19px) */
+.bl-col{width:100%;max-width:720px;margin-inline:auto}
+.bl-head{position:relative;background:var(--bg);padding:calc(var(--hdr,82px) + clamp(28px,4vw,64px)) 0 clamp(8px,1vw,16px)}
+.bl-back{margin:0 0 clamp(20px,3vw,40px)}
+.bl-back a{color:var(--mut);text-decoration-color:var(--line)}
+.bl-back a:hover{color:var(--ink);text-decoration-color:var(--pink)}
+.bl-head .bl-k{margin:0 0 16px}
+.bl-head h1{font-size:clamp(40px,5vw,76px);line-height:1.04;letter-spacing:-.02em;margin:0 0 24px;text-wrap:balance;color:var(--ink)}
+.bl-by{display:flex;flex-wrap:wrap;gap:4px 18px;margin:0;padding-top:16px;border-top:1px solid var(--line)}
+.bl-by>span:first-child{color:var(--ink)}
+.bl .bl-hd-ph{margin-top:clamp(36px,4.4vw,64px);aspect-ratio:21/9;max-height:72vh;width:100%}
+.v7 .bl-art{padding-top:clamp(48px,6vw,96px)}
+.bl-body{color:var(--ink)}
+.bl-body p{margin:0 0 26px;font-size:19px;line-height:1.75;color:var(--ink)}
+.bl-body .bl-stand{font-size:clamp(21px,1.8vw,24px);line-height:1.55;margin-bottom:40px}
+.bl-body h2{font-size:clamp(28px,2.6vw,38px);line-height:1.15;letter-spacing:-.01em;margin:56px 0 20px;color:var(--ink);text-wrap:balance}
+.bl-pq{position:relative;margin:48px 0 52px;padding:28px 0 0;border-top:1px solid var(--line)}
+.bl-body .bl-pq p{margin:0;font:400 clamp(26px,2.6vw,36px)/1.28 var(--serif);font-style:italic;letter-spacing:-.01em;color:var(--ink);text-wrap:balance}
+.bl-end{position:relative;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 24px;margin-top:48px;padding-top:12px;border-top:1px solid var(--line)}
+.bl-end p{margin:0;font-size:16px;color:var(--mut)}
+
+/* tablet and phone */
+@media(max-width:1100px){
+ .bl-row{grid-template-columns:200px minmax(0,1fr);grid-template-areas:"th m" "th rt";row-gap:12px}
+ .bl-rt{justify-self:start}
+}
+@media(max-width:900px){
+ .bl-hero{padding-top:calc(var(--hdr,68px) + 36px)}
+ .bl-hg{grid-template-columns:minmax(0,1fr);gap:40px}
+ .bl-hero h1{max-width:14ch}
+ .bl-hp{height:auto}
+ .bl-ph-a{position:relative;width:100%;height:auto;aspect-ratio:4/3}
+ .bl-ph-b{display:none}
+ .bl .bl-feat{grid-template-columns:minmax(0,1fr);grid-template-areas:"th" "m";gap:28px}
+ .bl .bl-hd-ph{aspect-ratio:16/9}
+}
+@media(max-width:700px){
+ .bl-row{grid-template-columns:minmax(0,1fr) 104px;grid-template-areas:"m th" "rt th";column-gap:18px;row-gap:10px;padding:26px 0 30px}
+ .bl .bl-th{border-radius:14px;aspect-ratio:1/1}
+ .bl .bl-feat{grid-template-columns:minmax(0,1fr);grid-template-areas:"th" "m"}
+ .bl .bl-feat .bl-th{aspect-ratio:4/3;border-radius:20px}
+ .bl .bl-rm h3{font-size:21px}
+ .bl .bl-feat .bl-rm h3{font-size:clamp(28px,8vw,36px)}
+ .bl-ex{font-size:15.5px}
+ .bl-feat .bl-ex{font-size:16.5px}
+ .bl-filt{gap:8px}
+ .bl-body p{font-size:17px;line-height:1.7;margin-bottom:22px}
+ .bl-body .bl-stand{font-size:19px;margin-bottom:30px}
+ .bl-body h2{margin-top:44px}
+ .bl-pq{margin:38px 0 40px}
+ .bl .bl-hd-ph{aspect-ratio:4/3;border-radius:20px}
+}
+@media(max-width:600px){.bl-ph-a{aspect-ratio:5/4}}
+@media(max-width:420px){.bl-row{grid-template-columns:minmax(0,1fr) 88px}.bl-where{gap:4px 20px}}
+@media(prefers-reduced-motion:reduce){.bl .bl-row img{transition:none}.bl-row:hover img{transform:none}}
+
+/* ---- article reader (2026-10-31, after the ZeroInfinity blog reader): progress line, standfirst, Listen / Share, contents beside the column,
+   text size, share row, previous / next, print. Same house rules: text and pill buttons only, hairlines, the gradient only on buttons and accent bars. ---- */
+.bl-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.bl-prog{position:fixed;top:0;left:0;right:0;height:3px;z-index:61;pointer-events:none}
+.bl-prog span{display:block;height:100%;background:var(--cta-grad);transform:scaleX(0);transform-origin:0 50%}
+.bl-nf .bl-prog{display:none}
+.bl-lead{margin:0 0 28px;font:400 clamp(19px,1.6vw,23px)/1.5 var(--sans);color:var(--mut);max-width:58ch;text-wrap:pretty}
+.bl-lead:empty{display:none}
+.bl-by time:empty,.bl-by span:empty{display:none}
+.bl-tools{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:24px 0 0}
+.bl-tools[hidden],.bl-listen[hidden],.bl-tools [hidden]{display:none}
+.bl-listen{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}
+.bl .bl-tools .btn{flex:none;width:auto}
+.bl .bl-play{min-width:108px;justify-content:center}
+.bl-speed,.bl-size{display:inline-flex;align-items:center;gap:2px}
+.bl-sl{font:600 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--mut);margin-right:8px}
+.bl-speed button,.bl-size button{appearance:none;border:0;background:none;min-width:44px;min-height:44px;padding:0 6px;font:500 15px/1 var(--sans);color:var(--mut);cursor:pointer;
+ text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:8px;text-decoration-color:transparent;border-radius:8px}
+.bl-speed button:hover,.bl-size button:hover:not(:disabled){color:var(--ink)}
+.bl-speed button[aria-pressed=true]{color:var(--ink);text-decoration-color:var(--pink)}
+.bl-size button:disabled{opacity:.35;cursor:default}
+.bl-nf-a{margin:32px 0 0}
+.bl-nf-a[hidden]{display:none}
+.bl-nf .bl-art,.bl-nf #more{display:none}
+
+/* the paragraph being read aloud: a short gradient bar in the margin, nothing else changes */
+.bl-body [data-tts],.bl-head h1[data-tts]{position:relative}
+.bl-body .is-reading:after,.bl-head h1.is-reading:after{content:"";position:absolute;left:-22px;top:.3em;bottom:.3em;width:3px;border-radius:2px;background:var(--cta-grad)}
+.bl-body .bl-pq.is-reading:after{top:28px}
+
+/* text size: the body scales from one variable (set by the A- / A+ buttons) */
+.bl-body p{font-size:calc(19px * var(--bl-scale,1))}
+.bl-body .bl-stand{font-size:calc(clamp(21px,1.8vw,24px) * var(--bl-scale,1))}
+.bl-body .bl-pq p{font-size:calc(clamp(26px,2.6vw,36px) * var(--bl-scale,1))}
+.bl-body h2{scroll-margin-top:calc(var(--hdr,82px) + 28px)}
+.bl-body h2:focus{outline:none}
+.bl-body h2:focus-visible{outline:2px solid var(--pink);outline-offset:6px}
+
+/* layout: the reading column stays centred under the header; the contents list sits in the right-hand margin and sticks */
+.bl-lay{position:relative}
+.bl-side{max-width:720px;margin:0 auto clamp(32px,4vw,48px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.bl-toc-h{display:none;margin:0 0 14px}
+.bl-tocw{min-width:0}
+.bl-tocw[hidden]{display:none}
+.bl .bl-toc-b{width:auto}
+.bl-toc{list-style:none;margin:0;padding:0;counter-reset:t}
+.bl-toc li{counter-increment:t}
+.bl-toc a{position:relative;display:flex;gap:12px;align-items:baseline;padding:12px 0;min-height:44px;box-sizing:border-box;font:400 16px/1.4 var(--sans);color:var(--mut);text-decoration:none;border-radius:6px}
+.bl-toc a:before{content:counter(t,decimal-leading-zero);font:600 12px/1 var(--sans);letter-spacing:.08em;color:var(--mut);flex:none;min-width:22px}
+.bl-toc a:hover{color:var(--ink)}
+.bl-toc a[aria-current=true]{color:var(--ink)}
+.bl-toc a[aria-current=true]:before{color:var(--pink)}
+.bl-opts{display:flex;flex-wrap:wrap;align-items:center;gap:4px 20px}
+.bl-print{appearance:none;border:0;background:none;padding:0;cursor:pointer}
+@media(max-width:1279px){
+ .bl-toc:not(.is-open){display:none}
+ .bl-toc.is-open{margin-top:12px;padding-top:4px}
+ .bl-tocw:has(.is-open){flex-basis:100%}
+}
+@media(min-width:1280px){
+ .bl-lay{display:grid;grid-template-columns:minmax(190px,1fr) minmax(0,720px) minmax(190px,1fr);column-gap:clamp(40px,4vw,72px);align-items:start}
+ .bl-main{grid-column:2;grid-row:1}
+ .bl-side{grid-column:3;grid-row:1;position:sticky;top:calc(var(--hdr,82px) + 40px);display:block;max-width:250px;margin:6px 0 0;padding:0;border:0}
+ .bl-toc-h{display:block}
+ .bl-toc-b{display:none}
+ .bl-toc a{padding:8px 0;font-size:15px}
+ .bl-toc a[aria-current=true]:after{content:"";position:absolute;left:-16px;top:12px;bottom:12px;width:2px;background:var(--cta-grad);border-radius:2px}
+ .bl-opts{margin-top:28px;padding-top:18px;border-top:1px solid var(--line)}
+}
+
+/* share row and the end of the article */
+.bl-share{position:relative;margin-top:56px;padding-top:20px;border-top:1px solid var(--line)}
+.bl-share:before{content:"";position:absolute;left:0;top:-1px;width:44px;height:2px;background:var(--cta-grad)}
+.bl-share .bl-k{margin:0 0 6px}
+.bl-sh-l{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+/* share icons (user 2026-10-31: real platform marks): 44px round, ink on a soft tint, the brand gradient with a white mark on hover / focus */
+.bl-ic{appearance:none;border:0;padding:0;cursor:pointer;display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;background:rgba(22,22,22,.06);color:var(--ink);text-decoration:none;transition:background var(--m-hover,.2s) ease-out,color var(--m-hover,.2s) ease-out}
+.bl-ic svg{display:block;width:18px;height:18px}
+.bl-ic:hover,.bl-ic:focus-visible,.bl-ic.is-done{background:var(--cta-grad);color:#fff}
+.bl-ic:focus-visible{outline:2px solid var(--ocean);outline-offset:3px;border-radius:50%}
+:root[data-theme=dark] .bl-ic{background:rgba(255,255,255,.08);color:var(--ink)}
+:root[data-theme=dark] .bl-ic:hover,:root[data-theme=dark] .bl-ic:focus-visible,:root[data-theme=dark] .bl-ic.is-done{background:linear-gradient(135deg,#e46db5 0%,#f7aad7 100%);color:#161616}
+:root[data-theme=dark] .bl-ic:focus-visible{outline-color:#eaa3cf}
+.bl-sh-n{display:block;min-height:22px;font-size:14px;color:var(--mut)}
+.bl-end{margin-top:28px}
+.bl-end-l{display:flex;flex-wrap:wrap;gap:0 24px;margin:0}
+/* previous / next and related: one card language (user 2026-10-31): photo on top, label, serif title, meta; the whole card is the link */
+.bl-pn{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,3vw,40px);margin-top:48px;padding-top:32px;border-top:1px solid var(--line)}
+.bl-pn:empty{display:none}
+.bl-pn.is-one .bl-pn-n{grid-column:2}
+.bl-cards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(28px,3vw,48px)}
+.bl-cd{display:flex;flex-direction:column;gap:10px;text-decoration:none;color:var(--ink);border-radius:12px}
+.bl .bl-cd-ph{aspect-ratio:3/2;border-radius:20px;margin:0 0 8px}
+.bl .bl-cd-ph img{transition:transform .6s var(--m-ease,ease-out)}
+.bl-cd .bl-k{margin:0}
+.bl-cd-t{font:400 clamp(21px,1.7vw,26px)/1.2 var(--serif);letter-spacing:-.01em;color:var(--ink);text-wrap:balance;transition:color var(--m-hover,.2s) ease-out}
+.bl-cd-m{font-size:14px;color:var(--mut)}
+.bl-cd:hover .bl-cd-ph img,.bl-cd:focus-visible .bl-cd-ph img{transform:scale(1.04)}
+.bl-cd:hover .bl-cd-t,.bl-cd:focus-visible .bl-cd-t{color:var(--burg)}
+.bl-cd:focus-visible{outline:2px solid var(--ocean);outline-offset:6px}
+:root[data-theme=dark] .bl-cd:hover .bl-cd-t,:root[data-theme=dark] .bl-cd:focus-visible .bl-cd-t{color:#eaa3cf}
+:root[data-theme=dark] .bl-cd:focus-visible{outline-color:#eaa3cf}
+@media(max-width:900px){.bl-cards{grid-template-columns:1fr 1fr}}
+
+/* dark theme: the soft-pink accent instead of the deep pink */
+:root[data-theme=dark] .bl-speed button[aria-pressed=true],:root[data-theme=dark] .bl-tl{text-decoration-color:#eaa3cf}
+:root[data-theme=dark] .bl-toc a[aria-current=true]:before{color:#eaa3cf}
+:root[data-theme=dark] .bl-body h2:focus-visible{outline-color:#eaa3cf}
+
+@media(max-width:700px){
+ .bl-lead{font-size:18px;margin-bottom:22px}
+ .bl-body p{font-size:calc(17px * var(--bl-scale,1))}
+ .bl-body .bl-stand{font-size:calc(19px * var(--bl-scale,1))}
+ .bl-body .is-reading:after,.bl-head h1.is-reading:after{left:-11px;width:2px}
+ .bl-tools{gap:10px}
+ .bl-pn,.bl-cards{grid-template-columns:1fr;gap:36px}
+ .bl-pn.is-one .bl-pn-n{grid-column:auto}
+}
+@media(prefers-reduced-motion:reduce){.bl-ic,.bl-cd-t,.bl .bl-cd-ph img{transition:none}.bl-cd:hover .bl-cd-ph img,.bl-cd:focus-visible .bl-cd-ph img{transform:none}}
+
+/* print: just the article */
+@media print{
+ body>*:not(main),.bl-prog,.bl-back,.bl-tools,.bl-side,.bl-share,.bl-end-l,.bl-pn,#more,#book,.bl-hd-ph{display:none!important}
+ .bl-head{padding:0!important}.v7 .bl-art{padding:12px 0 0!important}
+ .bl-body p{font-size:12pt!important;line-height:1.6!important;color:#000!important}
+ .bl-head h1,.bl-body h2,.bl-body .bl-pq p{color:#000!important}
+ .bl-body .is-reading:after{display:none}
+}
+
+/* 2026-10-31 real articles: bullet lists, the closing "check current rules" note, and the questions-and-answers section (no boxes: hairline + type only) */
+.bl-body .bl-ul{margin:0 0 30px;padding:0 0 0 1.15em;list-style:none}
+.bl-body .bl-ul li{position:relative;margin:0 0 12px;font-size:calc(19px * var(--bl-scale,1));line-height:1.65;color:var(--ink)}
+.bl-body .bl-ul li:before{content:"";position:absolute;left:-1.05em;top:.72em;width:7px;height:2px;border-radius:2px;background:var(--cta-grad)}
+.bl-body .bl-note{margin:40px 0 0;padding-top:20px;border-top:1px solid var(--line);font-size:calc(15.5px * var(--bl-scale,1));line-height:1.6;color:var(--mut)}
+.bl-body .bl-fq{margin:34px 0 8px;font:600 calc(19px * var(--bl-scale,1))/1.4 var(--sans);letter-spacing:0;color:var(--ink)}
+.bl-body .bl-fa{color:var(--mut)}
+.bl-body .bl-ul.is-reading:after{top:0;bottom:0}
+@media(max-width:700px){.bl-body .bl-ul li{font-size:calc(17px * var(--bl-scale,1))}.bl-body .bl-fq{font-size:calc(17px * var(--bl-scale,1))}}
+@media print{.bl-body .bl-ul li,.bl-body .bl-fq{color:#000!important}}
+/* the filter status is announced, never shown (house rule: no visible counts) */
+.bl-count{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.js .bl-filt{margin-bottom:clamp(32px,3.4vw,48px)}
+
+/* ==== article layout pass (2026-10-31, user): page gutter never under 20 px on the article page, cover at column width, justified body text,
+   one photograph in the middle of every article ==== */
+.bl-post .wrap{width:min(100% - 2*max(20px,var(--g)),var(--w))}
+.bl .bl-col{max-width:720px}                                     /* ~70ch of the 19 px body face; never wider than 760 */
+.bl .bl-hd-ph{width:100%;max-width:720px;margin-inline:auto;aspect-ratio:16/9;max-height:460px}
+@media(max-width:700px){.bl .bl-hd-ph{aspect-ratio:3/2;border-radius:20px}}
+/* body paragraphs justified with hyphenation so both edges line up like the contents column; the stand-first, notes, FAQ answers, headings,
+   lists and captions stay ragged-right; below 480 px everything is left-aligned (a narrow justified line opens rivers) */
+.bl-body>p:not(.bl-stand):not(.bl-note):not(.bl-fa){text-align:justify;-webkit-hyphens:auto;hyphens:auto;text-wrap:pretty;hyphenate-limit-chars:7 3 3}
+@media(max-width:480px){.bl-body>p:not(.bl-stand):not(.bl-note):not(.bl-fa){text-align:left;-webkit-hyphens:manual;hyphens:manual}}
+/* the mid-article photograph: column width, 16:9 (3:2 on phones), rounded like the site's photos, caption below in the muted small face */
+.bl-midf{margin:clamp(40px,4.4vw,56px) 0 clamp(44px,4.8vw,60px)}
+.bl .bl-mid{aspect-ratio:16/9;max-height:460px;width:100%}
+.bl-midf figcaption{margin:14px 0 0;font:400 14.5px/1.5 var(--sans);color:var(--mut);text-align:left;text-wrap:pretty}
+@media(max-width:700px){.bl .bl-mid{aspect-ratio:3/2;border-radius:20px}.bl-midf figcaption{font-size:14px}}
+@media print{.bl-midf{break-inside:avoid}.bl-midf figcaption{color:#333!important}}
+/* with the side contents column (>=1280 px) the grid is symmetric (190 px minimum each side), so the article may be narrower than 720 px on
+   1280-1400 px screens: the header column and cover take exactly the same width, so their edges line up with the article's */
+@media(min-width:1280px){.bl-head .bl-col,.bl .bl-hd-ph{max-width:min(720px,calc(100% - 380px - 2*clamp(40px,4vw,72px)))}}
+.bl .bl-mid{position:relative}
+/* QA 2026-11-01 print: blocks still waiting for their scroll rise-in (inline opacity 0 / translate) printed blank or faded, and the dark
+   theme printed a near-black page when "background graphics" is on. Print always shows every block, black on white. */
+@media print{
+ [data-mo-wait],[data-rvl],.bl-body *{opacity:1!important;transform:none!important;clip-path:none!important}
+ html,body,main,.bl,.bl-art,.bl-head{background:#fff!important;color:#000!important}
+ main .bl-head *,main .bl-body *,main .bl-col *{color:#1a1a1a!important}   /* dark-theme light inks (lead, eyebrow, byline) would print near-invisible */
+ :root{color-scheme:light}
+}
+/* QA 2026-11-01: no layout shift on load: the post header column and the article stay invisible (space kept) until page-blog.js has painted
+   the post (html.bl-on); a 2.5 s fallback shows them anyway if the script never runs. Only on the post page (it has #postTitle). */
+@keyframes blShow{to{visibility:visible}}
+html.js:not(.bl-on) .bl-head:has(#postTitle)>.wrap,html.js:not(.bl-on) .bl-head:has(#postTitle)~.bl-art{visibility:hidden;animation:blShow 0s 2.5s forwards}
