@@ -1,0 +1,429 @@
+/* University portal: institutional navy variant on the shared px layer. Sample data only. */
+body.px[data-page=institution]{--page:#eef3fa}
+html[data-theme=dark] body.px[data-page=institution]{--page:var(--d-bg)}
+[data-page=institution] .px-bar{background:color-mix(in oklab,#0a1a33 90%,transparent);border-color:#ffffff22;color:#fff;box-shadow:none}
+html[data-theme=dark] [data-page=institution] .px-bar{background:color-mix(in oklab,var(--d-surf2) 88%,transparent);border-color:var(--d-line)} /* sweep v8.10 */
+[data-page=institution] .px-logo small{color:#ffffffb8;border-color:#ffffff33}
+[data-page=institution] .px-logo .lg-l{display:none}[data-page=institution] .px-logo .lg-d{display:block}
+[data-page=institution] .px-nav a{color:#ffffffbf}
+[data-page=institution] .px-nav a:hover{color:#fff;background:#ffffff1a}
+[data-page=institution] .px-nav a[aria-current=page]{background:#fff;color:var(--navy)}
+[data-page=institution] .px-bar .px-chip{color:#fff;border-color:#ffffff40} /* sweep v8.11: only on the navy bar (the sign-in chip sits on the light page: was white on #eef3fa) */
+[data-page=institution] .px-menu>summary{background:#fff;color:var(--navy)}
+[data-page=institution] .px-pop{color:var(--ink)}
+[data-page=institution] .px-login>.l{background:var(--navy)}
+/* application row cards */
+.in-filter{display:flex;gap:.8rem 1.2rem;flex-wrap:wrap;align-items:center;justify-content:space-between;margin:0 0 1.1rem}
+.in-filter .px-fl{flex:0 1 20rem;min-width:13rem}.in-filter .px-in{border-radius:var(--pill);padding-inline:1.2rem}
+.in-apps{display:grid;gap:.75rem}
+.in-app{display:grid;grid-template-columns:auto minmax(0,1.3fr) minmax(0,1.4fr) 5rem 9.5rem auto;gap:1rem;align-items:center;padding:.9rem 1.2rem;border-radius:18px}
+.in-app .who b,.in-app .crs b{display:block;font-weight:600;line-height:1.3}
+.in-app .who span,.in-app .crs span,.in-app .rcv{color:var(--mute);font-size:.84rem}
+.in-app .rcv span{display:block;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.in-app .chip{justify-self:start}
+@media(max-width:1100px){.in-app{grid-template-columns:auto 1fr auto;}.in-app .crs{grid-column:2}.in-app .rcv{grid-column:3;grid-row:1;text-align:right}.in-app .chip{grid-column:2}.in-app .btn{grid-column:3;grid-row:2 / span 2;align-self:end}}
+@media(max-width:700px){.in-app{grid-template-columns:auto 1fr}.in-app .rcv{grid-column:2;grid-row:auto;text-align:left}.in-app .crs,.in-app .chip{grid-column:2}.in-app .btn{grid-column:1/-1;grid-row:auto;justify-content:center}}
+.in-types{display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0}
+.in-up{list-style:none;margin:.8rem 0 0;padding:0}
+.in-up li{display:grid;grid-template-columns:1fr auto;gap:.3rem 1rem;padding:.75rem 0;border-bottom:1px solid var(--hair);font-size:.92rem}
+.in-up li .px-prog{grid-column:1/-1;margin-top:0}
+/* course cards */
+.in-courses{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(21rem,100%),1fr));gap:1.1rem}
+.in-course{display:flex;flex-direction:column;gap:1.1rem;padding:1.4rem}
+.in-name{font-family:var(--serif);font-size:1.35rem;border-color:transparent;background:transparent;padding-inline:.2rem;min-height:46px}
+.in-name:hover{border-color:var(--hair);background:var(--fbg)}
+.in-course .g2,.in-g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.in-course .px-fl>span{margin-bottom:.3rem}
+.in-int{display:flex;gap:.4rem}
+.in-int .pill{padding:.35rem .9rem;font-size:.82rem;min-height:38px}
+.in-int .pill[aria-pressed=true]{background:var(--navy);color:#fff;border-color:var(--navy)}
+html[data-theme=dark] .in-int .pill[aria-pressed=true]{background:#fff;color:var(--navy)}
+.in-course .ft{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:1rem;border-top:1px solid var(--hair)}
+.sws{display:inline-flex;align-items:center;gap:.6rem}
+@media(max-width:560px){.in-g2{grid-template-columns:1fr}}
+/* commission */
+.in-bar{display:grid;grid-template-columns:7rem 1fr 7rem;gap:1rem;align-items:center;font-size:.9rem;margin-top:.9rem}
+.in-bar i{display:block;height:.7rem;border-radius:var(--pill);background:var(--ocean);transform-origin:0 50%;transform:scaleX(0);transition:transform 1.2s var(--ease-out)}
+.in-bar.r i{background:var(--burg)}
+html[data-theme=dark] .in-bar i{background:var(--tint)}html[data-theme=dark] .in-bar.r i{background:#e5696d}
+.in-bar b{text-align:right;font-variant-numeric:tabular-nums}
+.px-tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.px-t{width:100%;border-collapse:collapse;font-size:.93rem}
+.px-t th{text-align:left;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);font-weight:700;padding:1rem .8rem .7rem 1.5rem;border-bottom:1px solid var(--hair);white-space:nowrap}
+.px-t td{padding:.9rem .8rem .9rem 1.5rem;border-top:1px solid var(--hair);vertical-align:middle}
+.px-t tbody tr:first-child td{border-top:0}
+.px-t .n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.px-t tbody tr{transition:background .25s}.px-t tbody tr:hover{background:var(--wash)}
+@media(max-width:760px){
+ .px-t.stack thead{display:none}
+ .px-t.stack tr{display:grid;grid-template-columns:1fr 1fr;gap:.2rem 1rem;padding:1rem 1.2rem;border-top:1px solid var(--hair)}
+ .px-t.stack tbody tr:first-child{border-top:0}
+ .px-t.stack td{border:0;padding:.15rem 0}
+ .px-t.stack td:first-child{grid-column:1/-1}
+ .px-t.stack td[data-l]:before{content:attr(data-l);display:block;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);font-weight:700}
+ .px-t.stack .n{text-align:left}
+ .in-bar{grid-template-columns:5rem 1fr 5.5rem}
+}
+@media(prefers-reduced-motion:reduce){.in-bar i{transition:none}}
+
+
+/* sweep v8.14 clean surfaces: the university portal bar is the page colour with navy type (was a navy bar); rows sit on the page, no lines */
+body.px[data-page=institution]{--page:var(--clean-bg)}
+[data-page=institution] .px-bar,html[data-theme=dark] [data-page=institution] .px-bar{background:var(--page);color:var(--ink);border-color:transparent}
+[data-page=institution] .px-logo small{color:var(--mute);border-color:transparent}
+[data-page=institution] .px-logo .lg-l{display:block}[data-page=institution] .px-logo .lg-d{display:none}
+html[data-theme=dark] [data-page=institution] .px-logo .lg-l{display:none}html[data-theme=dark] [data-page=institution] .px-logo .lg-d{display:block}
+[data-page=institution] .px-nav a{color:var(--mute)}[data-page=institution] .px-nav a:hover{color:var(--ink);background:var(--row-h)}
+[data-page=institution] .px-nav a[aria-current=page]{background:var(--navy);color:#fff}html[data-theme=dark] [data-page=institution] .px-nav a[aria-current=page]{background:#fff;color:var(--navy)}
+[data-page=institution] .px-bar .px-chip{color:var(--ink);border-color:transparent}
+.in-up li,.in-course .ft,.px-t th,.px-t td,.px-t.stack tr{border-color:transparent}
+.in-name:hover,.px-t tbody tr:hover{background:var(--row-h)}
+
+/* type scale (sweep v8.14): no UI text under 13 px */
+.px-seg .pill small,.rcv span,.in-app .chip,.px-kband>div>em{font-size:var(--fs-label)}
+
+/* ===== PORTALS POLISH (2026-10-31) =====
+   Application summary: the three decision buttons inherited the dialog footer's row-reverse, so "Decline" wrapped onto its own line at the
+   right and the primary sat in the middle. They now read left to right (primary first) with no footer rule above them. */
+.px-dlg #decBtns{flex-direction:row;justify-content:flex-start;margin-top:.6rem;padding-top:0;border-top:0}
+/* phones: course Level select and Fee field sat side by side at 136 px each and the select text was cut ("Undergradu"); they stack under 480 px */
+@media (max-width:480px){.in-course .g2,.in-g2{grid-template-columns:minmax(0,1fr)}}
+
+/* ===== UNIVERSITY PORTAL HOUSE PALETTE (2026-11-01) =====
+   Same rules as the public site and the other portals: white page / soft black #161616 (raised #1f1f1f / #262626 in dark only), neutral hairlines,
+   burgundy #6D1428 accents (light pink #eaa3cf in dark), the burgundy -> pink gradient only on primary buttons, serif titles + sans UI,
+   no navy or blue anywhere, no card borders, shadows or tinted panels. proto.css / portal.css still carry the old navy + ocean tokens, so every one is
+   overridden here; this sheet loads LAST (after navshell.css) and is scoped to the university page only. */
+body.px[data-page=institution]{--navy:#161616;--ocean:#6D1428;--tint:#eaa3cf;--clean-bg:#fff;--clean-alt:#fff;--page:#fff;--card:#fff;--field-bg:#f5f5f5;--fbg:#f5f5f5;
+  --row-h:rgba(22,22,22,.04);--wash:rgba(22,22,22,.04);--float-line:rgba(22,22,22,.10);--edge:transparent;--edge-h:transparent;--d-bg:#161616;--d-surf:#161616;--d-surf2:#161616;--d-line:rgba(255,255,255,.10);
+  --bg:#fff;--bg-soft:#fff;--ink:#161616;--mute:#5d5d5d;--hair:rgba(22,22,22,.10);--line:rgba(22,22,22,.45);--accent:#6D1428;--focus:#6D1428;--link:#6D1428;--ok:#6D1428;
+  --fill:rgba(22,22,22,.06);--fill2:rgba(22,22,22,.10);--sel:rgba(109,20,40,.11);--acc:#6D1428;--ns-h:rgba(22,22,22,.06);--ns-ring:#6D1428;--ns-fill:rgba(22,22,22,.06);--field:#f5f5f5;
+  --cta:linear-gradient(135deg,#6D1428 0%,#BF4398 100%);--cta-d:linear-gradient(135deg,#7c1830 0%,#cf56a6 100%);--on-cta:#fff;background:#fff;color:var(--ink)}
+html[data-theme=dark] body.px[data-page=institution]{--navy:#161616;--ocean:#eaa3cf;--tint:#eaa3cf;--clean-bg:#161616;--clean-alt:#161616;--page:#161616;--card:#1f1f1f;--field-bg:rgba(255,255,255,.06);--fbg:rgba(255,255,255,.06);
+  --row-h:rgba(255,255,255,.04);--wash:rgba(255,255,255,.04);--float-line:rgba(255,255,255,.10);--d-ink:#f4f4f4;--d-mut:#c4c4c4;
+  --bg:#161616;--bg-soft:#1f1f1f;--ink:#f4f4f4;--mute:#c4c4c4;--hair:rgba(255,255,255,.10);--line:rgba(255,255,255,.45);--accent:#eaa3cf;--focus:#eaa3cf;--link:#eaa3cf;--ok:#eaa3cf;
+  --fill:rgba(255,255,255,.08);--fill2:rgba(255,255,255,.14);--sel:rgba(234,163,207,.14);--acc:#eaa3cf;--ns-h:rgba(255,255,255,.08);--ns-ring:#eaa3cf;--ns-fill:rgba(255,255,255,.08);--field:rgba(255,255,255,.06);background:#161616}
+html[data-theme=dark]:has(body[data-page=institution]){background:#161616}
+[data-page=institution] h1,[data-page=institution] h2,[data-page=institution] h3,[data-page=institution] h4{color:var(--ink)}
+[data-page=institution] .px-skip{background:var(--ink);color:var(--page)}
+
+/* header: page colour, no line; the colour logo in both themes, on a white pill in dark (even padding, never cut) */
+html:root [data-page=institution] .px-bar{background:var(--page);border-color:transparent;color:var(--ink)}
+html:root [data-page=institution] .px-logo .lg-l{display:block}html:root [data-page=institution] .px-logo .lg-d{display:none}
+html:root[data-theme=dark] [data-page=institution] .px-logo .lg-l{box-sizing:content-box;height:1.45rem;padding:.42rem .9rem;background:#fff;border-radius:999px}
+html:root [data-page=institution] .px-logo small{color:var(--mute)}
+html:root [data-page=institution] .px-nav a{color:var(--mute)}
+html:root [data-page=institution] .px-nav a:hover{color:var(--ink);background:var(--fill)}
+html:root [data-page=institution] .px-nav a[aria-current=page],html:root [data-page=institution] .px-tabbar [aria-current=page],html:root [data-page=institution] .ns-navmore[aria-current=page]{background:var(--sel);color:var(--acc);font-weight:600}
+[data-page=institution] .ns-who b{max-width:16rem}
+html:root [data-page=institution] .ns-av{background:#161616;color:#fff}html:root[data-theme=dark] [data-page=institution] .ns-av{background:#f4f4f4;color:#161616}
+html:root [data-page=institution] .ns-badge{background:#6D1428;color:#fff}html:root[data-theme=dark] [data-page=institution] .ns-badge{background:#eaa3cf;color:#161616}
+/* account menu popover: a raised neutral layer, no border or shadow */
+html:root [data-page=institution] .ns-menu{background:#f4f4f4;border-color:transparent;box-shadow:none}
+html:root[data-theme=dark] [data-page=institution] .ns-menu{background:#262626}
+/* phone tab bar: full width at the bottom, one hairline on top (like the content portal), selected item in the accent tint */
+@media (max-width:860px){
+  html:root [data-page=institution] .px-tabbar{left:0;right:0;bottom:0;border:0;border-top:1px solid var(--hair);border-radius:0;padding:.4rem .5rem calc(.4rem + env(safe-area-inset-bottom));background:var(--page)}
+  html:root [data-page=institution] .px-tabbar a,html:root [data-page=institution] .px-tabbar button{border-radius:14px}
+}
+
+/* buttons: primary = brand gradient pill; secondary = neutral soft pill; no outline-only buttons */
+html:root [data-page=institution] .btn:not(.soft):not(.ghost):not(.quiet):not(.in-on){background:var(--cta);color:#fff;border-color:transparent}
+html:root [data-page=institution] .btn:not(.soft):not(.ghost):not(.quiet):not(.in-on):hover{background:var(--cta-d)}
+html:root [data-page=institution] .btn.soft,html:root [data-page=institution] .btn.ghost{background:var(--fill);color:var(--ink);border-color:transparent}
+html:root [data-page=institution] .btn.soft:hover,html:root [data-page=institution] .btn.ghost:hover{background:var(--fill2)}
+html:root [data-page=institution] .btn.quiet{background:transparent;color:var(--ink)}html:root [data-page=institution] .btn.quiet:hover{background:var(--fill)}
+html:root body[data-page=institution] .btn.in-on:not(.ghost):not(.soft):not(.quiet){background:var(--sel);color:var(--acc);opacity:1;border-color:transparent}
+/* pills (filters, intakes, letter type): neutral fill, pressed = accent tint */
+html:root [data-page=institution] .pill{background:var(--fill);border-color:transparent;color:var(--ink)}
+html:root [data-page=institution] .pill[aria-pressed=true]{background:var(--sel);border-color:transparent;color:var(--acc)}
+/* chips (status words): text in the accent or muted, no fill */
+html:root [data-page=institution] .chip{background:transparent;color:var(--mute)}
+html:root [data-page=institution] .chip.good,html:root [data-page=institution] .chip.act{color:var(--acc)}
+/* avatars */
+html:root [data-page=institution] .av{background:#161616;color:#fff}
+html:root [data-page=institution] .av.o,html:root [data-page=institution] .av.b{background:#6D1428;color:#fff}
+html:root[data-theme=dark] [data-page=institution] .av{background:#2c2c2c;color:#f4f4f4}
+html:root[data-theme=dark] [data-page=institution] .av.o,html:root[data-theme=dark] [data-page=institution] .av.b{background:rgba(234,163,207,.16);color:#eaa3cf}
+/* cards: no border, no fill (rows sit on the page) */
+html:root [data-page=institution] .px-card{background:transparent;border-color:transparent;box-shadow:none}
+html:root [data-page=institution] .px-card.lift:hover{transform:none}
+html:root [data-page=institution] .px-kband{background:transparent;color:var(--ink)}
+html:root [data-page=institution] .px-kband em{color:var(--acc)}
+/* fields */
+html:root [data-page=institution] .px-in{background:var(--field);color:var(--ink)}
+/* the letter drop zone: no tinted panel or dashed box, words + one soft button */
+html:root [data-page=institution] .px-drop{background:transparent;border:0;padding:1rem 0;text-align:left}
+html:root [data-page=institution] .px-drop:hover,html:root [data-page=institution] .px-drop.over{background:transparent;transform:none}
+html:root [data-page=institution] .px-drop b{font-size:1.25rem}
+[data-page=institution] .in-drop b i{font-style:italic;color:var(--acc)}
+/* dialog: raised in dark, page colour in light; neutral scrim */
+html:root [data-page=institution] dialog.px-dlg{background:var(--card);border:0}
+html:root[data-theme=dark] [data-page=institution] dialog.px-dlg{background:#1f1f1f}
+[data-page=institution] dialog.px-dlg::backdrop{background:rgba(0,0,0,.45)}
+[data-page=institution] .px-dlg .in-dec{flex-wrap:wrap;gap:.5rem}
+html:root [data-page=institution] .px-more a{background:var(--fill);border-color:transparent}
+/* messages: no tinted header or panel; own messages in the brand gradient pill, Dolphin's in a neutral fill */
+html:root [data-page=institution] .px-chath{background:transparent;border-color:var(--hair)}
+html:root [data-page=institution] .px-chat{background:transparent}
+html:root [data-page=institution] .px-send{background:transparent;border-color:var(--hair)}
+html:root [data-page=institution] .px-msg p{background:var(--fill);border-color:transparent;color:var(--ink)}
+html:root [data-page=institution] .px-msg.me p{background:var(--cta);border-color:transparent;color:#fff}
+/* commission bars + progress */
+html:root [data-page=institution] .in-bar i,html:root [data-page=institution] .px-prog i{background:var(--acc)}
+html:root [data-page=institution] .in-bar.r i{background:var(--pink)}
+/* toast (proto.js): soft black, raised in dark */
+html:root body[data-page=institution] .toast{background:#161616;color:#fff;border:0;box-shadow:none}
+html:root[data-theme=dark] body[data-page=institution] .toast{background:#262626;color:#f4f4f4}
+/* sign-in: the photo side keeps its picture under a neutral (not navy) veil; the colour logo sits on a white pill */
+html:root [data-page=institution] .px-login{background:var(--page)}
+html:root [data-page=institution] .px-login>.l{background:#161616}
+html:root [data-page=institution] .px-login .l:before{background:linear-gradient(180deg,rgba(22,22,22,.78) 0,rgba(22,22,22,.30) 38%,rgba(22,22,22,.92) 100%),linear-gradient(90deg,rgba(22,22,22,.55),transparent 70%)}
+[data-page=institution] .px-login .l .in-pill{box-sizing:content-box;height:1.6rem;width:auto;padding:.5rem 1rem;background:#fff;border-radius:999px;align-self:flex-start}
+html:root [data-page=institution] .px-login .top .ns-ib{background:var(--fill);color:var(--ink)}
+/* paused notice + consent tick + live footer */
+[data-page=institution] .in-pz{margin:1rem 0 0;max-width:36rem;line-height:1.6}
+[data-page=institution] .in-chk{display:flex;gap:.8rem;align-items:flex-start;font-size:.95rem;line-height:1.5;color:var(--ink);cursor:pointer}
+[data-page=institution] .in-chk input{width:1.2rem;height:1.2rem;margin:.2rem 0 0;flex:none;accent-color:var(--acc)}
+[data-page=institution] .in-foot>div{align-items:center;color:var(--mute)}
+html:root [data-page=institution] .px-foot>div{border-top-color:var(--hair)}
+/* empty states and the sign-in card: no dashed or hairline box */
+html:root [data-page=institution] .px-empty,html:root [data-page=institution] .px-lcard{border:0;background:transparent}
+/* account menu head: the full institution name, wrapped, never cut */
+[data-page=institution] .ns-mh b,[data-page=institution] .ns-mh small{max-width:none;white-space:normal;overflow:visible}
+/* course "open" switch: navshell.css (phones / touch) reuses ::after as a bigger hit area, which turned the knob into a large blob here.
+   proto.css already gives the hit area to ::before, so the knob is restored; on = accent track, knob white (soft black on the pink track in dark) */
+html:root body[data-page=institution] button.sw:after{content:"";position:absolute;inset:auto;top:.2rem;left:.22rem;width:.95rem;height:.95rem;border-radius:50%;background:var(--ink)}
+html:root body[data-page=institution] button.sw[aria-pressed=true]{background:var(--acc);border-color:var(--acc)}
+html:root body[data-page=institution] button.sw[aria-pressed=true]:after{transform:translateX(1.1rem);background:#fff}
+html:root[data-theme=dark] body[data-page=institution] button.sw[aria-pressed=true]:after{background:#161616}
+/* course name: an inline title field, transparent until hovered or focused */
+html:root [data-page=institution] .in-name{background:transparent}
+html:root [data-page=institution] .in-name:hover,html:root [data-page=institution] .in-name:focus-visible{background:var(--field)}
+/* phone More sheet: the theme row matches the section rows */
+html:root [data-page=institution] .px-more .ns-row{display:flex;align-items:center;min-height:52px;padding:1rem 1.2rem;border-radius:16px;background:var(--fill);border:0;font-weight:600;color:var(--ink);text-align:left}
+/* sign-in: the photo headline stays white over the picture (the page heading colour above is for the page side only); no line under the theme button */
+html:root [data-page=institution] .px-login .l h1,html:root [data-page=institution] .px-login .l h1 *{color:#fff}
+html:root [data-page=institution] .px-login .top{border:0}
+/* spacing: cards have no surface any more, so their inner padding no longer lines up with anything. Rows, figures, tables and forms start on the
+   same left edge as the page title. */
+html:root [data-page=institution] .px-card,html:root [data-page=institution] .in-app,html:root [data-page=institution] .in-course{padding-left:0;padding-right:0}
+html:root [data-page=institution] .px-kband>div{padding-left:0;padding-right:1.2rem}
+html:root [data-page=institution] .px-card.flush>h2{padding-left:0!important;padding-right:0!important}
+html:root [data-page=institution] .px-t th:first-child,html:root [data-page=institution] .px-t td:first-child{padding-left:0}
+html:root [data-page=institution] .px-chath,html:root [data-page=institution] .px-send{padding-left:0;padding-right:0}
+html:root [data-page=institution] .px-chat{padding-left:0;padding-right:0}
+@media(max-width:760px){html:root [data-page=institution] .px-t.stack tr{padding-left:0;padding-right:0}}
+
+/* ===== UNIVERSITY PORTAL: PREMIUM DASHBOARD PASS (2026-11-01, later) =====
+   One spacing scale, a clear hierarchy on every screen (serif title, one context line, one primary action), calm hairline tables with
+   right-aligned tabular numbers, small-caps status words, a review-screen application drawer, a two-pane message thread, quiet empty states,
+   motion at 200 ms or less. Layout flexes 375 -> 1600 px (content keeps the site's max width). Same palette as above. */
+body.px[data-page=institution]{--g1:.5rem;--g2:1rem;--g3:1.5rem;--g4:2.5rem;--g5:4rem;--lab:700 .75rem/1.2 var(--sans)}
+[data-page=institution] .px-main{padding-bottom:var(--g5)}
+
+/* page head */
+html:root [data-page=institution] .in-ph{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--g2) var(--g4);flex-wrap:wrap;padding:clamp(2rem,4vw,3.25rem) 0 var(--g4)}
+html:root [data-page=institution] .in-ph h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.1rem,3.4vw,3rem);line-height:1.05;letter-spacing:-.012em}
+html:root [data-page=institution] .in-ph p{margin:.6rem 0 0;max-width:62ch;color:var(--mute);font-size:1.0625rem;line-height:1.55}
+[data-page=institution] .in-ph-a{display:flex;gap:var(--g1);flex:none}
+
+/* key figures: three numbers between two hairlines */
+[data-page=institution] .in-figs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--g4);padding:var(--g3) 0;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+[data-page=institution] .in-figs em{display:block;font:var(--lab);font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
+[data-page=institution] .in-figs b{display:block;margin:.5rem 0 .2rem;font-family:var(--serif);font-weight:400;font-size:clamp(1.9rem,2.8vw,2.5rem);line-height:1.05;font-variant-numeric:tabular-nums;color:var(--ink)}
+[data-page=institution] .in-figs span{color:var(--mute);font-size:.875rem}
+[data-page=institution] .in-note{margin:var(--g2) 0 0;color:var(--mute);font-size:.9375rem;max-width:70ch}
+
+/* sections + tools */
+[data-page=institution] .in-sec{margin-top:var(--g4)}
+html:root [data-page=institution] .in-h2{margin:0 0 var(--g1);font:var(--lab);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+[data-page=institution] .in-tools{display:flex;align-items:center;justify-content:space-between;gap:var(--g2);flex-wrap:wrap;margin-bottom:var(--g2)}
+[data-page=institution] .in-seg{flex:1 1 auto;min-width:0}
+[data-page=institution] .in-seg .pill{min-height:40px}
+[data-page=institution] .in-search{flex:0 1 20rem;min-width:14rem}
+html:root [data-page=institution] .in-search .px-in{border-radius:999px;padding-inline:1.2rem;min-height:44px}
+
+/* tables: hairline rows, labels in small caps, numbers right-aligned in tabular figures; wide tables scroll inside their own box */
+[data-page=institution] .in-tw{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+[data-page=institution] .in-t{width:100%;border-collapse:collapse;font-size:.9688rem}
+[data-page=institution] .in-t th{text-align:left;font:var(--lab);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);padding:0 var(--g2) .75rem 0;border-bottom:1px solid var(--hair);white-space:nowrap}
+[data-page=institution] .in-t td{padding:1rem var(--g2) 1rem 0;border-bottom:1px solid var(--hair);vertical-align:middle}
+[data-page=institution] .in-t th:last-child,[data-page=institution] .in-t td:last-child{padding-right:0}
+[data-page=institution] .in-t td b{display:block;font-weight:600;line-height:1.3}
+[data-page=institution] .in-t td small{display:block;margin-top:.2rem;color:var(--mute);font-size:.8438rem}
+[data-page=institution] .in-t .n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+[data-page=institution] .in-t .nw,[data-page=institution] .in-t .rcv{white-space:nowrap}
+[data-page=institution] .in-t .act{text-align:right;width:1%}
+[data-page=institution] .in-ct{min-width:54rem}
+[data-page=institution] .in-ct td:first-child{min-width:9rem}
+
+/* status words: small caps in the accent, no box or dot */
+html:root [data-page=institution] .chip.in-st{padding:0;background:transparent;border-radius:0;font:700 .875rem/1.2 var(--sans);font-variant-caps:all-small-caps;letter-spacing:.07em;color:var(--acc);white-space:nowrap}
+html:root [data-page=institution] .chip.in-st:before{display:none}
+html:root [data-page=institution] .chip.in-st.off{color:var(--mute)}
+
+/* empty states: one sentence and the next action, on the page */
+html:root [data-page=institution] .in-empty{padding:var(--g4) 0;border-top:1px solid var(--hair)}
+[data-page=institution] .in-figs+.in-sec .in-empty{border-top:0}
+[data-page=institution] .in-empty p{margin:0 0 var(--g2);max-width:56ch;color:var(--mute);font-size:1.0625rem;line-height:1.55}
+
+/* application review drawer */
+html:root [data-page=institution] dialog.px-dlg.in-review{width:min(42rem,100%)}
+html:root [data-page=institution] dialog.px-dlg.in-small{width:min(32rem,100%)}
+[data-page=institution] .in-rh{padding-bottom:var(--g3);margin-bottom:0;border-bottom:1px solid var(--hair)}
+html:root [data-page=institution] .in-rh h2{font-size:clamp(1.8rem,3vw,2.3rem)}
+[data-page=institution] .in-rsub{margin:.35rem 0 0;color:var(--mute);font-size:1.0625rem}
+[data-page=institution] .in-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--g3) var(--g2);margin:0;padding:var(--g3) 0}
+[data-page=institution] .in-facts dt{font:var(--lab);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:.35rem}
+[data-page=institution] .in-facts dd{margin:0;font-size:.9688rem;line-height:1.4}
+[data-page=institution] .in-rs{padding:var(--g3) 0 0;margin-top:0;border-top:1px solid var(--hair)}
+[data-page=institution] .in-rs+.in-rs{margin-top:var(--g3)}
+html:root [data-page=institution] .in-rs h3{font-family:var(--serif);font-weight:400;font-size:1.375rem;line-height:1.2;margin:0}
+[data-page=institution] .in-rs>p{margin:.35rem 0 var(--g2);color:var(--mute);font-size:.9375rem}
+[data-page=institution] .in-dec{display:flex;flex-wrap:wrap;gap:var(--g1)}
+[data-page=institution] .in-types{display:flex;flex-wrap:wrap;gap:var(--g1);margin:0 0 var(--g2)}
+[data-page=institution] .in-upl{position:relative;display:flex;align-items:center;justify-content:space-between;gap:var(--g2);flex-wrap:wrap;cursor:pointer}
+[data-page=institution] .in-upl-t{font-family:var(--serif);font-size:1.2rem}
+[data-page=institution] .in-upl-t i{color:var(--acc)}
+[data-page=institution] .in-upl input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+[data-page=institution] .in-upl:focus-within .btn{outline:2px solid var(--focus);outline-offset:2px}
+[data-page=institution] .in-letters{list-style:none;margin:var(--g2) 0 0;padding:0}
+[data-page=institution] .in-letters li{display:grid;grid-template-columns:7.5rem minmax(0,1fr) auto;gap:var(--g2);align-items:baseline;padding:.75rem 0;border-top:1px solid var(--hair);font-size:.9375rem}
+[data-page=institution] .in-letters .k{font:700 .875rem/1.2 var(--sans);font-variant-caps:all-small-caps;letter-spacing:.07em;color:var(--acc)}
+[data-page=institution] .in-letters a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--hair);text-underline-offset:.25em;overflow-wrap:anywhere}
+[data-page=institution] .in-letters a:hover{text-decoration-color:currentColor}
+[data-page=institution] .in-letters .d{color:var(--mute);font-variant-numeric:tabular-nums;white-space:nowrap}
+[data-page=institution] .in-letters li.none{display:block;color:var(--mute)}
+html:root [data-page=institution] .px-dlg .px-act{margin-top:var(--g4);padding-top:var(--g3);border-top:1px solid var(--hair)}
+[data-page=institution] .in-form{gap:var(--g3)}
+html:root [data-page=institution] .px-dlg .in-form .px-act{margin-top:var(--g1)}
+
+/* courses: one hairline row per course, editable in place */
+[data-page=institution] .in-clist{border-top:1px solid var(--hair)}
+[data-page=institution] .in-crow{display:grid;grid-template-columns:minmax(12rem,2fr) 11rem 9.5rem auto 8.5rem auto;gap:var(--g2);align-items:center;padding:.85rem 0;border-bottom:1px solid var(--hair)}
+[data-page=institution] .in-chead{padding:.75rem 0;font:var(--lab);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+[data-page=institution] .in-cl{display:none}
+html:root [data-page=institution] .in-crow .in-name{font-family:var(--serif);font-size:1.15rem;min-height:44px;padding-inline:.6rem;margin-left:-.6rem;border-radius:12px}
+[data-page=institution] .in-cf{display:block;min-width:0}
+html:root [data-page=institution] .in-crow select.px-in,html:root [data-page=institution] .in-crow .in-fee .px-in{min-height:44px;border-radius:12px;width:100%}
+[data-page=institution] .in-fee{position:relative}
+[data-page=institution] .in-cur{position:absolute;left:.9rem;bottom:0;height:44px;display:flex;align-items:center;font-size:.8125rem;font-weight:700;letter-spacing:.06em;color:var(--mute);pointer-events:none}
+html:root [data-page=institution] .in-fee .px-in{padding-left:3.1rem;font-variant-numeric:tabular-nums}
+[data-page=institution] .in-int{display:flex;gap:.35rem}
+html:root [data-page=institution] .in-int .pill{min-height:38px;padding:0 .85rem;font-size:.875rem}
+[data-page=institution] .in-ol{margin-left:.6rem;font-size:.9375rem;color:var(--mute)}
+[data-page=institution] .in-rm{justify-self:end}
+
+/* messages: about the conversation | the thread, composer pinned at the bottom */
+[data-page=institution] .in-mwrap{display:grid;grid-template-columns:minmax(14rem,18rem) minmax(0,1fr);gap:var(--g4);border-top:1px solid var(--hair)}
+[data-page=institution] .in-mside{padding-top:var(--g3)}
+[data-page=institution] .in-mside .av{width:44px;height:44px;font-size:.95rem}
+html:root [data-page=institution] .in-mside h2{font-family:var(--serif);font-weight:400;font-size:1.5rem;margin:var(--g2) 0 .2rem}
+[data-page=institution] .in-mside>p{margin:0;color:var(--mute)}
+[data-page=institution] .in-mside dl{margin:var(--g3) 0;display:grid;gap:var(--g2)}
+[data-page=institution] .in-mside dt{font:var(--lab);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:.3rem}
+[data-page=institution] .in-mside dd{margin:0;font-size:.9375rem;line-height:1.5}
+[data-page=institution] .in-thread{display:flex;flex-direction:column;min-height:26rem;height:clamp(26rem,calc(100dvh - 19rem),46rem);border-left:1px solid var(--hair);padding-left:var(--g4)}
+html:root [data-page=institution] .in-thread .px-chat{flex:1;height:auto;min-height:0;padding:var(--g3) 0;gap:var(--g2)}
+html:root [data-page=institution] .in-thread .px-send{padding:var(--g2) 0 0;border-top:1px solid var(--hair);gap:var(--g1)}
+html:root [data-page=institution] .in-thread .px-send .px-in{min-height:48px}
+[data-page=institution] .in-day{align-self:center;margin:var(--g1) 0 0;font:700 .8125rem/1 var(--sans);font-variant-caps:all-small-caps;letter-spacing:.1em;color:var(--mute)}
+html:root [data-page=institution] .in-thread .px-msg{max-width:min(34rem,82%);animation:none}
+html:root [data-page=institution] .in-thread .px-msg small{margin:0 .9rem .3rem;font-size:.8125rem}
+html:root [data-page=institution] .in-thread .px-msg p{padding:.75rem 1.1rem;font-size:.9688rem;line-height:1.5}
+html:root [data-page=institution] .in-thread .in-empty{border-top:0;margin:auto 0;text-align:center}
+[data-page=institution] .in-thread .in-empty p{margin-inline:auto}
+
+/* sign-in: calm card on the page side */
+html:root [data-page=institution] .px-lcard{max-width:27rem;gap:var(--g3);padding:0}
+html:root [data-page=institution] .px-lcard h2{font-size:clamp(2rem,3vw,2.6rem)}
+[data-page=institution] .px-login .px-f{gap:var(--g2)}
+html:root [data-page=institution] .px-login .px-in{min-height:50px}
+
+/* motion: 200 ms or less everywhere; no long entrances or drifting photo */
+body[data-page=institution] *,body[data-page=institution] *::before,body[data-page=institution] *::after{animation-duration:.18s!important;animation-delay:0s!important}
+html:root [data-page=institution] .px-view{animation:infade .18s ease-out}
+html:root [data-page=institution] dialog.px-dlg[open]{animation:infade .18s ease-out}
+@keyframes infade{from{opacity:0}to{opacity:1}}
+html:root [data-page=institution] .px-login .l>.ph{animation:none;transform:none}
+@media (prefers-reduced-motion:reduce){body[data-page=institution] *,body[data-page=institution] *::before,body[data-page=institution] *::after{animation:none!important;transition:none!important}}
+
+/* tablets and phones */
+@media (max-width:1100px){
+  [data-page=institution] .in-crow{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--g2);padding:var(--g3) 0}
+  [data-page=institution] .in-chead{display:none}
+  [data-page=institution] .in-cl{display:block;font:var(--lab);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:.4rem}
+  [data-page=institution] .in-crow .in-name{grid-column:1/-1}
+  [data-page=institution] .in-cur{bottom:0}
+  [data-page=institution] .in-rm{grid-column:2;align-self:end}
+}
+@media (max-width:900px){
+  [data-page=institution] .in-mwrap{grid-template-columns:minmax(0,1fr);gap:0}
+  [data-page=institution] .in-mside{display:grid;grid-template-columns:auto 1fr;gap:0 var(--g2);align-items:center;padding:var(--g2) 0;border-bottom:1px solid var(--hair)}
+  [data-page=institution] .in-mside .av{grid-row:span 2}
+  html:root [data-page=institution] .in-mside h2{margin:0;font-size:1.2rem}
+  [data-page=institution] .in-mside dl,[data-page=institution] .in-mside .btn{display:none}
+  [data-page=institution] .in-thread{border-left:0;padding-left:0;height:clamp(22rem,calc(100dvh - 22rem),40rem)}
+}
+@media (max-width:760px){
+  [data-page=institution] .in-ph{padding:var(--g3) 0 var(--g3);align-items:stretch}
+  [data-page=institution] .in-ph-a{width:100%}
+  [data-page=institution] .in-ph-a .btn{flex:1;justify-content:center}
+  [data-page=institution] .in-figs{grid-template-columns:minmax(0,1fr);gap:0;padding:0}
+  [data-page=institution] .in-figs>div{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:0 var(--g2);padding:.9rem 0}
+  [data-page=institution] .in-figs>div+div{border-top:1px solid var(--hair)}
+  [data-page=institution] .in-figs b{grid-column:2;grid-row:1/span 2;margin:0;font-size:1.75rem;text-align:right}
+  [data-page=institution] .in-figs span{font-size:.8125rem}
+  [data-page=institution] .in-tools{flex-direction:column;align-items:stretch}
+  [data-page=institution] .in-seg{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-right:calc(-1 * var(--gut));padding-right:var(--gut)}
+  [data-page=institution] .in-seg::-webkit-scrollbar{display:none}
+  [data-page=institution] .in-seg .pill{flex:none}
+  [data-page=institution] .in-search{flex:1 1 auto;min-width:0}
+  /* application rows stack: name + Review, course, received + status */
+  [data-page=institution] .in-at thead{display:none}
+  [data-page=institution] .in-at,[data-page=institution] .in-at tbody{display:block}
+  [data-page=institution] .in-at tr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.35rem var(--g2);padding:var(--g2) 0;border-bottom:1px solid var(--hair)}
+  [data-page=institution] .in-at tr:first-child{border-top:1px solid var(--hair)}
+  [data-page=institution] .in-at td{display:block;padding:0;border:0}
+  [data-page=institution] .in-at .who{grid-column:1;grid-row:1}
+  [data-page=institution] .in-at .act{grid-column:2;grid-row:1;width:auto}
+  [data-page=institution] .in-at .crs{grid-column:1/-1}
+  [data-page=institution] .in-at .rcv{grid-column:1;color:var(--mute);font-size:.875rem}
+  [data-page=institution] .in-at .rcv:before{content:"Received ";}
+  [data-page=institution] .in-at .st{grid-column:2;text-align:right}
+  [data-page=institution] .in-facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  [data-page=institution] .in-letters li{grid-template-columns:minmax(0,1fr) auto}
+  [data-page=institution] .in-letters .k{grid-column:1/-1}
+  [data-page=institution] .in-g2{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:480px){
+  [data-page=institution] .in-crow{grid-template-columns:minmax(0,1fr)}
+  [data-page=institution] .in-rm{grid-column:1;justify-self:start;margin-left:-.9rem}
+  html:root [data-page=institution] .in-dec .btn{flex:1 1 auto;justify-content:center}
+}
+/* premium pass, fixes after the first look */
+html:root [data-page=institution] .chip.in-st{font-size:1rem}
+[data-page=institution] .in-crow{grid-template-columns:minmax(12rem,1fr) 11rem 9.5rem 11.5rem 8.5rem 6rem}
+[data-page=institution] .in-open .sws{display:inline-flex;align-items:center}
+[data-page=institution] .in-ol{line-height:1}
+[data-page=institution] .in-mside dl{display:block}
+[data-page=institution] .in-mside dd+dt{margin-top:var(--g2)}
+@media (max-width:1100px){[data-page=institution] .in-crow{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+@media (max-width:760px){
+  [data-page=institution] .in-tools{display:grid;grid-template-columns:minmax(0,1fr)}
+  [data-page=institution] .in-seg{margin-right:0;padding-right:0}
+  html:root [data-page=institution] .in-crow .in-name{font-size:1.05rem}
+}
+@media (max-width:480px){[data-page=institution] .in-crow{grid-template-columns:minmax(0,1fr)}}
+/* phones: the thread flows with the page and the composer stays pinned just above the tab bar */
+@media (max-width:900px){
+  [data-page=institution] .in-thread{height:auto;min-height:0}
+  html:root [data-page=institution] .in-thread .px-chat{overflow:visible;min-height:12rem}
+  html:root [data-page=institution] .in-thread .px-send{position:sticky;bottom:calc(64px + env(safe-area-inset-bottom));z-index:5;background:var(--page);padding-bottom:var(--g2)}
+}
+@media (min-width:861px) and (max-width:900px){html:root [data-page=institution] .in-thread .px-send{bottom:0}}
+/* course name: a one-line field that wraps a long name instead of cutting it */
+html:root [data-page=institution] textarea.in-name{resize:none;overflow:hidden;field-sizing:content;min-height:44px;line-height:1.3;padding-block:.55rem;width:100%}
+html:root [data-page=institution] .in-h2{margin-bottom:var(--g2)}
+[data-page=institution] .in-open .sws .sw{margin:0}

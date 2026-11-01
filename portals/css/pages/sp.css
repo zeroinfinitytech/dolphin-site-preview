@@ -1,0 +1,112 @@
+/* Dolphin student and parent portal (portal.html): only what the member screens add to the shared portal shell (css/content.css, loaded
+   first and unchanged). Same house rules: white / soft black #161616, burgundy accents (light pink in dark), hairlines, no boxes or shadows,
+   pill buttons, words instead of step counters, 44 px targets on touch, 375 px. */
+/* house palette: proto.css still carries the old navy/ocean tokens (ink #0a1a33, ocean #2b5fa0, navy dark theme #07101f). The member portal
+   overrides every one of them so nothing navy or blue reaches the page, the shared inbox (convo.css), the alerts or the dialogs. */
+body.sp{--navy:#161616;--ocean:#6D1428;--tint:#eaa3cf;--clean-bg:#fff;--clean-alt:#fff;--field-bg:#fff;--row-h:rgba(22,22,22,.04);--float-line:rgba(22,22,22,.12);
+  --bg:#fff;--bg-soft:#fff;--ink:#161616;--mute:#5d5d5d;--hair:rgba(22,22,22,.12);--line:rgba(22,22,22,.45);--accent:#6D1428;--focus:#6D1428;--link:#6D1428;
+  --fill:rgba(22,22,22,.05);--fill2:rgba(22,22,22,.09);--ns-h:rgba(22,22,22,.06);--ns-ring:#6D1428;--field:#fff}
+html[data-theme=dark] body.sp{--navy:#161616;--ocean:#eaa3cf;--tint:#eaa3cf;--clean-bg:#161616;--clean-alt:#161616;--field-bg:rgba(255,255,255,.04);--row-h:rgba(255,255,255,.04);
+  --float-line:rgba(255,255,255,.12);--d-line:rgba(255,255,255,.10);--d-ink:#f4f4f4;--d-mut:rgba(244,244,244,.74);
+  --bg:#161616;--bg-soft:#1f1f1f;--ink:#f4f4f4;--mute:#c4c4c4;--hair:rgba(255,255,255,.10);--line:rgba(255,255,255,.45);--accent:#eaa3cf;
+  --cta:linear-gradient(135deg,#6D1428 0%,#BF4398 100%);--cta-d:linear-gradient(135deg,#7c1830 0%,#cf56a6 100%);--link:#eaa3cf;--focus:#eaa3cf;--field:rgba(255,255,255,.06);
+  --ns-h:rgba(255,255,255,.08);--ns-ring:#eaa3cf}
+.sp .sp-ro{margin:0 0 22px;padding:2px 0 2px 14px;border-left:2px solid var(--acc);color:var(--mute);font-size:15px;max-width:68ch}
+.sp .sp-who{padding:0 22px 14px;display:grid;gap:2px;font-size:14px}
+.sp .sp-who b{font-weight:600}.sp .sp-who small{color:var(--mute)}
+.sp .sp-who select.in{margin-top:4px}
+.sp .sp-acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+
+/* journey: five stages as words on one hairline, the current one in the accent */
+.sp .sp-steps{list-style:none;margin:6px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--hair)}
+.sp .sp-steps li{position:relative;padding:14px 8px 0 0;color:var(--mute)}
+.sp .sp-steps li:before{content:"";position:absolute;left:0;top:-1px;width:100%;height:2px;background:transparent}
+.sp .sp-steps li.done:before{background:var(--hair);background:color-mix(in srgb,var(--acc) 35%,transparent)}
+.sp .sp-steps li.now:before{background:var(--grad,var(--acc))}
+.sp .sp-steps b{display:block;font:400 clamp(17px,1.6vw,21px)/1.2 var(--serif,Georgia,serif);color:inherit}
+.sp .sp-steps li.now b,.sp .sp-steps li.done b{color:var(--ink)}
+.sp .sp-steps small{font:700 11px/1.4 var(--sans);letter-spacing:.09em;text-transform:uppercase}
+.sp .sp-steps li.now small{color:var(--acc)}
+
+/* visa steps: a hairline list with the state in words */
+.sp .sp-visa{list-style:none;margin:0;padding:0}
+.sp .sp-visa li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--hair)}
+.sp .sp-visa li b{font-weight:600}
+.sp .sp-visa li small{color:var(--mute);text-align:right}
+.sp .sp-visa li.done small{color:var(--acc)}
+.sp .sp-visa li.in_progress b{color:var(--acc)}
+.sp .sp-visa li.late small,.sp .sp-visa li.blocked small{color:var(--bad)}
+.sp .sp-letters{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px;font-size:14px}
+
+/* documents: upload button wraps a hidden file input; a thin progress line under the row while uploading */
+.sp .sp-up{position:relative;overflow:hidden;cursor:pointer}
+.sp .sp-up input{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+.sp .sp-up:focus-within{outline:2px solid var(--ring);outline-offset:3px}
+.sp .sp-da{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;margin-left:12px}
+.sp .sp-bar{height:3px;margin-top:8px;background:var(--fill);border-radius:99px;overflow:hidden;max-width:320px}
+.sp .sp-bar i{display:block;height:100%;width:0;background:var(--grad,var(--acc));transition:width .2s}
+.sp .doc-row .ra{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px}
+
+/* notifications as buttons: reset, unread in ink */
+.sp button.row{width:100%;background:none;border:0;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.sp .sp-note.un b{color:var(--ink)}
+.sp .sp-note:not(.un) b{font-weight:500;color:var(--mute)}
+
+/* messages fill the screen like the content inbox */
+.sp .sp-inbox .cv{--cv-h:calc(100dvh - var(--top) - var(--tab) - 1px);--cv-page:var(--page)}
+
+@media(max-width:700px){
+ .sp .sp-steps{grid-template-columns:1fr;border-top:0}
+ .sp .sp-steps li{padding:10px 0 10px 16px;border-left:2px solid var(--hair)}
+ .sp .sp-steps li:before{left:-2px;top:0;width:2px;height:100%}
+ .sp .sp-da{margin-left:0;width:100%;justify-content:flex-end}
+ .sp .sp-visa li{flex-direction:column;gap:2px}.sp .sp-visa li small{text-align:left}
+}
+@media(prefers-reduced-motion:reduce){.sp .sp-bar i{transition:none}}
+/* logo: always the colour logo; in dark it sits inside a white pill with even padding (house rule: colour logo on white, never cramped) */
+html[data-theme=dark] body.sp .logo-d{display:none!important}
+html[data-theme=dark] body.sp .logo-l{display:inline-block!important;box-sizing:content-box;background:#fff;padding:9px 16px;border-radius:999px;height:28px;width:auto} /* 28 px like light mode (height:auto showed the 596 px logo and pushed the bar off a phone screen) */
+
+/* ======================= polish (2026-11-01): premium finish, same house rules ======================= */
+/* rows that are links (Next steps, requests, notifications): no browser underline on every line; the title takes the accent on hover */
+.sp a.row{text-decoration:none;color:inherit}
+.sp a.row:hover b,.sp button.row:hover b{color:var(--acc)}
+.sp a.row:focus-visible,.sp button.row:focus-visible{outline-offset:4px;border-radius:6px}
+/* status words: crisp small-caps chips; accent = good news / current, warm = to do, plain = waiting */
+.sp .stw{display:inline-block;padding:4px 10px;border-radius:999px;font:700 10.5px/1.25 var(--sans);letter-spacing:.1em;background:var(--fill);color:var(--ink)}
+.sp .stw.on{background:color-mix(in srgb,var(--acc) 11%,transparent);color:var(--acc)}
+.sp .stw.warn{background:color-mix(in srgb,var(--bad) 10%,transparent);color:var(--bad)}
+/* page header: generous, one-line context */
+.sp .pg-h{padding:40px 0 28px}
+.sp .pg-h p{font-size:16.5px}
+/* figures on Documents: tabular serif numbers on one hairline */
+.sp .ck-sum{gap:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));border-top:1px solid var(--hair);margin:0 0 28px}
+.sp .ck-sum>div{padding:14px 16px 16px 0}
+.sp .ck-sum b{font-variant-numeric:tabular-nums lining-nums}
+@media(max-width:900px){.sp .ck-sum{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:420px){.sp .ck-sum{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* sections breathe the same everywhere */
+.sp .sec{margin-bottom:36px}
+.sp .sp-journey{margin-bottom:44px}
+.sp .two{gap:0 clamp(28px,4vw,64px)}
+/* calm entrance per screen (under 200 ms) */
+@keyframes spIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:no-preference){
+  .sp #view .pg>*{animation:spIn .18s cubic-bezier(.2,.7,.2,1) both}
+  .sp .row,.sp .btn,.sp #nav a,.sp #tabbar a{transition:background-color .15s ease-out,color .15s ease-out}
+}
+/* printing a receipt: only the receipt dialog, without its buttons */
+@media print{
+  body.sp #shell,body.sp #tabbar,body.sp .nt-toasts{display:none!important}
+  body.sp dialog.sp-rcpt-dlg{position:static;border:0;max-width:none;width:auto}
+  body.sp dialog.sp-rcpt-dlg .cv-dlg-a,body.sp dialog.sp-rcpt-dlg .cv-x{display:none!important}
+  body.sp dialog.sp-rcpt-dlg::backdrop{background:none}
+}
+
+/* family chat (2026-11-01): one thread, no list column; the composer stays at the bottom like Messages */
+.sp .sp-fam .cv{display:flex;flex-direction:column}
+.sp .sp-fam .cv-msgs{flex:1}
+.sp .sp-fam .cv-tt h1{margin:0;font:400 26px/1.15 var(--serif,Georgia,serif);letter-spacing:-.01em;overflow-wrap:anywhere}
+
+/* QA 2026-11-01: phone tab bar: the shortest label ("Visa") made a 43 px wide target; every tab is at least 44 x 44 */
+.tabbar a,.tabbar button{min-width:44px}

@@ -1,0 +1,8 @@
+/* System console (super.html) additions on top of css/admin.css. Same house rules. */
+.ks .k-brand small{color:var(--accent)}
+.ks .k-side-f{line-height:1.4}
+/* the live monitor host (js/convo.js mounts inside) */
+.ks .k-convo{margin-top:4px}
+.ks .k-join{display:flex;flex-direction:column;gap:10px;padding-top:16px;border-top:1px solid var(--line);margin-top:18px}
+/* live monitor is read only: hide the shared composer and close/reopen; joining goes through the "Join" form below it */
+.ks #sysConvo .cv-comp,.ks #sysConvo [data-cv=close],.ks #sysConvo [data-cv=reopen]{display:none!important}

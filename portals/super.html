@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head><meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dolphin System console</title>
+<meta name="description" content="Dolphin Education system console for the developers: health, audit, sign-ins, people, branches, features, view as, visitors, server, live conversations, backups.">
+<meta name="robots" content="noindex">
+<script>try{var t=localStorage.getItem("dolphin-proto-theme");if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","light")}</script>
+<link rel="stylesheet" href="css/portal/core/admin.css">
+<link rel="stylesheet" href="css/portal/pages/super.css">
+<link rel="stylesheet" href="css/portal/core/convo.css">
+<link rel="stylesheet" href="css/portal/core/notify.css">
+<link rel="stylesheet" href="css/portal/core/console.css">
+</head>
+<body class="k ks"><div style="position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9999;background:#7a1f45;color:#fff;font:600 14px/1.4 system-ui,sans-serif;padding:10px 18px;border-radius:999px;max-width:92vw;text-align:center">Test preview: sign-in needs the Dolphin server, so it does not work on this page yet.</div>
+<a class="k-skip" href="#k-main">Skip to content</a>
+
+<section class="k-si" id="k-signin" hidden aria-labelledby="siH">
+  <div class="k-si-t" id="siTheme"></div>
+  <div class="k-si-c" id="siCard">
+    <img src="site/img/logo.png" alt="Dolphin Education" class="logo-l" width="150" height="34">
+    <img src="site/img/logo-light.png" alt="Dolphin Education" class="logo-d" width="150" height="34">
+    <p class="k-eyebrow">System console</p>
+    <h1 id="siH">Sign in</h1>
+    <div id="siStep"></div>
+  </div>
+</section>
+
+<div class="k-app" id="k-app" hidden></div>
+<div id="k-layer"></div>
+
+<script src="js/portal/core/portal-api.js"></script>
+<script src="js/vendor/qr.js"></script>
+<script src="js/portal/core/admin-kit.js"></script>
+<script src="js/portal/core/console.js"></script>
+<script src="js/portal/core/notify.js"></script>
+<script src="js/portal/core/convo.js"></script>
+<script src="js/portal/pages/super/super-views.js"></script>
+<script src="js/portal/pages/super/super-ops.js"></script>
+<script src="js/portal/core/admin-branches.js"></script>
+<script src="js/portal/pages/super/super-shell.js"></script>
+</body>
+</html>

@@ -1,0 +1,410 @@
+/* Dolphin portals: the shared app-shell navbar (js/navshell.js). Loaded last on admin.html, staff.html, portal.html, institution.html.
+   Rules: flat white (light) / flat navy (dark), no borders, shadows or gradients on the bar (spacing does the separating),
+   one hairline only on floating layers (menu, sheet, tab bar), navy pill = current item, no icons except the theme sun/moon, no arrows.
+   Desktop: sidebar + slim top bar (head office, staff) or one horizontal bar (student/parent, university).
+   Tablets (<=1100): sidebar becomes a drawer opened by Menu. Phones (<=760): one compact bar + bottom tab bar + More sheet. */
+:root{--ns-h:rgba(10,26,51,.06);--ns-fill:var(--field-bg);--ns-ring:var(--ocean);--ns-bar:64px}
+html[data-theme=dark]{--ns-h:rgba(255,255,255,.08);--ns-ring:var(--tint)}
+
+/* ---------- shared pieces ---------- */
+.ns-ib{display:inline-grid;place-items:center;width:40px;height:40px;flex:none;padding:0;border:0;border-radius:50%;background:transparent;color:var(--ink);cursor:pointer;transition:background-color .18s ease-out}
+.ns-ib:hover{background:var(--ns-h)}
+.ns-ib .ns-sun{display:none}html[data-theme=dark] .ns-ib .ns-sun{display:block}html[data-theme=dark] .ns-ib .ns-moon{display:none}
+.ns-alerts{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border:0;border-radius:999px;background:transparent;color:var(--ink);font:600 14px/1 var(--sans);text-decoration:none;white-space:nowrap;cursor:pointer;transition:background-color .18s ease-out}
+.ns-alerts:hover,.ns-alerts[aria-expanded=true],.ns-alerts[aria-current=page]{background:var(--ns-h)}
+.ns-badge{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 7px;border-radius:999px;background:var(--burg);color:#fff;font:600 13px/1 var(--sans);font-variant-numeric:tabular-nums}
+html[data-theme=dark] .ns-badge{background:#e5696d;color:#0f1d36}
+.ns-badge:empty,html body .ns-badge:empty{display:none}
+.ns-search{display:inline-flex;align-items:center;justify-content:space-between;gap:16px;min-width:240px;min-height:40px;padding:0 8px 0 16px;border:0;border-radius:999px;background:var(--ns-fill);color:var(--mute);font:500 14px/1 var(--sans);cursor:pointer;transition:background-color .18s ease-out}
+.ns-search:hover{background:var(--ns-h)}
+.ns-search kbd{font:600 13px/1 var(--sans);color:var(--mute);border:0;border-radius:999px;padding:6px 10px;background:var(--page,#fff)}
+.ns-menu-btn{display:none;align-items:center;min-height:40px;padding:0 16px;border:0;border-radius:999px;background:var(--ns-fill);color:var(--ink);font:600 14px/1 var(--sans);cursor:pointer}
+.ns-menu-btn:hover{background:var(--ns-h)}
+/* user menu */
+.ns-um{position:relative;flex:none}
+.ns-umb{display:flex;align-items:center;gap:10px;min-height:44px;padding:2px 14px 2px 2px;border:0;border-radius:999px;background:transparent;color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:background-color .18s ease-out}
+.ns-umb:hover,.ns-um.on .ns-umb{background:var(--ns-h)}
+.ns-av{display:inline-grid;place-items:center;width:40px;height:40px;flex:none;border-radius:50%;background:var(--navy);color:#fff;font:400 15px/1 var(--serif);letter-spacing:.02em}
+html[data-theme=dark] .ns-av{background:#fff;color:var(--navy)}
+.ns-av.lg{width:44px;height:44px;font-size:16px}
+.ns-who{display:flex;flex-direction:column;gap:3px;min-width:0}
+.ns-who b,.ns-mh b{font:600 14px/1.2 var(--sans);max-width:18ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ns-who small,.ns-mh small{font:500 13px/1.25 var(--sans);color:var(--mute);max-width:20ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ns-menu{position:absolute;right:0;top:calc(100% + 8px);z-index:140;width:288px;max-height:calc(100vh - 88px);overflow:auto;padding:8px;border-radius:20px;background:var(--page,#fff);border:1px solid var(--float-line);box-shadow:none;animation:nsin .2s cubic-bezier(.19,1,.22,1)}
+@keyframes nsin{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.ns-mh{display:flex;align-items:center;gap:12px;padding:12px 12px 16px}
+.ns-mh>div{display:flex;flex-direction:column;gap:3px;min-width:0}
+.ns-mh b{max-width:none;font-size:15px}.ns-mh small{max-width:none;white-space:normal}
+.ns-mh .ns-note{color:var(--mute)}
+.ns-mg{margin:0;padding:12px 12px 4px;font:600 13px/1.2 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.ns-ms{border:0;height:0;margin:6px 0}
+.ns-mi{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:44px;padding:0 12px;border:0;border-radius:12px;background:transparent;color:var(--ink);font:500 15px/1.2 var(--sans);text-align:left;text-decoration:none;cursor:pointer}
+.ns-mi:hover,.ns-mi:focus{background:var(--ns-h);outline:none}
+.ns-mi:focus-visible{outline:2px solid var(--ns-ring);outline-offset:-2px}
+.ns-mi small{font:500 13px/1 var(--sans);color:var(--mute)}
+.ns-mi[aria-checked=true]{font-weight:600}
+.ns-mi[aria-checked=true]:after{content:"Current";font:500 13px/1 var(--sans);color:var(--mute)}
+.ns-mi.ns-out{color:var(--burg)}html[data-theme=dark] .ns-mi.ns-out{color:#f1a1a4}
+/* breadcrumb */
+.ns-crumb ol{display:flex;align-items:center;flex-wrap:nowrap;gap:0;margin:0;padding:0;list-style:none;min-width:0}
+.ns-crumb li{display:flex;align-items:center;min-width:0;white-space:nowrap;font:500 14px/1.2 var(--sans);color:var(--mute)}
+.ns-crumb li+li:before{content:"/";margin:0 10px;color:var(--mute);opacity:.6}
+.ns-crumb a{color:var(--mute);text-decoration:none;border-radius:6px}.ns-crumb a:hover{color:var(--ink)}
+.ns-crumb [aria-current=page]{color:var(--ink);font-weight:600;font-size:15px;overflow:hidden;text-overflow:ellipsis}
+/* sheet rows (phones): search, desk, theme */
+.ns-row{display:flex;align-items:center;width:100%;min-height:48px;padding:0 16px;border:0;border-radius:14px;background:var(--ns-fill);color:var(--ink);font:600 15px/1 var(--sans);text-align:left;cursor:pointer}
+.ns-row:hover{background:var(--ns-h)}
+.px-more .ns-row{min-height:0;padding:1rem 1.2rem;border-radius:16px;background:transparent;font:600 1rem/1.3 var(--sans)}
+.px-more .ns-row:hover{background:var(--ns-h)}
+/* focus */
+.ns-ib:focus-visible,.ns-umb:focus-visible,.ns-alerts:focus-visible,.ns-search:focus-visible,.ns-menu-btn:focus-visible,.ns-crumb a:focus-visible,.ns-row:focus-visible,.ns-brand:focus-visible{outline:2px solid var(--ns-ring);outline-offset:2px}
+.ns-ph{display:none!important}
+
+/* ---------- head office + staff: sidebar ---------- */
+body.con .shell{grid-template-columns:264px minmax(0,1fr)}
+body.con .side{background:var(--page);border:0;padding:24px 16px 24px;gap:0}
+body.con .a-brandrow{padding:0 12px;min-height:40px}
+body.con .side .brand{display:inline-flex;border-radius:8px}
+body.con .side .brand img{height:30px}
+body.con .ns-sheet-t,body.con .ns-sheet-tools{display:none}
+body.con .a-role{display:block;margin:10px 0 0 12px;font:600 13px/1.3 var(--sans);letter-spacing:.02em;text-transform:none;color:var(--mute)}
+body.con .side nav{display:flex;flex-direction:column;gap:0;flex:1;margin-top:24px}
+body.con .ns-grp{display:flex;flex-direction:column;gap:2px;margin-bottom:20px}
+body.con .side nav .gl{padding:0 16px 6px;font:600 13px/1.3 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+body.con .side nav a{min-height:40px;padding:0 12px 0 16px;font:500 15px/1.2 var(--sans);transform:none}
+body.con .side nav a:hover{background:var(--ns-h);transform:none}
+body.con .side nav a[aria-current=page],html[data-theme=dark] body.con .side nav a[aria-current=page]{background:var(--navy);color:#fff;font-weight:600}
+html[data-theme=dark] body.con .side nav a[aria-current=page]{background:#fff;color:var(--navy)}
+body.con .side nav a:focus-visible{outline:2px solid var(--ns-ring);outline-offset:-2px}
+body.con .side .a-n,html[data-theme] body.con .side .a-n{min-width:22px;height:22px;padding:0 7px;border-radius:999px;background:var(--actbg);color:var(--act);font:600 13px/1 var(--sans)}
+body.con .side nav a[aria-current=page] .a-n,html[data-theme] body.con .side nav a[aria-current=page] .a-n{background:rgba(255,255,255,.2);color:#fff}
+html[data-theme=dark] body.con .side nav a[aria-current=page] .a-n{background:var(--actbg);color:var(--burg)}
+/* coming soon: apart, at the bottom, quiet */
+body.con .ns-soon{margin-top:auto;margin-bottom:0;padding-top:16px}
+body.con .ns-soon a:not([aria-current=page]){color:var(--mute);font-weight:400}
+
+/* ---------- head office + staff: top bar ---------- */
+body.con .main{padding-top:0}
+body.con .a-top.ns-top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:16px;flex-wrap:nowrap;height:var(--ns-bar);margin:0 calc(-1 * clamp(16px,2.6vw,40px));padding:0 clamp(16px,2.6vw,40px);border:0;border-radius:0;background:var(--page);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+body.con .ns-brand{display:none;flex:none;border-radius:8px}
+body.con .ns-brand img{height:28px;width:auto}
+body.con .ns-lead{display:flex;align-items:center;gap:16px;flex:1;min-width:0}
+body.con .ns-lead .a-scope{flex:0 1 auto;min-width:0}
+body.con .ns-tools{display:flex;align-items:center;gap:8px;flex:none}
+body.con .t th{top:var(--ns-bar)}
+body.con .np{top:calc(var(--ns-bar) + 4px)}
+body.con .a-back:before{content:none}
+/* the phone tab bar belongs to the signed-in shell only */
+body.con.signin .tabbar,body.con .tabbar:empty{display:none!important}
+
+/* ---------- student/parent + university: one horizontal bar ---------- */
+.ns-px.px-head{position:sticky;top:0;z-index:40;padding:0 var(--gut);background:var(--page);pointer-events:auto}
+.ns-px .px-bar{height:72px;max-width:calc(var(--wrap) - 2*var(--gut));padding:0;gap:24px;border:0;border-radius:0;background:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+.ns-px .px-logo{flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;border-radius:8px}
+.ns-px .px-logo img{height:28px}
+.ns-px .px-logo small,html[data-theme] .ns-px .px-logo small{display:block;padding:0;border:0;font:600 13px/1.2 var(--sans);letter-spacing:.02em;text-transform:none;color:var(--mute)}
+.ns-px .px-logo:focus-visible{outline:2px solid var(--ns-ring);outline-offset:4px}
+.ns-px .px-nav{justify-content:center;gap:4px}
+.ns-px .px-nav a{min-height:40px;padding:0 16px;font:600 14px/1 var(--sans);color:var(--mute)}
+.ns-px .px-nav a:hover{background:var(--ns-h);color:var(--ink)}
+.ns-px .px-nav a[aria-current=page]{background:var(--navy);color:#fff}
+html[data-theme=dark] .ns-px .px-nav a[aria-current=page]{background:#fff;color:var(--navy)}
+.ns-px .px-nav a:focus-visible,.ns-navmore:focus-visible{outline:2px solid var(--ns-ring);outline-offset:-2px}
+.ns-navmore{display:none;flex:none;align-items:center;min-height:40px;padding:0 16px;border:0;border-radius:999px;background:transparent;color:var(--mute);font:600 14px/1 var(--sans);cursor:pointer}
+.ns-navmore:hover,.ns-navmore[aria-current=page]{background:var(--ns-h);color:var(--ink)}
+.ns-px .ns-tools{display:flex;align-items:center;gap:8px;flex:none;margin-left:0}
+.px-login .top .ns-ib{background:var(--ns-fill)}
+/* no arrows on portal buttons */
+.px .btn.go:after,.px .btn[data-glyph]:after,.px .btn:not(.ghost):not(.soft):not(.quiet):not(.xs):not(.px-nogl)[data-glyph]:after{content:none!important;display:none!important}
+/* the hidden update notice slid up over the bar and swallowed clicks on the avatar and alerts */
+.px-alert{pointer-events:none}.px-alert.on{pointer-events:auto}
+/* bottom tab bar: text only */
+.px-tabbar i{display:none}
+
+/* ---------- widths ---------- */
+@media (max-width:1280px){
+  .ns-px .ns-who{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.ns-px .ns-umb{padding:2px}
+  .ns-px .px-nav{justify-content:flex-start}
+}
+@media (max-width:1200px){
+  .ns-px .px-logo small,html[data-theme] .ns-px .px-logo small{display:none}
+  .ns-px .px-nav a{padding:0 12px}
+  body.con .ns-search{min-width:0;padding:0 16px}body.con .ns-search kbd{display:none}
+}
+@media (max-width:1100px){
+  /* tablets: the student and university bars keep four sections and move the rest into More */
+  .ns-px .px-nav .ns-x{display:none}
+  .ns-navmore{display:inline-flex}
+  .ns-px .px-nav a,.ns-navmore{padding:0 12px}
+  .ns-px .px-bar{gap:16px}
+  body.con .shell{display:block}
+  body.con .ns-menu-btn{display:inline-flex}
+  body.con .ns-brand{display:inline-flex}
+  body.con .ns-who{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}body.con .ns-umb{padding:2px}
+  body.con .side{padding:20px 16px}
+  body.con .side .ns-soon{margin-top:8px}
+  body.con .side nav{flex:none}
+}
+@media (max-width:860px){
+  .px-login .top .ns-ib{background:#ffffffe6;color:var(--navy)}
+}
+@media (max-width:900px){
+  /* narrow tablets: the theme switch moves into the account menu so the section links keep their room */
+  .ns-px .ns-dt{display:none!important}
+  .ns-px .ns-menu .ns-ph{display:flex!important}
+}
+@media (max-width:760px){
+  :root{--ns-bar:56px}
+  .ns-dt{display:none!important}
+  .ns-ph{display:flex!important}
+  .ns-alerts{padding:0 12px}
+  .ns-menu{position:fixed;left:12px;right:12px;top:calc(var(--ns-bar) + 4px);width:auto;max-height:calc(100vh - var(--ns-bar) - 100px)}
+  /* head office + staff: logo left, alerts and avatar right */
+  body.con .ns-menu-btn,body.con .ns-crumb,body.con .ns-search,body.con .ns-lead .a-scope,body.con .ns-lead .pv{display:none}
+  body.con .ns-lead{flex:1}
+  body.con .a-top.ns-top{gap:8px;margin:0 -16px;padding:0 12px 0 16px}
+  /* the side drawer becomes the More sheet */
+  body.con .side{left:0;right:0;top:auto;bottom:0;width:auto;max-height:84vh;height:auto;padding:12px 16px calc(20px + env(safe-area-inset-bottom));border-radius:24px 24px 0 0;border:0;border-top:1px solid var(--float-line);transform:translateY(104%);z-index:95}
+  body.con .side.open{transform:none}
+  body.con .side .brand,body.con .a-role{display:none}
+  body.con .a-brandrow{padding:4px 4px 0 8px}
+  body.con .ns-sheet-t{display:block;font:400 26px/1.1 var(--serif);color:var(--ink)}
+  body.con .side nav{margin-top:12px}
+  body.con .ns-grp{margin-bottom:12px}
+  body.con .side nav a{min-height:44px}
+  body.con .ns-sheet-tools{display:grid;gap:8px;padding:4px 0 8px}
+  body.con .ns-sheet-tools .a-desk{display:flex;justify-content:space-between;min-height:48px;border-radius:14px;padding:0 6px 0 16px;background:var(--ns-fill)}
+  body.con .ns-sheet-tools .a-desk select{flex:1;text-align:right;text-align-last:right;padding-right:30px}
+  body.con .tabbar{z-index:60}
+  body.con .tabbar button[aria-current=page]{background:var(--ns-h);color:var(--ink)}
+  body.con .tabbar a:focus-visible,body.con .tabbar button:focus-visible{outline:2px solid var(--ns-ring);outline-offset:-2px}
+  /* student/parent + university */
+  .ns-px.px-head{padding:0 12px 0 16px}
+  .ns-px .px-bar{height:var(--ns-bar);gap:8px}
+  .ns-px .px-logo img{height:26px}
+  .ns-px .ns-tools{margin-left:auto}
+  .px-tabbar button[aria-current=page]{background:var(--ns-h);color:var(--ink)}
+  /* tabs size to their labels so long words never touch or wrap */
+  .px-tabbar{display:flex;gap:2px}
+  .px-tabbar a,.px-tabbar button{flex:1 1 auto;padding:0 10px;white-space:nowrap}
+  .px-tabbar a:focus-visible,.px-tabbar button:focus-visible{outline:2px solid var(--ns-ring);outline-offset:-2px}
+  .px-figs>.px-fig{min-width:0}
+  /* the More sheet sits at the bottom at the height of its content (it stretched to 92 % of the screen) */
+  dialog.px-dlg:has(.px-more){top:auto;bottom:0}
+}
+@media (prefers-reduced-motion:reduce){.ns-menu{animation:none}body.con .side{transition:none}}
+@media print{.ns-top,.ns-px{display:none!important}}
+
+/* ===== QA C (2026-10-31): touch targets, tablet top bar, closed drawers, phone tab bar ===== */
+/* Touch widths (tablets and phones) and any coarse pointer: every control is at least 44 px tall (WCAG 2.5.5 / brief rule). Looks stay the same: only the hit area grows. */
+@media (max-width:1100px),(pointer:coarse){
+  .ns-ib{width:44px;height:44px}
+  .ns-alerts,.ns-search,.ns-menu-btn,.ns-navmore{min-height:44px}
+  body.con .ns-brand,.ns-px .px-logo{display:inline-flex;align-items:center;min-height:44px}
+  body.con .side nav a{min-height:44px}
+  body.con .ns-sheet-tools .a-desk select,body.con .a-desk select{min-height:44px}
+  .ns-px .px-nav a{min-height:44px}
+  .ad .tabs button,.ad .tabs a,.sf .tabs button,.sf .tabs a{min-height:44px}
+  .ad .pill,.sf .pill,.px .pill,.in-int .pill,.px-seg .pill{min-height:44px}
+  .ad .t th button,.sf .t th button{min-height:44px}
+  .ad .t td a:not(.btn),.sf .t td a:not(.btn){display:inline-flex;align-items:center;min-height:44px}
+  .sf .tl a.who,.sf a.who{min-height:44px}
+  .sf .lane li button:not(.btn){min-height:44px;text-align:left}
+  .px .btn.sm,.px .btn.xs,.px .btn.soft,.px .btn.ghost{min-height:44px}
+  .px-foot a{display:inline-flex;align-items:center;min-height:44px;padding:0}
+  .ad .ck input,.sf .ck input{width:24px;height:24px;margin:0}
+  .ad .ck,.sf .ck{align-items:center;min-height:44px}
+  .ad .a-undo,.px-undo button,#undoB{min-height:44px}
+}
+/* the switch keeps its look; a transparent ring makes the hit area 44 px */
+.px button.sw{position:relative}
+@media (max-width:1100px),(pointer:coarse){.px button.sw:after{content:"";position:absolute;inset:-11px -2px}}
+
+/* tablets (761-1100): head office preview pages put the office scope pills in the top bar; with the breadcrumb, search and tools they overflowed the
+   screen (768: 33 px page overflow, pills over the alerts). The breadcrumb gives way and the pills scroll inside their own row. */
+@media (min-width:761px) and (max-width:1100px){
+  body.con .ns-lead:has(.a-scope) .ns-crumb{display:none}
+  body.con .ns-lead .a-scope{overflow:hidden}
+  body.con .ns-lead .a-scope>span:first-child{display:none}
+  body.con .ns-lead .a-scope .pills{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;min-width:0}
+}
+
+/* closed drawer (tablets) and More sheet (phones) sit off screen; they must not take keyboard focus or be read out while closed */
+@media (max-width:1100px){
+  body.con .side:not(.open){visibility:hidden;transition:transform .4s cubic-bezier(.19,1,.22,1),visibility 0s linear .4s}
+  body.con .side.open{visibility:visible;transition:transform .4s cubic-bezier(.19,1,.22,1),visibility 0s}
+}
+
+/* student/university phone tab bar: at 320-375 px the five labels were wider than the bar and pushed More off screen */
+@media (max-width:380px){
+  .px-tabbar{left:.5rem;right:.5rem;padding:.25rem;gap:0}
+  .px-tabbar a,.px-tabbar button{flex:1 1 auto;min-width:44px;padding:0 4px;letter-spacing:0}
+  html[data-theme] .px-tabbar a,html[data-theme] .px-tabbar button{font-size:12px}
+}
+
+/* journey steps on phones: the "You are here" tag wrapped to three lines under the current step; the white step circle already marks it */
+@media (max-width:700px){
+  .px-steps{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .px-steps .tag{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;padding:0;margin:0}
+}
+/* small phones: six step names cannot sit side by side (they ran together and the last one was cut); the numbers stay, only the current step is named */
+@media (max-width:420px){
+  .px-steps li:not(.now) b{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0}
+  .px-steps li.now b{white-space:nowrap}
+}
+
+/* buttons: one navy swatch across all four portals (standing rule: navy #0f1d36 main buttons, white in dark); no outlines, no lines.
+   UPDATE (2026-10-31, brand refresh to match dolphin.edu.np): main buttons now use the burgundy->pink gradient (--cta-grad), same brand accent as proto.css/site.css; dark theme still swaps to a white pill for contrast. */
+.px .btn:not(.ghost):not(.soft):not(.quiet),.px-login .btn:not(.ghost):not(.soft):not(.quiet){background:var(--cta-grad);border-color:transparent;color:#fff}
+.px .btn:not(.ghost):not(.soft):not(.quiet):hover{background:var(--cta-grad-h)}
+html[data-theme=dark] .px .btn:not(.ghost):not(.soft):not(.quiet){background:#fff;color:#0f1d36}
+html[data-theme=dark] .px .btn:not(.ghost):not(.soft):not(.quiet):hover{background:#e8eff8}
+.px .px-hero .btn:not(.ghost):not(.soft):not(.quiet){background:#fff;color:#0f1d36}
+.px .btn.soft{border-color:transparent}
+.px-drop{background:var(--field-bg);border:0}
+.px-card.px-doc,.px-banner{border-color:transparent}
+.ad .tabs,.sf .tabs,.px .tabs{border-bottom:0}
+.sf .day.today,html[data-theme=dark] .sf .day.today{border-color:transparent}
+/* hidden undo notice (university courses) must not be focusable while it is invisible */
+.px-undo:not(.on){visibility:hidden;transition:opacity .3s,transform .3s,visibility 0s linear .3s}
+@media (max-width:1100px),(pointer:coarse){
+  .ns-crumb a{display:inline-flex;align-items:center;min-height:44px}
+  .px-foot a{min-width:44px;justify-content:center}
+  .ad th button,.sf th button{min-height:44px;min-width:44px}
+}
+
+/* tablets in portrait (761-900): wide record tables (leads, students, applications, testimonials, users, fees) were 70-480 px wider than the screen; the
+   action column (Review, Open, Convert) sat out of sight inside a scroll box with no cue. They now use the same stacked rows as phones. */
+@media (min-width:761px) and (max-width:900px){
+  .ad .tw{margin:0}
+  .ad .t,.ad .t tbody,.ad .t tr,.ad .t td{display:block}
+  .ad .t thead{display:none}
+  .ad .t tr{padding:16px 0;margin-bottom:12px}
+  .ad .t td{padding:6px 0;border:0;text-align:left;min-height:0;display:flex;justify-content:space-between;gap:16px;align-items:center}
+  .ad .t td.n{text-align:left}
+  .ad .t td[data-l]:before{content:attr(data-l);font-size:13px;font-weight:600;color:var(--mute);flex:none}
+  .ad .t td:first-child{padding-bottom:10px}.ad .t td:first-child:before{content:none}
+  .ad .t td .who{flex:1}
+  .ad .t td.acts-cell,.ad .t td:has(.row-act){display:block;padding-top:12px}
+  .ad .t td .row-act{justify-content:flex-start}
+  .ad .t tbody tr:hover td{background:transparent}
+  .ad .mx tr{display:table-row}.ad .mx td,.ad .mx th{display:table-cell}.ad .mx thead{display:table-header-group}.ad .mx,.ad .mx tbody{display:table}
+  .ad .blk:has(.mx) .tw{overflow-x:auto}
+  .sf .tw{margin:0}
+  .sf .t,.sf .t tbody,.sf .t tr,.sf .t td{display:block}
+  .sf .t thead{display:none}
+  .sf .t tr{padding:16px 0;margin-bottom:12px}
+  .sf .t td{padding:6px 0;border:0;text-align:left;min-height:0;display:flex;justify-content:space-between;gap:16px;align-items:center}
+  .sf .t td.n{text-align:left}
+  .sf .t td[data-l]:before{content:attr(data-l);font-size:13px;font-weight:600;color:var(--mute);flex:none}
+  .sf .t td:first-child{padding-bottom:10px}.sf .t td:first-child:before{content:none}
+  .sf .t td .who{flex:1}
+  .sf .t td.acts-cell,.sf .t td:has(.row-act){display:block;padding-top:12px}
+  .sf .t td .row-act{justify-content:flex-start}
+  .sf .t tbody tr:hover td{background:transparent}
+  .sf .mx tr{display:table-row}.sf .mx td,.sf .mx th{display:table-cell}.sf .mx thead{display:table-header-group}.sf .mx,.sf .mx tbody{display:table}
+  .sf .blk:has(.mx) .tw{overflow-x:auto}
+}
+
+/* ===== PORTALS BRAND PASS (2026-10-31, portals polish): one brand system across head office, staff, student/parent and university =====
+   House rules: primary buttons = burgundy #6D1428 -> pink #BF4398 gradient in BOTH themes; light theme white with navy ink; dark theme soft black
+   #161616 (raised #1f1f1f / #262626, hairlines rgba(255,255,255,.10)) with light-pink #eaa3cf accents and NO navy or blue anywhere.
+   This block remaps the shared tokens in dark theme (most blue came from --ocean / --tint / --navy / blue-tinted --mute), then fixes the hard-coded
+   leftovers. html:root beats the portal sheets that set the same tokens on html[data-theme=dark]. Transitions <= 200 ms, reduced motion respected. */
+
+/* 1. dark tokens: accents become the brand pink family, "navy" text on white pills becomes soft black, muted text becomes neutral grey */
+html:root[data-theme=dark]{--ocean:#BF4398;--tint:#eaa3cf;--link:#eaa3cf;--focus:#eaa3cf;--navy:#161616;--mute:#c4c4c4;--d-mut:rgba(255,255,255,.72);
+ --ns-ring:#eaa3cf;--ns-h:rgba(255,255,255,.08);--row-h:rgba(255,255,255,.045)}
+/* status colours in dark: "good / done" reads as calm neutral white (was light blue); "needs action" keeps its warm rose */
+html:root[data-theme=dark] body.ad,html:root[data-theme=dark] body.sf{--good:#ececec;--goodbg:rgba(255,255,255,.10)}
+html:root[data-theme=dark] body.px{--fbg:rgba(255,255,255,.05);--ok:#eaa3cf}
+
+/* 2. primary buttons: the gradient in both themes (dark theme used to swap to a white pill) */
+html:root[data-theme=dark] .ad .btn:not(.ghost),html:root[data-theme=dark] .sf .btn:not(.ghost){--bbg:var(--cta-grad);--bink:#fff;--bbgh:var(--cta-grad-h);--binkh:#fff}
+html:root .px .btn:not(.ghost):not(.soft):not(.quiet),html:root .px-login .btn:not(.ghost):not(.soft):not(.quiet),
+html:root .px .px-hero .btn:not(.ghost):not(.soft):not(.quiet){background:var(--cta-grad);border-color:transparent;color:#fff}
+html:root .px .btn:not(.ghost):not(.soft):not(.quiet):hover,html:root .px .px-hero .btn:not(.ghost):not(.soft):not(.quiet):hover{background:var(--cta-grad-h);color:#fff}
+html:root[data-theme=dark] .con .btn-p{background:var(--cta-grad);color:#fff}html:root[data-theme=dark] .con .btn-p:hover{background:var(--cta-grad-h)}
+/* secondary "soft" buttons (View summary, Open, ...) were a light-blue tint (navy in dark): the same neutral 8 % fill as head office / staff */
+html:root .px .btn.soft{background:rgba(10,26,51,.07);border-color:transparent;color:var(--ink)}
+html:root .px .btn.soft:hover{background:rgba(10,26,51,.12)}
+html:root[data-theme=dark] .px .btn.soft{background:rgba(255,255,255,.10)}html:root[data-theme=dark] .px .btn.soft:hover{background:rgba(255,255,255,.16)}
+/* the button focus ring follows the brand (was ocean blue) */
+.ad .btn:focus-visible,.sf .btn:focus-visible,.px .btn:focus-visible{outline:2px solid var(--burg);outline-offset:3px}
+html:root[data-theme=dark] .ad .btn:focus-visible,html:root[data-theme=dark] .sf .btn:focus-visible,html:root[data-theme=dark] .px .btn:focus-visible{outline-color:#eaa3cf}
+:root:not([data-theme=dark]) .ad,:root:not([data-theme=dark]) .sf,:root:not([data-theme=dark]) .px{--ns-ring:var(--burg)}
+
+/* 3. selected states. Light: the navy ink fill everywhere (filter pills were ocean blue on head office/staff, navy on university).
+   Dark: one calm light-pink tint with pink text (sidebar, top nav, tab bars, filter pills, segmented switches), instead of loud white pills. */
+.ad .pill[aria-pressed=true],.sf .pill[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:#fff}
+html:root[data-theme=dark] body.con .side nav a[aria-current=page],
+html:root[data-theme=dark] .ns-px .px-nav a[aria-current=page],
+html:root[data-theme=dark] .ad .tabbar a[aria-current=page],html:root[data-theme=dark] .sf .tabbar a[aria-current=page],
+html:root[data-theme=dark] .ad .tabbar button[aria-current=page],html:root[data-theme=dark] .sf .tabbar button[aria-current=page],
+html:root[data-theme=dark] .px-tabbar [aria-current=page],
+html:root[data-theme=dark] .ad .pill[aria-pressed=true],html:root[data-theme=dark] .sf .pill[aria-pressed=true],
+html:root[data-theme=dark] .ad .steps button.on,html:root[data-theme=dark] .sf .steps button.on,
+html:root[data-theme=dark] .px-chip[aria-pressed=true],html:root[data-theme=dark] .px-chip[aria-current=page],html:root[data-theme=dark] .px-sw .px-chip[aria-pressed=true],
+html:root[data-theme=dark] .px-seg .pill[aria-pressed=true],html:root[data-theme=dark] .in-int .pill[aria-pressed=true],
+html:root[data-theme=dark] [data-page=institution] .px-nav a[aria-current=page]{background:rgba(234,163,207,.15);border-color:transparent;color:#eaa3cf;font-weight:600}
+html:root[data-theme=dark] body.con .side nav a[aria-current=page] .a-n{background:rgba(255,255,255,.12);color:#fff}
+html:root[data-theme=dark] .ad .tabs [aria-selected=true],html:root[data-theme=dark] .sf .tabs [aria-selected=true]{color:#eaa3cf}
+
+/* 4. avatars, badges, bars, toasts, skip links, scrims: hard-coded navy/blue in dark theme */
+html:root[data-theme=dark] .ad .av,html:root[data-theme=dark] .sf .av,html:root[data-theme=dark] .px .av{background:#2c2c2c;color:#f4f4f4}
+html:root[data-theme=dark] .ad .av.o,html:root[data-theme=dark] .sf .av.o,html:root[data-theme=dark] .px .av.o{background:rgba(234,163,207,.16);color:#eaa3cf}
+html:root[data-theme=dark] .ad .av.l,html:root[data-theme=dark] .sf .av.l,html:root[data-theme=dark] .px .av.l{background:rgba(255,255,255,.08);color:#ececec}
+html:root[data-theme=dark] .ns-av{background:#f4f4f4;color:#161616}
+html:root[data-theme=dark] .ns-badge{background:#e5696d;color:#161616}
+html:root[data-theme=dark] .ad .hb .trk i,html:root[data-theme=dark] .sf .hb .trk i{background:#eaa3cf}
+html:root[data-theme=dark] .ad .hb.s2 .trk i,html:root[data-theme=dark] .sf .hb.s2 .trk i{background:rgba(255,255,255,.55)}
+html:root[data-theme=dark] .ad .a-toast,html:root[data-theme=dark] .sf .a-toast{background:#262626;color:#f4f4f4;border:1px solid rgba(255,255,255,.10)}
+html:root[data-theme=dark] .ad .a-toast button,html:root[data-theme=dark] .sf .a-toast button{background:rgba(255,255,255,.12);color:#fff}
+html:root[data-theme=dark] .toast{background:#262626;color:#f4f4f4;border:1px solid rgba(255,255,255,.10)}
+html:root[data-theme=dark] .ad .a-skip,html:root[data-theme=dark] .sf .a-skip,html:root[data-theme=dark] .px-skip{background:#f4f4f4;color:#161616}
+html:root[data-theme=dark] .navscrim,html:root[data-theme=dark] .ns-scrim{background:rgba(0,0,0,.55)}
+html:root[data-theme=dark] .sf .th li.out .thb,html:root[data-theme=dark] .px-msg.me p{background:#262626;border-color:transparent;color:#f4f4f4}
+
+/* 5. headline accents: the greeting name takes the brand gradient as text (site rule); light pink gradient in dark */
+.ad .greet h1 em,.sf .greet h1 em{background:var(--cta-grad);-webkit-background-clip:text;background-clip:text;color:var(--pink);-webkit-text-fill-color:transparent;padding-right:.12em;margin-right:-.12em}
+html:root[data-theme=dark] .ad .greet h1 em,html:root[data-theme=dark] .sf .greet h1 em{background-image:linear-gradient(135deg,#e46db5 0%,#f7aad7 100%)}
+/* student journey hero (photo band in both themes): the light-blue accents become the light pink used over photographs on the site */
+.px-hero .px-cap,.px-say em,.px-hero .px-say em{color:#eaa3cf}
+.px-steps .fill{background:#eaa3cf}
+.px-steps li.done>i{background:#eaa3cf;border-color:#eaa3cf;color:#161616}
+html:root[data-theme=dark] .px-steps li:not(.done):not(.now)>i{background:#262626}
+html:root[data-theme=dark] .px-steps li.done>i{background:#eaa3cf;color:#161616}
+
+/* 6. student/parent + university form fields: the same borderless filled field as head office/staff (dark theme had a light-blue 50 % border) */
+html:root .px-in,html:root .px-in:not(:hover):not(:focus-visible){border-color:transparent}
+html:root .px-in:hover{border-color:var(--hair)}
+html:root .px-in:focus-visible{outline:2px solid var(--burg);outline-offset:2px;border-color:transparent}
+html:root[data-theme=dark] .px-in:focus-visible{outline-color:#eaa3cf}
+html:root .px-in[aria-invalid=true]{border-color:var(--burg)}html:root[data-theme=dark] .px-in[aria-invalid=true]{border-color:#f1a1a4}
+/* footer row lines up with the header bar and the page content (it started 40 px further left at 1440) */
+.px-foot>div{max-width:calc(var(--wrap) - 2 * var(--gut))}
+/* 7. pressed pills inside student/university screens and dialogs (letter type in the application summary, filters): a later flat-fill rule left
+   them as an 8 % tint with WHITE text, i.e. the chosen option was unreadable. Navy fill (light) / pink tint (dark), like every other selected state. */
+html:root .px .pill[aria-pressed=true],html:root .px-dlg .pill[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:#fff}
+html:root[data-theme=dark] .px .pill[aria-pressed=true],html:root[data-theme=dark] .px-dlg .pill[aria-pressed=true]{background:rgba(234,163,207,.15);border-color:transparent;color:#eaa3cf}
+/* 8. head office preview pages (Franchises, Royalty, Universities, Reports) at 1101-1680 px: the office scope pills (All, Baneshwor head office,
+   Dhaka) were cut off behind the search field at 1440. The page title already names the page, so the breadcrumb gives way, as it does on tablets. */
+@media (min-width:1101px) and (max-width:1680px){
+  body.con .ns-lead:has(.a-scope) .ns-crumb{display:none}
+  body.con .ns-lead .a-scope .pills{flex-wrap:nowrap}
+}
+/* 9. motion: every UI transition in the four portals is capped at 200 ms (drawer slides were 400 ms, hovers 250-300 ms, bar fills up to 1.6 s).
+   Entry keyframes (cards rising in) are untouched. Reduced motion: no transitions and no animation at all. */
+body.con *,body.con *::before,body.con *::after,body.px *,body.px *::before,body.px *::after{transition-duration:.18s!important}
+@media (max-width:1100px){
+  body.con .side:not(.open){transition:transform .2s cubic-bezier(.19,1,.22,1),visibility 0s linear .2s}
+  body.con .side.open{transition:transform .2s cubic-bezier(.19,1,.22,1),visibility 0s}
+}
+@media (prefers-reduced-motion:reduce){
+  body.con *,body.con *::before,body.con *::after,body.px *,body.px *::before,body.px *::after{transition-duration:0s!important;transition-delay:0s!important;animation-duration:.001s!important;animation-delay:0s!important;animation-iteration-count:1!important}
+}
+/* 10. keyboard focus ring: brand burgundy in light theme (was ocean blue on pills, links and fields), light pink in dark (token above) */
+:root:not([data-theme=dark]) body.con,:root:not([data-theme=dark]) body.px{--focus:#6D1428}
+/* user-menu button: initials come from data-i (not text, so the button's name is its visible name + role); screen-reader-only suffix */
+.ns-umb .ns-av::before{content:attr(data-i)}
+.ns-sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}

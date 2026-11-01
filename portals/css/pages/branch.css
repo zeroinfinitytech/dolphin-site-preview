@@ -1,0 +1,107 @@
+/* Branch portal (staff.html): a few additions on top of css/admin.css (same house rules: hairlines, pills, no boxes, no navy). */
+.br .br-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:0 clamp(24px,4vw,56px)}
+.br .br-grid .k-sec{min-width:0}
+.br .br-acts{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 4px}
+.br .br-h{margin-top:22px}
+.br .br-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 0 16px;padding-bottom:2px}
+.br .br-tabs::-webkit-scrollbar{display:none}
+.br .br-tabs button{flex:none}
+.br .k-list .k-rowx{padding:12px 0;border-bottom:1px solid var(--line)}
+.br .k-list .k-rowx:last-child{border-bottom:0}
+.br .k-rowx>span:first-child{min-width:0;flex:1 1 220px;overflow-wrap:anywhere}
+.br .br-r{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:6px}
+.br .br-docs .k-st{margin-left:6px;vertical-align:1px}
+.br .br-docacts{display:flex;flex-wrap:wrap;gap:6px}
+.br .k-drw .k-kpis{margin-bottom:14px}
+@media (max-width:620px){
+  .br .br-r{justify-content:flex-start;width:100%}
+  .br .k-list .k-rowx{flex-direction:column;align-items:stretch}
+}
+/* conversations: the inbox fills the screen (height set in js/branch-desk.js), so the page keeps only a small bottom gutter */
+.br.br-conv #k-main{padding-bottom:16px}
+/* Today: every section in the two-column grid starts on the same hairline (the kit drops the first section's line), and six figures sit 3 + 3 */
+.br .br-grid>.k-sec:first-of-type{border-top:1px solid var(--line);padding-top:28px}
+.br .k-kpis.br-k6{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (min-width:1200px){.br .k-kpis.br-k6{grid-template-columns:repeat(6,minmax(0,1fr))}}
+@media (max-width:620px){.br .k-kpis.br-k6{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* drawer body is a scrolling flex column: without this the scrollable tab row (overflow-x) shrinks to nothing when the pane is long */
+.br .k-db>*{flex-shrink:0}
+/* phones: figures two per row so a screen of numbers does not push the work below the fold */
+@media (max-width:620px){
+  .br .k-kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 20px}
+  .br .k-kpis dd{font-size:24px}
+}
+/* the kit's "body.k button{font:inherit}" outranks .k-b's weight, so button pills rendered lighter than link pills: one weight for both */
+body.br .k-b,body.br .k-seg button{font-weight:600}
+@media (max-width:620px){
+  /* rows stack on phones: the 220px flex-basis of the text column must not become a 220px height */
+  .br .k-rowx>span:first-child{flex:none}
+}
+/* logo: always the colour logo; in dark it sits inside a white pill with even padding (house rule: colour logo on white, never cramped) */
+html[data-theme=dark] body.br .logo-d{display:none!important}
+html[data-theme=dark] body.br .logo-l{display:inline-block!important;box-sizing:content-box;background:#fff;padding:9px 16px;border-radius:999px;height:28px;width:auto} /* 28 px like light mode (height:auto showed the 596 px logo and pushed the bar off a phone screen) */
+@media (min-width:1200px){.br .k-kpis.br-k6 dt{min-height:2.7em}}
+
+/* ======================= polish (2026-11-01): premium dashboard finish, same house rules ======================= */
+.br{--br-ease:cubic-bezier(.2,.7,.2,1)}
+/* sidebar: the role line reads as a quiet caption, not shouted caps over two lines */
+.br .k-brand small{font:500 12.5px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--mute)}
+.br .k-nav a{transition:background-color .15s ease-out,color .15s ease-out}
+/* page header: title, one-line context, the primary action on the right */
+.br .k-ph{padding:24px 0 30px}
+.br .k-ph .k-eyebrow{color:var(--accent)}
+.br .k-ph .k-lead{max-width:60ch}
+/* calm entrance for each screen's content (under 200 ms) */
+@keyframes brIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:no-preference){
+  .br #k-body>*:not(.k-skel){animation:brIn .18s var(--br-ease) both}
+  .br #cfBody>*{animation:brIn .16s var(--br-ease) both}
+}
+/* status chips: small caps on a soft pill; accent = needs attention, ink = in progress, muted = done */
+.br .k-st{padding:4px 10px;border-radius:999px;font:650 10.5px/1.25 var(--sans);letter-spacing:.1em;background:color-mix(in srgb,var(--accent) 11%,transparent);color:var(--accent)}
+.br .k-st.i{background:var(--hover);color:var(--ink)}
+.br .k-st.m{background:transparent;color:var(--mute);padding-left:0;padding-right:0}
+/* tables: readable numbers, a quiet hover, room to breathe */
+.br .k-t td{font-variant-numeric:tabular-nums;padding-top:15px;padding-bottom:15px}
+.br .k-t td.k-pri{font-weight:500}
+.br .k-t tr.k-rc td{transition:background-color .15s ease-out}
+.br .k-count{font:600 12px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+/* figures: tabular serif numbers */
+.br .k-kpis dd{font-variant-numeric:tabular-nums lining-nums}
+/* empty states: a serif line and one sentence, aligned with the content */
+.br .k-empty{padding:40px 0 32px}
+.br .k-empty b{font-size:24px}
+/* drawer: the file tabs stay in reach while the pane scrolls */
+.br .k-drw .br-tabs{position:sticky;top:-12px;z-index:2;background:var(--bg);margin:-12px -28px 8px;padding:12px 28px 10px;border-bottom:1px solid var(--line)}
+html[data-theme=dark] .br .k-drw .br-tabs{background:var(--raise)}
+@media (max-width:760px){.br .k-drw .br-tabs{margin-left:-20px;margin-right:-20px;padding-left:20px;padding-right:20px}}
+/* phones: tables keep their columns and scroll sideways inside their own container (never the page); the first column stays put */
+@media (max-width:760px){
+  .br .k-tw{overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+  .br .k-t{display:table;width:max-content;min-width:100%}
+  .br .k-t thead{display:table-header-group}
+  .br .k-t tbody{display:table-row-group}
+  .br .k-t tr{display:table-row;padding:0;border:0}
+  .br .k-t td,.br .k-t th{display:table-cell;width:auto;padding:13px 14px!important;border-bottom:1px solid var(--line);text-align:left;min-width:96px;max-width:240px;white-space:normal;overflow:visible}
+  .br .k-t th{border-bottom-color:var(--line2)}
+  .br .k-t td:before{content:none!important;display:none!important}
+  .br .k-t td.r,.br .k-t th.r{text-align:right}
+  .br .k-t td:empty{display:table-cell}
+  .br .k-t td.k-pri,.br .k-t th:first-child{position:sticky;left:0;z-index:1;background:var(--bg);padding-left:0!important;min-width:150px}
+  .br .k-t td.k-pri{font-size:inherit}
+}
+/* phones: money figures stay on one line */
+@media (max-width:620px){.br .k-kpis dd{font-size:21px;white-space:nowrap}}
+/* the kit's hover rule outranks the pressed state, so a hovered current tab turned pale with white text: keep it solid */
+.br .k-seg [aria-pressed=true]:hover{background:var(--sel);color:var(--sel-ink);opacity:.9}
+/* drawer figures: one row (four or five short numbers) instead of a tall 2-column stack */
+.br .k-drw .k-kpis{grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:0 18px}
+.br .k-drw .k-kpis dd{font-size:28px}
+@media (max-width:620px){.br .k-drw .k-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.br .k-drw .k-kpis dd{font-size:22px}}
+/* printing a receipt: only the receipt dialog, without its buttons */
+@media print{
+  body.br .k-app,body.br .k-toast,body.br .nt-toasts{display:none!important}
+  body.br dialog.br-rcpt{position:static;box-shadow:none;border:0;max-width:none;width:auto}
+  body.br dialog.br-rcpt .k-df,body.br dialog.br-rcpt [data-x]{display:none!important}
+  body.br dialog.br-rcpt::backdrop{background:none}
+}

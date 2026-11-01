@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head><meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Dolphin Student and Parent Portal</title>
+<meta name="description" content="Dolphin Education portal for students and parents: your journey, messages, documents, applications, visa and payments.">
+<meta name="robots" content="noindex">
+<script>try{var t=localStorage.getItem("dolphin-proto-theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<link rel="stylesheet" href="css/portal/core/proto.css">
+<link rel="stylesheet" href="css/portal/core/navshell.css">
+<link rel="stylesheet" href="css/portal/core/convo.css">
+<link rel="stylesheet" href="css/portal/core/notify.css">
+<link rel="stylesheet" href="css/portal/core/content.css">
+<link rel="stylesheet" href="css/portal/pages/sp.css">
+</head>
+<body class="con cm sp signin" data-console="member"><div style="position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9999;background:#7a1f45;color:#fff;font:600 14px/1.4 system-ui,sans-serif;padding:10px 18px;border-radius:999px;max-width:92vw;text-align:center">Test preview: sign-in needs the Dolphin server, so it does not work on this page yet.</div>
+<a class="cm-skip" href="#view">Skip to content</a>
+
+<section class="si" id="signin" role="main" hidden aria-labelledby="siH">
+  <button type="button" class="pill si-theme" data-theme-toggle>Theme</button>
+  <div class="si-card">
+    <img src="site/img/logo.png" alt="Dolphin Education" class="logo-l" width="150" height="34">
+    <img src="site/img/logo-light.png" alt="" class="logo-d" width="150" height="34" aria-hidden="true">
+    <p class="si-sub">Students and parents</p>
+    <h1 id="siH">Sign in</h1>
+    <p class="si-lead">Your journey, documents, applications, visa and payments, with your Dolphin team a message away.</p>
+    <form id="siF" novalidate>
+      <div class="fld"><label for="siE">Email</label><input class="in" id="siE" name="email" type="email" autocomplete="username" inputmode="email" required><p class="err" data-for="email" hidden></p></div>
+      <div class="fld"><label for="siP">Password</label><input class="in" id="siP" name="password" type="password" autocomplete="current-password" required><p class="err" data-for="password" hidden></p></div>
+      <p class="err" data-for="form" role="alert" hidden></p>
+      <button class="btn" type="submit" id="siB">Sign in</button>
+    </form>
+    <p class="si-note" id="siNote">Your branch gives you this login when your file opens. Forgot it? Call or message your branch.</p>
+  </div>
+</section>
+
+<div class="shell" id="shell" hidden>
+  <aside class="side" id="side" aria-label="Portal navigation">
+    <div class="a-brandrow">
+      <a class="brand" href="#/home" aria-label="Dolphin Education, home">
+        <img src="site/img/logo.png" alt="Dolphin Education" class="logo-l" width="140" height="32">
+        <img src="site/img/logo-light.png" alt="" class="logo-d" width="140" height="32" aria-hidden="true">
+      </a>
+      <b class="ns-sheet-t">All sections</b>
+      <button class="cm-x" type="button" data-act="menu-close" aria-label="Close menu">Close</button>
+    </div>
+    <small class="a-role" id="aRole">Student</small>
+    <div class="sp-who" id="who"></div>
+    <nav id="nav" aria-label="Sections"></nav>
+    <div class="ns-sheet-tools" id="sheetTools"></div>
+  </aside>
+  <div class="navscrim" data-act="menu-close" aria-hidden="true"></div>
+  <div class="main">
+    <header class="top a-top ns-top" id="top"></header>
+    <main id="view" tabindex="-1"></main>
+  </div>
+</div>
+<nav class="tabbar" id="tabbar" aria-label="Quick sections"></nav>
+<div id="layer"></div>
+<div class="cm-sr" id="announce" aria-live="polite"></div>
+<script src="js/portal/core/proto.js"></script>
+<script src="js/portal/core/portal-api.js"></script>
+<script src="js/portal/core/navshell.js"></script>
+<script src="js/portal/core/notify.js"></script>
+<script src="js/portal/core/convo.js"></script>
+<script src="js/portal/pages/student/sp-core.js"></script>
+<script src="js/portal/pages/student/sp-views.js"></script>
+<script>SP.boot();</script>
+</body>
+</html>
