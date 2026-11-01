@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Dolphin Education, study abroad from Kathmandu</title>
+<meta name="description" content="Study-abroad counselling from Baneshwor, Kathmandu for five countries: USA, UK, Canada, Australia and New Zealand. One counsellor from the first conversation to the departure gate.">
+<link rel="preload" href="fonts/bodoni-moda-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="img/photos/hero-ubc-blossom-1600.webp" as="image" imagesrcset="img/photos/hero-ubc-blossom-800.webp 800w, img/photos/hero-ubc-blossom-1600.webp 1600w, img/photos/hero-ubc-blossom-2400.webp 2400w" imagesizes="100vw">
+<link rel="stylesheet" href="css/site.css"><link rel="stylesheet" href="css/scenes.css"><link rel="stylesheet" href="css/home-v8.css">
+<script>try{var t=localStorage.getItem('dx-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;document.documentElement.classList.add('js')}catch(e){}</script>
+<script defer src="js/vendor/gsap.min.js"></script><script defer src="js/vendor/ScrollTrigger.min.js"></script><script defer src="js/vendor/SplitText.min.js"></script><script defer src="js/vendor/lenis.min.js"></script>
+<script defer src="js/countries.js"></script><script defer src="js/data.js"></script><script defer src="js/photos.js"></script><script defer src="js/ocean.js"></script><script defer src="js/ripple.js"></script><script defer src="js/i18n.js"></script><script defer src="js/site.js"></script><script defer src="js/scenes.js"></script><script defer src="js/home-v8.js"></script>
+</head>
+<body data-page="home"><main id="main" class="v8" data-scenes>
+
+<!-- 1. HERO: zoom-through -->
+<section class="scn on-dark hero8" id="hero" data-scene="zoom" aria-label="Welcome">
+ <div class="scn-in">
+  <figure class="ph" aria-hidden="true"><img id="heroImg" data-zoom-img src="img/photos/hero-ubc-blossom-1600.webp" srcset="img/photos/hero-ubc-blossom-800.webp 800w, img/photos/hero-ubc-blossom-1600.webp 1600w, img/photos/hero-ubc-blossom-2400.webp 2400w" sizes="100vw" width="2400" height="1602" alt="" fetchpriority="high" decoding="async" style="object-position:50% 58%"></figure>
+  <div class="wrap hero-c" data-lift>
+   <p class="eyebrow">Baneshwor, Kathmandu</p>
+   <h1><span class="ln"><span>Study abroad,</span></span><span class="ln"><span>guided with <em>care.</em></span></span></h1>
+   <p class="lead">One counsellor, five countries, from the first conversation to the departure gate.</p>
+   <a class="btn btn-p" href="contact.html#book">Book free counselling<span class="ar" aria-hidden="true">&#8594;</span></a>
+  </div>
+ </div>
+ <div class="scn-shade" aria-hidden="true"></div>
+</section>
+
+<!-- 2-3. THE L JOURNEY: one plane shaped like an L. "Why Dolphin" moves up, the corner panel arrives from below, then the whole screen travels
+     right through the five countries. Inside every panel the parts move at different speeds (data-z), so photos, headings and text separate in depth. -->
+<section class="scn lj ctry8" id="destinations" data-scene="l" data-step=".5" data-peek=".06" data-snap="touch" aria-labelledby="whyH">
+ <div class="scn-in">
+  <div class="trk" data-track>
+   <div class="rung why8 tone-soft" id="why" data-label="Why Dolphin">
+    <div class="wrap why-g">
+     <div class="why-t" data-z=".16">
+      <p class="eyebrow">Why Dolphin</p>
+      <h2 id="whyH" class="stmt" data-words="fill">We tell you the truth about your options, then we stay with you until you land.</h2>
+      <ul class="pr" aria-label="Three principles">
+       <li data-rise><b>One counsellor</b><span>The same person, first call to visa.</span></li>
+       <li data-rise><b>Plain costs</b><span>Published ranges, nothing dressed up.</span></li>
+       <li data-rise><b>Families included</b><span>Parents welcome at every step.</span></li>
+      </ul>
+     </div>
+     <div class="why-p" data-z="-.1">
+      <figure class="ph-c" data-layer="mid"><img data-ph="counsel-meeting" data-sizes="(max-width:900px) 92vw, 42vw" data-pos="60% 40%" alt="A counsellor and a student talk across a desk"></figure>
+      <figure class="ph-f" data-layer="fg" aria-hidden="true"><img data-ph="students-notes" data-sizes="30vw" data-pos="50% 50%" alt=""></figure>
+     </div>
+    </div>
+   </div>
+   <div class="rung on-dark lj-c" data-label="Destinations"><figure class="ph" aria-hidden="true"><img data-rung-img data-ph="flight-clouds" data-sizes="125vw" data-pos="50% 50%" alt=""></figure>
+    <div class="lj-cc wrap">
+     <p class="eyebrow" data-z=".08">Destinations</p>
+     <h2 id="ctryH" data-z=".16">Five countries, <em>one counsellor.</em></h2>
+     <ol class="lj-ix" data-z=".3"><li>USA</li><li>United Kingdom</li><li>Canada</li><li>Australia</li><li>New Zealand</li></ol>
+     <p class="lj-hint" data-z=".4" aria-hidden="true">Keep scrolling<span class="lj-ar">&#8594;</span></p>
+    </div>
+   </div>
+   <a class="rung" href="country.html?c=usa" data-label="USA"><figure class="ph" aria-hidden="true"><img data-rung-img data-ph="us-columbia" data-sizes="125vw" data-pos="50% 60%" alt=""></figure><div class="rc wrap"><span class="rn" data-z=".1">01</span><h3 data-z=".18">USA</h3><p data-z=".3">Flexible degrees and research, with up to three years of OPT.</p><span class="x" data-z=".42">Explore<span class="ar" aria-hidden="true">&#8594;</span></span></div></a>
+   <a class="rung" href="country.html?c=united-kingdom" data-label="United Kingdom"><figure class="ph" aria-hidden="true"><img data-rung-img data-ph="oxford-aerial" data-sizes="125vw" data-pos="50% 50%" alt=""></figure><div class="rc wrap"><span class="rn" data-z=".1">02</span><h3 data-z=".18">United Kingdom</h3><p data-z=".3">Shorter degrees and a graduate route after study.</p><span class="x" data-z=".42">Explore<span class="ar" aria-hidden="true">&#8594;</span></span></div></a>
+   <a class="rung" href="country.html?c=canada" data-label="Canada"><figure class="ph" aria-hidden="true"><img data-rung-img data-ph="hero-vancouver" data-sizes="125vw" data-pos="50% 50%" alt=""></figure><div class="rc wrap"><span class="rn" data-z=".1">03</span><h3 data-z=".18">Canada</h3><p data-z=".3">A work permit after study and a route to residency.</p><span class="x" data-z=".42">Explore<span class="ar" aria-hidden="true">&#8594;</span></span></div></a>
+   <a class="rung" href="country.html?c=australia" data-label="Australia"><figure class="ph" aria-hidden="true"><img data-rung-img data-ph="sydney-opera" data-sizes="125vw" data-pos="50% 55%" alt=""></figure><div class="rc wrap"><span class="rn" data-z=".1">04</span><h3 data-z=".18">Australia</h3><p data-z=".3">Globally ranked universities and flexible work rights.</p><span class="x" data-z=".42">Explore<span class="ar" aria-hidden="true">&#8594;</span></span></div></a>
+   <a class="rung" href="country.html?c=new-zealand" data-label="New Zealand"><figure class="ph" aria-hidden="true"><img data-rung-img data-ph="hero-tekapo" data-sizes="125vw" data-pos="50% 55%" alt=""></figure><div class="rc wrap"><span class="rn" data-z=".1">05</span><h3 data-z=".18">New Zealand</h3><p data-z=".3">A safe, practical path with post-study work options.</p><span class="x" data-z=".42">Explore<span class="ar" aria-hidden="true">&#8594;</span></span></div></a>
+  </div>
+ </div>
+ <div class="scn-shade" aria-hidden="true"></div>
+</section>
+
+<!-- 4. HOW IT WORKS: a second L. The title moves up, step one arrives from below, then the screen travels right through steps two and three. -->
+<section class="scn lj how8" id="how" data-scene="l" data-step=".5" data-peek=".06" data-snap="touch" aria-labelledby="howH">
+ <div class="scn-in">
+  <div class="trk" data-track>
+   <div class="rung how-t" data-label="How it works"><div class="wrap" data-z=".2"><p class="eyebrow">How it works</p><h2 id="howH">Three steps,<br><em>one counsellor.</em></h2><p class="lead">From the first conversation to the departure gate, the same person sits beside you.</p></div></div>
+   <div class="rung on-dark" data-label="Step one"><figure class="ph" aria-hidden="true"><img data-rung-img data-ph="advisor-office" data-sizes="125vw" data-pos="50% 45%" alt=""></figure><span class="num" aria-hidden="true" data-z="-.06">1</span><div class="st wrap"><span class="sn" data-z=".08">Step one</span><h3 data-z=".18">Listen</h3><p data-z=".3">You and your family sit down with one counsellor. Marks, budget, hopes, in plain words.</p></div></div>
+   <div class="rung on-dark" data-label="Step two"><figure class="ph" aria-hidden="true"><img data-rung-img data-ph="advisor-documents" data-sizes="125vw" data-pos="50% 35%" alt=""></figure><span class="num" aria-hidden="true" data-z="-.06">2</span><div class="st wrap"><span class="sn" data-z=".08">Step two</span><h3 data-z=".18">Apply</h3><p data-z=".3">A short, honest shortlist. We prepare every application and the visa file with you.</p></div></div>
+   <div class="rung on-dark" data-label="Step three"><figure class="ph" aria-hidden="true"><img data-rung-img data-ph="airport-sunlit" data-sizes="125vw" data-pos="50% 55%" alt=""></figure><span class="num" aria-hidden="true" data-z="-.06">3</span><div class="st wrap"><span class="sn" data-z=".08">Step three</span><h3 data-z=".18">Depart</h3><p data-z=".3">Pre-departure briefing, airport day, and a counsellor still on the phone after you land.</p><a class="btn btn-p" data-z=".42" href="about.html#journey">The full journey<span class="ar" aria-hidden="true">&#8594;</span></a></div></div>
+  </div>
+ </div>
+ <div class="scn-shade" aria-hidden="true"></div>
+</section>
+
+<!-- 5. STORIES: one quote at a time, rotating slowly -->
+<section class="scn on-dark st8" id="stories" data-scene="cover" aria-labelledby="stH">
+ <div class="scn-in">
+  <figure class="ph" data-layer="bg" aria-hidden="true"><img data-ph="students-laugh-study" data-sizes="125vw" data-pos="50% 35%" alt=""></figure>
+  <div class="wrap st-in">
+   <p class="eyebrow" id="stH">Stories <span class="smp">Sample</span></p>
+   <div class="qs" id="qs" aria-live="polite">
+    <div class="q"><blockquote class="qt">I was afraid to ask about money. My counsellor wrote every cost on one page before we chose a single university.</blockquote><div class="who"><img src="img/photos/por-w1-400.webp" width="56" height="56" alt="" loading="lazy"><div><b>Sita</b><span>Student, United Kingdom</span><span class="smp">Sample</span></div></div></div>
+    <div class="q"><blockquote class="qt">My parents came to the office twice before they trusted it. Both times someone sat down and explained everything again.</blockquote><div class="who"><img src="img/photos/por-w3-400.webp" width="56" height="56" alt="" loading="lazy"><div><b>Mina</b><span>Parent, Australia</span><span class="smp">Sample</span></div></div></div>
+    <div class="q"><blockquote class="qt">The interview practice made me calm. I knew what questions to expect and how to answer them honestly.</blockquote><div class="who"><img src="img/photos/por-m1-400.webp" width="56" height="56" alt="" loading="lazy"><div><b>Rohan</b><span>Student, USA</span><span class="smp">Sample</span></div></div></div>
+   </div>
+   <a class="btn btn-p st-b" href="stories.html">Read all stories<span class="ar" aria-hidden="true">&#8594;</span></a>
+  </div>
+ </div>
+ <div class="scn-shade" aria-hidden="true"></div>
+</section>
+
+<!-- 5b. PARTNERS: a plain band that slides over the stories scene -->
+<section class="lw8" id="partners" aria-labelledby="pH">
+ <div class="wrap lw-g">
+  <div class="lw-q"><p class="eyebrow" id="pH">Partner universities</p><blockquote>Applications from Dolphin arrive complete and well prepared, which saves our admissions team time.</blockquote><p class="lw-w">Registry team, partner university in the United Kingdom <span class="smp">Sample</span></p></div>
+  <div class="logos" id="logos" aria-label="Partner logos"></div>
+ </div>
+</section>
+
+<!-- 6. BANESHWOR -->
+<section class="scn on-dark ba8" id="office" data-scene="cover" aria-labelledby="baH">
+ <div class="scn-in">
+  <figure class="ph" data-layer="bg" aria-hidden="true"><img data-ph="boudha-sunny" data-sizes="125vw" data-pos="50% 40%" alt=""></figure>
+  <div class="wrap ba-in">
+   <p class="eyebrow">Our office</p>
+   <h2 id="baH">One office in <em>Baneshwor,</em> Kathmandu.</h2>
+   <p class="lead">Walk in, call, or message. A counsellor sits down with you and your family.</p>
+   <p class="ba-d">Baneshwor, Kathmandu &middot; <a href="tel:+9779801811555">+977 9801811555</a> &middot; Sunday to Friday</p>
+   <a class="btn btn-p" href="contact.html">Visit or call<span class="ar" aria-hidden="true">&#8594;</span></a>
+   <p class="ba-f">Franchises are planned beyond Nepal, starting with Bangladesh.</p>
+  </div>
+ </div>
+ <div class="scn-shade" aria-hidden="true"></div>
+</section>
+
+<!-- 7. CLOSING -->
+<section class="scn on-dark cl8" id="book" data-scene="cover" aria-labelledby="clH">
+ <div class="scn-in">
+  <figure class="ph" data-layer="bg" aria-hidden="true"><img data-ph="grad-celebrate" data-sizes="125vw" data-pos="50% 25%" alt=""></figure>
+  <div class="wrap cl-in">
+   <h2 id="clH">One conversation.<br><em>Then a plan.</em></h2>
+   <p class="lead">Free, in Baneshwor or on the phone. A counsellor calls you back.</p>
+   <a class="btn btn-p" href="contact.html#book">Book free counselling<span class="ar" aria-hidden="true">&#8594;</span></a>
+  </div>
+ </div>
+</section>
+</main></body></html>

@@ -1,0 +1,1477 @@
+{
+ "home-campus-walk": {
+  "focus": [
+   0.4,
+   0.55
+  ],
+  "safe": [
+   0.36,
+   0.43,
+   0.5,
+   0.8
+  ]
+ },
+ "uk-cam-bridge-sighs": {
+  "focus": [
+   0.62,
+   0.5
+  ],
+  "safe": [
+   0.5,
+   0.36,
+   0.78,
+   0.64
+  ],
+  "portrait": "uk-cam-kings-m"
+ },
+ "uk-kings-aerial": {
+  "focus": [
+   0.4,
+   0.42
+  ],
+  "safe": [
+   0.24,
+   0.26,
+   0.52,
+   0.55
+  ],
+  "portrait": "uk-cam-kings-m"
+ },
+ "uk-oxford-street": {
+  "focus": [
+   0.52,
+   0.58
+  ],
+  "safe": [
+   0.4,
+   0.4,
+   0.66,
+   0.85
+  ]
+ },
+ "us-harvard-brick": {
+  "focus": [
+   0.52,
+   0.48
+  ],
+  "safe": [
+   0.38,
+   0.26,
+   0.66,
+   0.68
+  ],
+  "portrait": "us-columbia-m"
+ },
+ "us-columbia-lib": {
+  "focus": [
+   0.42,
+   0.45
+  ],
+  "safe": [
+   0.22,
+   0.14,
+   0.62,
+   0.78
+  ],
+  "portrait": "us-columbia-m"
+ },
+ "us-princeton": {
+  "focus": [
+   0.5,
+   0.55
+  ],
+  "safe": [
+   0.4,
+   0.28,
+   0.6,
+   0.76
+  ]
+ },
+ "us-students-walk": {
+  "focus": [
+   0.66,
+   0.45
+  ],
+  "safe": [
+   0.4,
+   0.25,
+   0.94,
+   0.55
+  ],
+  "portrait": "office-m"
+ },
+ "ca-vancouver-beach": {
+  "focus": [
+   0.52,
+   0.55
+  ],
+  "safe": [
+   0.4,
+   0.38,
+   0.66,
+   0.7
+  ],
+  "portrait": "ca-vancouver-m"
+ },
+ "ca-uoft-college": {
+  "focus": [
+   0.5,
+   0.45
+  ],
+  "safe": [
+   0.4,
+   0.12,
+   0.6,
+   0.76
+  ]
+ },
+ "ca-students": {
+  "focus": [
+   0.55,
+   0.45
+  ],
+  "safe": [
+   0.3,
+   0.27,
+   0.8,
+   0.62
+  ]
+ },
+ "ca-toronto-skyline": {
+  "focus": [
+   0.4,
+   0.42
+  ],
+  "safe": [
+   0.2,
+   0.1,
+   0.62,
+   0.62
+  ],
+  "portrait": "ca-toronto-m"
+ },
+ "au-sydney-harbour": {
+  "focus": [
+   0.36,
+   0.6
+  ],
+  "safe": [
+   0.17,
+   0.5,
+   0.52,
+   0.75
+  ],
+  "portrait": "au-sydney-m"
+ },
+ "au-sydney-uni-quad": {
+  "focus": [
+   0.42,
+   0.45
+  ],
+  "safe": [
+   0.29,
+   0.03,
+   0.53,
+   0.9
+  ]
+ },
+ "au-students": {
+  "focus": [
+   0.5,
+   0.45
+  ],
+  "safe": [
+   0.29,
+   0.25,
+   0.7,
+   0.6
+  ],
+  "portrait": "grad-single-m"
+ },
+ "nz-tekapo-alps": {
+  "focus": [
+   0.5,
+   0.55
+  ],
+  "safe": [
+   0.3,
+   0.42,
+   0.7,
+   0.66
+  ],
+  "portrait": "nz-lake-m"
+ },
+ "nz-christchurch-arts": {
+  "focus": [
+   0.55,
+   0.5
+  ],
+  "safe": [
+   0.35,
+   0.2,
+   0.75,
+   0.85
+  ]
+ },
+ "nz-queenstown": {
+  "focus": [
+   0.55,
+   0.55
+  ],
+  "safe": [
+   0.4,
+   0.35,
+   0.7,
+   0.75
+  ]
+ },
+ "np-boudha-sunrise": {
+  "focus": [
+   0.48,
+   0.5
+  ],
+  "safe": [
+   0.36,
+   0.2,
+   0.6,
+   0.7
+  ]
+ },
+ "np-ktm-valley": {
+  "focus": [
+   0.5,
+   0.48
+  ],
+  "safe": [
+   0.25,
+   0.28,
+   0.75,
+   0.65
+  ],
+  "portrait": "np-ktm-m"
+ },
+ "np-swayambhu": {
+  "focus": [
+   0.48,
+   0.45
+  ],
+  "safe": [
+   0.38,
+   0.1,
+   0.58,
+   0.78
+  ]
+ },
+ "counsel-desk-papers": {
+  "focus": [
+   0.38,
+   0.36
+  ],
+  "safe": [
+   0.08,
+   0.16,
+   0.64,
+   0.52
+  ],
+  "portrait": "office-m"
+ },
+ "counsel-sofa-review": {
+  "focus": [
+   0.45,
+   0.4
+  ],
+  "safe": [
+   0.2,
+   0.14,
+   0.7,
+   0.6
+  ]
+ },
+ "counsel-student-laptop": {
+  "focus": [
+   0.45,
+   0.35
+  ],
+  "safe": [
+   0.18,
+   0.08,
+   0.62,
+   0.6
+  ]
+ },
+ "counsel-couple-costs": {
+  "focus": [
+   0.62,
+   0.32
+  ],
+  "safe": [
+   0.4,
+   0.12,
+   0.82,
+   0.5
+  ]
+ },
+ "office-conversation": {
+  "focus": [
+   0.55,
+   0.35
+  ],
+  "safe": [
+   0.12,
+   0.12,
+   0.92,
+   0.55
+  ],
+  "portrait": "office-m"
+ },
+ "apply-laptop": {
+  "focus": [
+   0.52,
+   0.32
+  ],
+  "safe": [
+   0.33,
+   0.02,
+   0.72,
+   0.6
+  ],
+  "portrait": "apply-laptop-m"
+ },
+ "docs-clipboard": {
+  "focus": [
+   0.6,
+   0.5
+  ],
+  "safe": [
+   0.45,
+   0.3,
+   0.75,
+   0.7
+  ]
+ },
+ "study-laptop": {
+  "focus": [
+   0.45,
+   0.52
+  ],
+  "safe": [
+   0.28,
+   0.28,
+   0.62,
+   0.85
+  ]
+ },
+ "library-reading-hall": {
+  "focus": [
+   0.55,
+   0.5
+  ],
+  "safe": [
+   0.3,
+   0.15,
+   0.8,
+   0.8
+  ],
+  "portrait": "library-m"
+ },
+ "airport-terminal": {
+  "focus": [
+   0.45,
+   0.7
+  ],
+  "safe": [
+   0.25,
+   0.55,
+   0.65,
+   0.85
+  ]
+ },
+ "flight-clouds": {
+  "focus": [
+   0.3,
+   0.62
+  ],
+  "safe": [
+   0.12,
+   0.55,
+   0.36,
+   0.8
+  ]
+ },
+ "oxford-aerial": {
+  "focus": [
+   0.49,
+   0.36
+  ],
+  "safe": [
+   0.34,
+   0.06,
+   0.64,
+   0.6
+  ],
+  "portrait": "oxford-radcliffe-m"
+ },
+ "airport-sunlit": {
+  "focus": [
+   0.38,
+   0.5
+  ],
+  "safe": [
+   0.28,
+   0.18,
+   0.48,
+   0.85
+  ]
+ },
+ "students-notes": {
+  "focus": [
+   0.55,
+   0.5
+  ],
+  "safe": [
+   0.28,
+   0.28,
+   0.8,
+   0.75
+  ],
+  "portrait": "students-pair-m"
+ },
+ "boudha-sunny": {
+  "focus": [
+   0.48,
+   0.48
+  ],
+  "safe": [
+   0.38,
+   0.18,
+   0.58,
+   0.78
+  ]
+ },
+ "grad-celebrate": {
+  "focus": [
+   0.47,
+   0.38
+  ],
+  "safe": [
+   0.12,
+   0.18,
+   0.82,
+   0.55
+  ],
+  "portrait": "grad-single-m"
+ },
+ "london-westminster": {
+  "focus": [
+   0.18,
+   0.5
+  ],
+  "safe": [
+   0.05,
+   0.06,
+   0.27,
+   0.92
+  ],
+  "portrait": "london-westminster-m"
+ },
+ "uk-glasgow": {
+  "focus": [
+   0.36,
+   0.5
+  ],
+  "safe": [
+   0.28,
+   0.12,
+   0.45,
+   0.9
+  ]
+ },
+ "nyc-midtown": {
+  "focus": [
+   0.45,
+   0.4
+  ],
+  "safe": [
+   0.15,
+   0.04,
+   0.75,
+   0.75
+  ],
+  "portrait": "nyc-m"
+ },
+ "nyc-skyline": {
+  "focus": [
+   0.52,
+   0.45
+  ],
+  "safe": [
+   0.2,
+   0.15,
+   0.85,
+   0.7
+  ],
+  "portrait": "nyc-m"
+ },
+ "vancouver-mountains": {
+  "focus": [
+   0.5,
+   0.48
+  ],
+  "safe": [
+   0.15,
+   0.18,
+   0.85,
+   0.75
+  ],
+  "portrait": "ca-vancouver-m"
+ },
+ "melbourne-river": {
+  "focus": [
+   0.52,
+   0.42
+  ],
+  "safe": [
+   0.3,
+   0.12,
+   0.75,
+   0.7
+  ],
+  "portrait": "au-melbourne-m"
+ },
+ "sydney-opera": {
+  "focus": [
+   0.48,
+   0.58
+  ],
+  "safe": [
+   0.28,
+   0.4,
+   0.68,
+   0.73
+  ],
+  "portrait": "au-sydney-m"
+ },
+ "auckland-skyline": {
+  "focus": [
+   0.5,
+   0.48
+  ],
+  "safe": [
+   0.4,
+   0.25,
+   0.6,
+   0.66
+  ]
+ },
+ "students-laugh-walk": {
+  "focus": [
+   0.55,
+   0.35
+  ],
+  "safe": [
+   0.18,
+   0.18,
+   0.92,
+   0.5
+  ],
+  "portrait": "students-pair-m"
+ },
+ "otago-clocktower": {
+  "focus": [
+   0.3,
+   0.42
+  ],
+  "safe": [
+   0.2,
+   0.12,
+   0.42,
+   0.72
+  ]
+ },
+ "passport-boarding": {
+  "focus": [
+   0.72,
+   0.52
+  ],
+  "safe": [
+   0.52,
+   0.28,
+   0.93,
+   0.75
+  ]
+ },
+ "passport-hand": {
+  "focus": [
+   0.65,
+   0.48
+  ],
+  "safe": [
+   0.47,
+   0.28,
+   0.83,
+   0.68
+  ]
+ },
+ "grad-three": {
+  "focus": [
+   0.48,
+   0.45
+  ],
+  "safe": [
+   0.15,
+   0.25,
+   0.82,
+   0.65
+  ],
+  "portrait": "grad-single-m"
+ },
+ "ktm-valley-sunset": {
+  "focus": [
+   0.5,
+   0.48
+  ],
+  "safe": [
+   0.25,
+   0.33,
+   0.75,
+   0.62
+  ],
+  "portrait": "np-valley-m"
+ },
+ "hero-harvard-yard": {
+  "focus": [
+   0.55,
+   0.65
+  ],
+  "safe": [
+   0.35,
+   0.45,
+   0.75,
+   0.85
+  ]
+ },
+ "uk-edinburgh": {
+  "focus": [
+   0.62,
+   0.35
+  ],
+  "safe": [
+   0.45,
+   0.08,
+   0.85,
+   0.55
+  ]
+ },
+ "us-columbia": {
+  "focus": [
+   0.5,
+   0.38
+  ],
+  "safe": [
+   0.3,
+   0.15,
+   0.7,
+   0.55
+  ]
+ },
+ "hero-tekapo": {
+  "focus": [
+   0.55,
+   0.5
+  ],
+  "safe": [
+   0.3,
+   0.2,
+   0.8,
+   0.85
+  ]
+ },
+ "hero-ubc-blossom": {
+  "focus": [
+   0.5,
+   0.58
+  ],
+  "safe": [
+   0.35,
+   0.35,
+   0.65,
+   0.8
+  ]
+ },
+ "uk-cam-kings-m": {
+  "focus": [
+   0.5,
+   0.5
+  ],
+  "safe": [
+   0.32,
+   0.25,
+   0.7,
+   0.72
+  ],
+  "portrait": "uk-kings-aerial"
+ },
+ "london-westminster-m": {
+  "focus": [
+   0.52,
+   0.45
+  ],
+  "safe": [
+   0.42,
+   0.08,
+   0.62,
+   0.85
+  ]
+ },
+ "us-columbia-m": {
+  "focus": [
+   0.52,
+   0.52
+  ],
+  "safe": [
+   0.32,
+   0.36,
+   0.72,
+   0.7
+  ],
+  "portrait": "us-columbia-lib"
+ },
+ "nyc-m": {
+  "focus": [
+   0.51,
+   0.5
+  ],
+  "safe": [
+   0.4,
+   0.1,
+   0.62,
+   0.88
+  ]
+ },
+ "ca-toronto-m": {
+  "focus": [
+   0.5,
+   0.45
+  ],
+  "safe": [
+   0.4,
+   0.1,
+   0.6,
+   0.8
+  ]
+ },
+ "ca-vancouver-m": {
+  "focus": [
+   0.5,
+   0.45
+  ],
+  "safe": [
+   0.25,
+   0.33,
+   0.75,
+   0.62
+  ]
+ },
+ "au-sydney-m": {
+  "focus": [
+   0.5,
+   0.5
+  ],
+  "safe": [
+   0.3,
+   0.43,
+   0.72,
+   0.56
+  ]
+ },
+ "au-melbourne-m": {
+  "focus": [
+   0.5,
+   0.48
+  ],
+  "safe": [
+   0.25,
+   0.35,
+   0.75,
+   0.62
+  ]
+ },
+ "nz-lake-m": {
+  "focus": [
+   0.5,
+   0.52
+  ],
+  "safe": [
+   0.38,
+   0.46,
+   0.62,
+   0.58
+  ]
+ },
+ "np-valley-m": {
+  "focus": [
+   0.5,
+   0.5
+  ],
+  "safe": [
+   0.25,
+   0.25,
+   0.75,
+   0.85
+  ]
+ },
+ "np-ktm-m": {
+  "focus": [
+   0.5,
+   0.6
+  ],
+  "safe": [
+   0.25,
+   0.48,
+   0.75,
+   0.75
+  ]
+ },
+ "library-m": {
+  "focus": [
+   0.5,
+   0.55
+  ],
+  "safe": [
+   0.2,
+   0.3,
+   0.8,
+   0.8
+  ]
+ },
+ "oxford-radcliffe-m": {
+  "focus": [
+   0.52,
+   0.35
+  ],
+  "safe": [
+   0.25,
+   0.12,
+   0.8,
+   0.55
+  ]
+ },
+ "grad-single-m": {
+  "focus": [
+   0.5,
+   0.45
+  ],
+  "safe": [
+   0.3,
+   0.2,
+   0.72,
+   0.8
+  ]
+ },
+ "students-pair-m": {
+  "focus": [
+   0.51,
+   0.5
+  ],
+  "safe": [
+   0.26,
+   0.3,
+   0.76,
+   0.7
+  ]
+ },
+ "office-m": {
+  "focus": [
+   0.58,
+   0.45
+  ],
+  "safe": [
+   0.4,
+   0.27,
+   0.78,
+   0.7
+  ]
+ },
+ "apply-laptop-m": {
+  "focus": [
+   0.45,
+   0.5
+  ],
+  "safe": [
+   0.15,
+   0.33,
+   0.72,
+   0.68
+  ]
+ },
+ "por-m1": {
+  "focus": [
+   0.5,
+   0.38
+  ],
+  "safe": [
+   0.28,
+   0.12,
+   0.72,
+   0.7
+  ]
+ },
+ "por-m2": {
+  "focus": [
+   0.5,
+   0.38
+  ],
+  "safe": [
+   0.28,
+   0.12,
+   0.72,
+   0.7
+  ]
+ },
+ "por-m3": {
+  "focus": [
+   0.5,
+   0.38
+  ],
+  "safe": [
+   0.28,
+   0.12,
+   0.72,
+   0.7
+  ]
+ },
+ "por-m4": {
+  "focus": [
+   0.5,
+   0.38
+  ],
+  "safe": [
+   0.28,
+   0.12,
+   0.72,
+   0.7
+  ]
+ },
+ "por-m5": {
+  "focus": [
+   0.5,
+   0.38
+  ],
+  "safe": [
+   0.28,
+   0.12,
+   0.72,
+   0.7
+  ]
+ },
+ "por-m6": {
+  "focus": [
+   0.5,
+   0.38
+  ],
+  "safe": [
+   0.28,
+   0.12,
+   0.72,
+   0.7
+  ]
+ },
+ "por-m7": {
+  "focus": [
+   0.5,
+   0.38
+  ],
+  "safe": [
+   0.28,
+   0.12,
+   0.72,
+   0.7
+  ]
+ },
+ "por-w1": {
+  "focus": [
+   0.5,
+   0.38
+  ],
+  "safe": [
+   0.28,
+   0.12,
+   0.72,
+   0.7
+  ]
+ },
+ "por-w2": {
+  "focus": [
+   0.5,
+   0.38
+  ],
+  "safe": [
+   0.28,
+   0.12,
+   0.72,
+   0.7
+  ]
+ },
+ "por-w3": {
+  "focus": [
+   0.5,
+   0.38
+  ],
+  "safe": [
+   0.28,
+   0.12,
+   0.72,
+   0.7
+  ]
+ },
+ "por-w4": {
+  "focus": [
+   0.5,
+   0.38
+  ],
+  "safe": [
+   0.28,
+   0.12,
+   0.72,
+   0.7
+  ]
+ },
+ "por-w5": {
+  "focus": [
+   0.5,
+   0.38
+  ],
+  "safe": [
+   0.28,
+   0.12,
+   0.72,
+   0.7
+  ]
+ },
+ "por-w6": {
+  "focus": [
+   0.5,
+   0.38
+  ],
+  "safe": [
+   0.28,
+   0.12,
+   0.72,
+   0.7
+  ]
+ },
+ "a-counsel-folder-review": {
+  "focus": [
+   0.45,
+   0.3
+  ],
+  "safe": [
+   0.22,
+   0.04,
+   0.7,
+   0.62
+  ]
+ },
+ "a-nz-wellington": {
+  "focus": [
+   0.55,
+   0.52
+  ],
+  "safe": [
+   0.35,
+   0.42,
+   0.75,
+   0.62
+  ],
+  "portrait": "nz-lake-m"
+ },
+ "a-london-thames": {
+  "focus": [
+   0.58,
+   0.42
+  ],
+  "safe": [
+   0.38,
+   0.22,
+   0.76,
+   0.62
+  ],
+  "portrait": "a-london-bridge-m"
+ },
+ "a-london-bridge-m": {
+  "focus": [
+   0.48,
+   0.45
+  ],
+  "safe": [
+   0.3,
+   0.32,
+   0.7,
+   0.6
+  ]
+ },
+ "b-grad-sea": {
+  "focus": [
+   0.66,
+   0.55
+  ],
+  "safe": [
+   0.36,
+   0.3,
+   0.74,
+   0.85
+  ],
+  "portrait": "b-grad-portrait"
+ },
+ "b-grad-portrait": {
+  "focus": [
+   0.55,
+   0.3
+  ],
+  "safe": [
+   0.3,
+   0.12,
+   0.8,
+   0.55
+  ]
+ },
+ "b-wing-dusk": {
+  "focus": [
+   0.5,
+   0.5
+  ],
+  "safe": [
+   0.42,
+   0.3,
+   0.62,
+   0.72
+  ]
+ },
+ "b-bhaktapur-morning": {
+  "focus": [
+   0.5,
+   0.55
+  ],
+  "safe": [
+   0.36,
+   0.3,
+   0.64,
+   0.92
+  ]
+ },
+ "b-family-table": {
+  "focus": [
+   0.35,
+   0.32
+  ],
+  "safe": [
+   0.18,
+   0.18,
+   0.54,
+   0.42
+  ],
+  "portrait": "b-family-table-m"
+ },
+ "b-family-consult": {
+  "focus": [
+   0.42,
+   0.42
+  ],
+  "safe": [
+   0.27,
+   0.22,
+   0.6,
+   0.6
+  ]
+ },
+ "b-mentor-desk": {
+  "focus": [
+   0.45,
+   0.55
+  ],
+  "safe": [
+   0.05,
+   0.38,
+   0.88,
+   0.78
+  ]
+ },
+ "b-por-s1": {
+  "focus": [
+   0.5,
+   0.4
+  ],
+  "safe": [
+   0.3,
+   0.15,
+   0.7,
+   0.65
+  ]
+ },
+ "b-por-s2": {
+  "focus": [
+   0.5,
+   0.4
+  ],
+  "safe": [
+   0.3,
+   0.15,
+   0.7,
+   0.65
+  ]
+ },
+ "b-por-s3": {
+  "focus": [
+   0.5,
+   0.4
+  ],
+  "safe": [
+   0.3,
+   0.15,
+   0.7,
+   0.65
+  ]
+ },
+ "b-por-s4": {
+  "focus": [
+   0.5,
+   0.4
+  ],
+  "safe": [
+   0.3,
+   0.15,
+   0.7,
+   0.65
+  ]
+ },
+ "b-por-s5": {
+  "focus": [
+   0.5,
+   0.4
+  ],
+  "safe": [
+   0.3,
+   0.15,
+   0.7,
+   0.65
+  ]
+ },
+ "b-por-s6": {
+  "focus": [
+   0.5,
+   0.4
+  ],
+  "safe": [
+   0.3,
+   0.15,
+   0.7,
+   0.65
+  ]
+ },
+ "b-por-s8": {
+  "focus": [
+   0.5,
+   0.4
+  ],
+  "safe": [
+   0.3,
+   0.15,
+   0.7,
+   0.65
+  ]
+ },
+ "b-por-s9": {
+  "focus": [
+   0.5,
+   0.4
+  ],
+  "safe": [
+   0.3,
+   0.15,
+   0.7,
+   0.65
+  ]
+ },
+ "b-por-t1": {
+  "focus": [
+   0.5,
+   0.4
+  ],
+  "safe": [
+   0.3,
+   0.15,
+   0.7,
+   0.65
+  ]
+ },
+ "b-por-t2": {
+  "focus": [
+   0.5,
+   0.4
+  ],
+  "safe": [
+   0.3,
+   0.15,
+   0.7,
+   0.65
+  ]
+ },
+ "b-por-t3": {
+  "focus": [
+   0.5,
+   0.4
+  ],
+  "safe": [
+   0.3,
+   0.15,
+   0.7,
+   0.65
+  ]
+ },
+ "b-por-t4": {
+  "focus": [
+   0.5,
+   0.4
+  ],
+  "safe": [
+   0.3,
+   0.15,
+   0.7,
+   0.65
+  ]
+ },
+ "b-family-table-m": {
+  "focus": [
+   0.5,
+   0.32
+  ],
+  "safe": [
+   0.15,
+   0.15,
+   0.85,
+   0.5
+  ]
+ },
+ "b-grads-sunset": {
+  "focus": [
+   0.5,
+   0.5
+  ],
+  "safe": [
+   0.4,
+   0.33,
+   0.64,
+   0.85
+  ]
+ },
+ "uk-lincoln-cathedral": {
+  "focus": [
+   0.6,
+   0.38
+  ],
+  "safe": [
+   0.48,
+   0.07,
+   0.72,
+   0.6
+  ],
+  "portrait": "uk-lincoln-cathedral-m"
+ },
+ "uk-lincoln-cathedral-m": {
+  "focus": [
+   0.5,
+   0.4
+  ],
+  "safe": [
+   0.3,
+   0.07,
+   0.72,
+   0.55
+  ]
+ },
+ "uk-swansea-mumbles": {
+  "focus": [
+   0.68,
+   0.4
+  ],
+  "safe": [
+   0.5,
+   0.1,
+   0.92,
+   0.66
+  ],
+  "portrait": "uk-swansea-mumbles-m"
+ },
+ "uk-swansea-mumbles-m": {
+  "focus": [
+   0.62,
+   0.4
+  ],
+  "safe": [
+   0.3,
+   0.06,
+   0.95,
+   0.72
+  ]
+ },
+ "us-wichita-skyline": {
+  "focus": [
+   0.55,
+   0.75
+  ],
+  "safe": [
+   0.38,
+   0.6,
+   0.68,
+   0.88
+  ]
+ },
+ "us-arkansas-delta": {
+  "focus": [
+   0.5,
+   0.7
+  ],
+  "safe": [
+   0.1,
+   0.55,
+   0.9,
+   0.95
+  ]
+ },
+ "uk-london-tower-bridge": {
+  "focus": [
+   0.4,
+   0.6
+  ],
+  "safe": [
+   0.1,
+   0.4,
+   0.62,
+   0.78
+  ]
+ },
+ "us-wichita-keeper": {
+  "focus": [
+   0.64,
+   0.5
+  ],
+  "safe": [
+   0.53,
+   0.08,
+   0.76,
+   0.86
+  ]
+ },
+ "us-arkansas-hawksbill": {
+  "focus": [
+   0.7,
+   0.45
+  ],
+  "safe": [
+   0.58,
+   0.28,
+   0.8,
+   0.58
+  ]
+ }
+}

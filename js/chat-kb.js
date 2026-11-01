@@ -91,9 +91,34 @@
   var NOT_NAME = ' not a an the from looking interested student going planning very so too here there ';
   function nameIn(s) { var m = NAME_RE.exec(norm(s)); return m && NOT_NAME.indexOf(' ' + m[1] + ' ') < 0 ? m[1].charAt(0).toUpperCase() + m[1].slice(1) : null; }
 
-  /* answer(kb, message, {history:[{role,text}], page, contact, seed}) -> structured answer (see top) */
+  /* answers in another language: kb.i18n[lang] holds translated texts (entries, small talk, pills, countries, strings); matching keeps the
+     English questions and keywords, only the words shown change; any missing field falls back to English */
+  var EN = { see: 'See {short}', hello: 'Namaste', overviewIntro: ['{country} in brief: {tagline}.', 'Here is {short} at a glance. In short: {tagline}.'],
+    overviewCaveat: 'Where it says confirm, your counsellor will check the details for your course.',
+    overviewNext: 'Shall I go through the visa steps for {short}, or the partner universities there?',
+    sugVisa: 'Visa steps', sugPartners: 'Partner universities', sugCounsellor: 'Talk to a counsellor' };
+  function loc(kb, lang) {
+    var T = lang && lang !== 'en' && kb.i18n && kb.i18n[lang]; if (!T) return kb;
+    if (!kb.__loc) Object.defineProperty(kb, '__loc', { value: {}, enumerable: false });
+    if (kb.__loc[lang]) return kb.__loc[lang];
+    var L = {}, k; for (k in kb) if (k !== '_ix') L[k] = kb[k];
+    var set = function (o, n, keys) { var r = {}, k2; for (k2 in o) r[k2] = o[k2]; keys.forEach(function (x) { if (n && n[x] != null) r[x] = n[x]; }); return r; };
+    var TE = T.entries || {}, TS = T.smalltalk || {}, TC = T.countries || {};
+    L.entries = kb.entries.map(function (e) { var n = TE[e.id]; if (!n) return e; var r = set(e, n, ['label', 'intro', 'items', 'caveat', 'next', 'empty']); if (n.links && e.links) r.links = e.links.map(function (l, i) { return [n.links[i] || l[0], l[1]]; }); return r; });
+    L.smalltalk = kb.smalltalk.map(function (x) { return TS[x.id] ? set(x, { say: TS[x.id] }, ['say']) : x; });
+    if (T.fallback) L.fallback = set(kb.fallback, T.fallback, ['intro', 'next']);
+    if (T.greeting) L.greeting = set(kb.greeting, { intro: T.greeting }, ['intro']);
+    if (T.pills) { L.pills = {}; for (k in kb.pills) L.pills[k] = [T.pills[k] || kb.pills[k][0], kb.pills[k][1]]; }
+    if (T.short) { L.short = {}; for (k in kb.short) L.short[k] = T.short[k] || kb.short[k]; }
+    L.countries = kb.countries.map(function (c) { var n = TC[c.slug]; if (!n) return c; var r = set(c, n, ['tagline', 'visa']); r.nameL = n.name; r.glanceL = n.glance; return r; });
+    L.strings = T.strings || {};
+    kb.__loc[lang] = L; return L;
+  }
+
+  /* answer(kb, message, {history:[{role,text}], page, contact, seed, lang}) -> structured answer (see top) */
   function answer(kb, message, opts) {
-    opts = opts || {}; var ix = prep(kb), C = contactOf(kb, opts.contact), R = rng(opts.seed), hist = opts.history || [];
+    opts = opts || {}; kb = loc(kb, opts.lang); var S = {}, sk; for (sk in EN) S[sk] = EN[sk]; for (sk in (kb.strings || {})) S[sk] = kb.strings[sk];
+    var ix = prep(kb), C = contactOf(kb, opts.contact), R = rng(opts.seed), hist = opts.history || [];
     var pick = function (v) { if (v == null) return ''; if (typeof v === 'string') return v; return v.length ? v[Math.floor(R() * v.length)] : ''; };
     var name = nameIn(message), h, i;
     for (h = hist.length - 1; h >= 0 && !name; h--) if (hist[h] && hist[h].role === 'user') name = nameIn(hist[h].text);
@@ -131,12 +156,12 @@
     else if (best && (exact || (bestS >= 1.6 && bestCov >= 0.6) || (bestS >= 3 && bestCov >= 0.34))) out = entry(best.e, ctx, here);
     else if (st) return small(st);
     else return fallback();
-    if (st && st.id === 'hello') out.intro = 'Namaste' + (name ? ', ' + name : '') + '! ' + out.intro;
+    if (st && st.id === 'hello') out.intro = S.hello + (name ? ', ' + name : '') + '! ' + out.intro;
     return fin(out);
 
     /* ---- builders ---- */
     function byIntent(id) { return (kb.smalltalk || []).filter(function (x) { return x.id === id; })[0]; }
-    function vars(c) { var v = {}, k; for (k in C) v[k] = C[k]; v.name = name ? ', ' + name : ''; if (c) { v.country = c.name; v.short = (kb.short || {})[c.slug] || c.name; v.tagline = c.tagline.charAt(0).toLowerCase() + c.tagline.slice(1); } return v; }
+    function vars(c) { var v = {}, k; for (k in C) v[k] = C[k]; v.name = name ? ', ' + name : ''; if (c) { v.country = c.nameL || c.name; v.short = (kb.short || {})[c.slug] || c.name; v.tagline = c.tagline.charAt(0).toLowerCase() + c.tagline.slice(1); } return v; }
     function fill(str, c) { var v = vars(c); return String(str || '').replace(/\{(\w+)\}/g, function (mm, k) { return v[k] != null ? v[k] : mm; }); }
     function variant(x, c) { if (x && !Array.isArray(x) && typeof x === 'object') x = c ? x.one : x.all; return fill(pick(x), c); }
     function base(id) { return { id: id, type: 'text', intro: '', cards: [], items: [], caveat: '', next: '', links: [], suggest: [], acts: [], country: null, confident: true, source: 'engine' }; }
@@ -146,9 +171,10 @@
       return out2;
     }
     function shortCap(c) { var s3 = (kb.short || {})[c.slug] || c.name; return s3.charAt(0).toUpperCase() + s3.slice(1); }
-    function link(c) { return { label: 'See ' + ((kb.short || {})[c.slug] || c.name), href: 'country.html?c=' + c.slug }; }
-    function rows(c, re) { return c.glance.filter(function (g) { return !re || re.test(g[0]); }).map(function (g) { return { label: (kb.labels || {})[g[0]] || g[0], value: g[1], muted: g[1] === CF }; }); }
-    function steps(c) { return c.visa.replace(/\.$/, '').split(/, /).map(function (x) { return x.charAt(0).toUpperCase() + x.slice(1); }); }
+    function link(c) { return { label: fill(S.see, c), href: 'country.html?c=' + c.slug }; }
+    function nm(c) { return c.nameL || c.name; }
+    function rows(c, re) { var r = []; c.glance.forEach(function (g, i) { if (re && !re.test(g[0])) return; var d = c.glanceL && c.glanceL[i]; r.push({ label: d ? d[0] : ((kb.labels || {})[g[0]] || g[0]), value: d ? d[1] : g[1], muted: g[1] === CF }); }); return r; }
+    function steps(c) { return c.visa.replace(/[.।]$/, '').split(/, /).map(function (x) { return x.charAt(0).toUpperCase() + x.slice(1); }); }
     function small(sm) {
       var o = base('st:' + sm.id); o.intro = fill(pick(sm.say)); o.suggest = sugg(sm.follow, sm.more); o.acts = (sm.acts || []).slice(); return fin(o);
     }
@@ -157,11 +183,11 @@
     }
     function overview(c) {
       var o = base('country:' + c.slug); o.type = 'cards'; o.country = c.slug;
-      o.intro = fill(pick(['{country} in brief: {tagline}.', 'Here is {short} at a glance. In short: {tagline}.']), c);
-      o.cards = [{ title: c.name, slug: c.slug, rows: rows(c), link: link(c) }];
-      o.caveat = 'Where it says confirm, your counsellor will check the details for your course.';
-      o.next = fill('Shall I go through the visa steps for {short}, or the partner universities there?', c);
-      o.suggest = [{ label: 'Visa steps', q: 'How does the student visa work in ' + c.name + '?' }, { label: 'Partner universities', q: 'Which universities does Dolphin work with in ' + c.name + '?' }, { label: 'Talk to a counsellor', q: 'How can I talk to a counsellor?' }];
+      o.intro = fill(pick(S.overviewIntro), c);
+      o.cards = [{ title: nm(c), slug: c.slug, rows: rows(c), link: link(c) }];
+      o.caveat = fill(S.overviewCaveat, c);
+      o.next = fill(S.overviewNext, c);
+      o.suggest = [{ label: S.sugVisa, q: 'How does the student visa work in ' + c.name + '?' }, { label: S.sugPartners, q: 'Which universities does Dolphin work with in ' + c.name + '?' }, { label: S.sugCounsellor, q: 'How can I talk to a counsellor?' }];
       return o;
     }
     function entry(e, ctxC, hereC) {
@@ -171,16 +197,16 @@
         var cs = one ? [one] : live(kb);
         if (e.facet === 'visa') {
           if (one) { o.type = 'list'; o.items = steps(one); o.links = [link(one)]; }
-          else { o.type = 'cards'; o.cards = cs.map(function (c) { return { title: c.name, slug: c.slug, rows: [], body: steps(c).join(', ') + '.', link: link(c) }; }); }
+          else { o.type = 'cards'; o.cards = cs.map(function (c) { return { title: nm(c), slug: c.slug, rows: [], body: steps(c).join(', ') + '.', link: link(c) }; }); }
         } else {
           var re = new RegExp(e.facet); o.type = 'cards';
-          o.cards = cs.map(function (c) { return { title: c.name, slug: c.slug, rows: rows(c, re), link: link(c) }; }).filter(function (c) { return c.rows.length; });
+          o.cards = cs.map(function (c) { return { title: nm(c), slug: c.slug, rows: rows(c, re), link: link(c) }; }).filter(function (c) { return c.rows.length; });
         }
       } else if (e.id === 'partners') {
         one = hereC || null; o.country = one ? one.slug : null;
         var by = (kb.partners || {}).byCountry || {};
         if (one) { var l = by[one.slug] || []; if (l.length) { o.type = 'list'; o.items = l.slice(); } else { o.intro = fill(e.empty, one); } }
-        else { o.type = 'cards'; o.cards = live(kb).map(function (c) { var l2 = by[c.slug] || []; return { title: c.name, slug: c.slug, rows: [], body: l2.length ? l2.join(', ') + '.' : fill(e.empty, c), link: link(c) }; }); }
+        else { o.type = 'cards'; o.cards = live(kb).map(function (c) { var l2 = by[c.slug] || []; return { title: nm(c), slug: c.slug, rows: [], body: l2.length ? l2.join(', ') + '.' : fill(e.empty, c), link: link(c) }; }); }
       } else if (e.items) { o.type = 'list'; o.items = e.items.map(function (x) { return Array.isArray(x) ? [fill(x[0]), fill(x[1])] : fill(x); }); }
       if (!o.intro) o.intro = variant(e.intro, one);
       o.caveat = variant(e.caveat, one); o.next = variant(e.next, one);

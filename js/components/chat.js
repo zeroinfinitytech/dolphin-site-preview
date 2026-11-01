@@ -23,16 +23,16 @@
     'Listen to this reply': ['यो जवाफ सुन्नुहोस्', 'Escuchar esta respuesta', '이 답변 듣기', '收听这条回复'],
     'Stop reading': ['पढ्न रोक्नुहोस्', 'Dejar de leer', '읽기 중지', '停止朗读'],
     'Speaking…': ['बोल्दै…', 'Hablando…', '말하는 중…', '正在说话…'],
-    'Asha · Online': ['आशा · अनलाइन', 'Asha · En línea', '아샤 · 온라인', 'Asha · 在线'],
+    'Dolphin Assistant · Online': ['डल्फिन सहायक · अनलाइन', 'Asistente de Dolphin · En línea', '돌핀 어시스턴트 · 온라인', 'Dolphin 助手 · 在线'],
     'Outfit': ['पहिरन', 'Atuendo', '의상', '服装']
   };
   /* her spoken welcome, in the page's language */
   var WELCOME = {
-    en: 'Namaste! I am Asha from Dolphin Education. How can I help you study abroad today?',
-    ne: 'नमस्ते! म डल्फिन एजुकेसनकी आशा हुँ। विदेशमा पढ्ने बारेमा आज म तपाईंलाई कसरी सहयोग गर्न सक्छु?',
-    es: '¡Namaste! Soy Asha, de Dolphin Education. ¿Cómo puedo ayudarte hoy a estudiar en el extranjero?',
-    ko: '나마스테! 저는 돌핀 에듀케이션의 아샤예요. 오늘 유학에 대해 무엇을 도와드릴까요?',
-    zh: 'Namaste！我是 Dolphin Education 的 Asha。今天我可以怎样帮你规划留学呢？'
+    en: 'Namaste! I am Dolphin Assistant. How can I help you study abroad today?',
+    ne: 'नमस्ते! म डल्फिन सहायक हुँ। विदेशमा पढ्ने बारेमा आज म तपाईंलाई कसरी सहयोग गर्न सक्छु?',
+    es: '¡Namaste! Soy el Asistente de Dolphin. ¿Cómo puedo ayudarte hoy a estudiar en el extranjero?',
+    ko: '나마스테! 저는 돌핀 어시스턴트예요. 오늘 유학에 대해 무엇을 도와드릴까요?',
+    zh: 'Namaste！我是 Dolphin 助手。今天我可以怎样帮你规划留学呢？'
   };
   var LOOKS = { modern: 'Modern', kurta: 'Kurtha', kurtha: 'Kurtha', sari: 'Sari' };
   var SRL = { en: 'en-US', ne: 'ne-NP', es: 'es-ES', ko: 'ko-KR', zh: 'zh-CN' };
@@ -131,8 +131,8 @@
   }
   function kb() { return W.DolphinChatKBData || null; }
   function greet() {
-    var g = kb() ? kb().greeting : null;
-    bot({ type: 'text', intro: g ? g.intro[0] : 'Namaste! I am Asha from Dolphin Education. I can help with studying in the UK, USA, Canada, Australia and New Zealand, using what Dolphin has published. For anything about your own case, a counsellor is one tap away.',
+    var K = kb(), T = K && K.i18n && K.i18n[lang()], g = T && T.greeting ? { intro: T.greeting } : K ? K.greeting : null;   /* the KB's own translation when it has one */
+    bot({ type: 'text', intro: g ? g.intro[0] : 'Namaste! I am Dolphin Assistant. I can help with studying in the UK, USA, Canada, Australia and New Zealand, using what Dolphin has published. For anything about your own case, a counsellor is one tap away.',
       suggest: [{ label: 'How it works', q: 'How does counselling work?' }, { label: 'Costs', q: 'How much does it cost to study abroad?' }, { label: 'Documents', q: 'Which documents will I need?' }], acts: [] });
   }
 
@@ -217,7 +217,7 @@
   function typing(on) {
     var t = log.querySelector('.dxc-typing');
     if (on && !t) {
-      t = el('div', 'dxc-m b dxc-typing'); t.setAttribute('aria-label', 'Asha is typing'); t.setAttribute('role', 'status'); t.innerHTML = '<i></i><i></i><i></i>';
+      t = el('div', 'dxc-m b dxc-typing'); t.setAttribute('aria-label', 'Dolphin Assistant is typing'); t.setAttribute('role', 'status'); t.innerHTML = '<i></i><i></i><i></i>';
       log.appendChild(t); if (DF) DF.mood('curious'); scrollEnd();
     }
     if (!on && t) t.remove();
@@ -274,7 +274,7 @@
   }
   function localAnswer(text, hist) {
     if (!local) local = (W.DolphinChatKB ? Promise.resolve() : script('js/chat-kb.js')).then(function () { return W.DolphinChatKBData ? 0 : script('js/chat-kb-data.js'); });
-    return local.then(function () { return W.DolphinChatKB.answer(W.DolphinChatKBData, text, { history: hist, page: page(), contact: C }); });
+    return local.then(function () { return W.DolphinChatKB.answer(W.DolphinChatKBData, text, { history: hist, page: page(), contact: C, lang: lang() }); });
   }
 
   /* ---------- leave a message ---------- */
@@ -373,10 +373,10 @@
      thumbnails beside her, and her small picture sits beside every reply. Until her pictures load, the stage shows her static face. */
   function ashaPic(k) { return 'url("' + new URL(((W.DXAshaAssets && DXAshaAssets.base) || 'img/asha/') + k + '/rest.webp', location.href).href + '")'; }   /* a full address: a url() in a CSS variable is otherwise read from css/ */
   function setAva(k) { P.style.setProperty('--asha-ava', ashaPic(k)); }
-  /* the status line under the title: "Asha · Online", and "Speaking..." while her voice plays */
+  /* the status line under the title: "Dolphin Assistant · Online", and "Speaking..." while her voice plays */
   function status(t, ms) {
     var p = $('.dxc-ht p'); if (!p) return;
-    p.textContent = t || tx('Asha · Online');
+    p.textContent = t || tx('Dolphin Assistant · Online');
     clearTimeout(statusT); if (t && ms) statusT = setTimeout(function () { status(); }, ms);
   }
   function asha() {
@@ -389,7 +389,7 @@
   /* her outfits: round thumbnails beside her, the choice kept on this device */
   function looks(A) {
     if (!A.looks || A.looks.length < 2 || $('.dxc-looks')) return;
-    var row = el('div', 'dxc-looks'); row.setAttribute('role', 'group'); row.setAttribute('aria-label', "Asha's outfit");
+    var row = el('div', 'dxc-looks'); row.setAttribute('role', 'group'); row.setAttribute('aria-label', 'Outfit');
     row.appendChild(el('span', 'dxc-looks-l', tx('Outfit')));
     A.looks.forEach(function (k) {
       var b = el('button', 'dxc-thumb'); b.type = 'button'; b.style.backgroundImage = ashaPic(k);
@@ -429,7 +429,7 @@
      being read is marked (.is-reading). If no voice can play, the reply stays text only with her short silent talk. */
   function quiet() { if (V) V.stop(); }
   function voiceUi() {
-    vb.title = VO ? 'Voice on: tap to mute' : 'Tap to hear Asha'; vb.setAttribute('aria-pressed', VO ? 'true' : 'false'); vb.setAttribute('aria-label', VO ? 'Mute Asha' : 'Hear Asha');
+    vb.title = VO ? 'Voice on: tap to mute' : 'Tap to hear the assistant'; vb.setAttribute('aria-pressed', VO ? 'true' : 'false'); vb.setAttribute('aria-label', VO ? 'Mute voice' : 'Hear the assistant');
   }
   function voiceReady() {
     V = W.DXAshaVoice; if (!V || !V.ok) return;
